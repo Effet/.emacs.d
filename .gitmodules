@@ -1,0 +1,3 @@
+[submodule "site-lisp/eim"]
+	path = site-lisp/eim
+	url = git://github.com/viogus/eim.git
