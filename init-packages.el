@@ -22,7 +22,6 @@
       '(
 	;; smex (M-x)
 	(:name smex
-	       :type elpa
 	       :after (lambda ()
 			(require 'smex)
 			(smex-initialize)
@@ -30,27 +29,52 @@
 	       		;; (global-set-key (kbd "M-x") 'smex-major-mode-commands)
 	       		;; This is your old M-x.
 	       		(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)))
-	;; undo tree (C-x u)
+	
+	;; undo tree (C-x u) (C-/) (C-?)
 	(:name undo-tree
 	       :type elpa
 	       :after (lambda ()
 			(require 'undo-tree)
 			(global-undo-tree-mode)))
+
+	;; highlight key work like eclipse
 	(:name idle-highlight-mode
-	       :type elpa)
-	(:name rainbow-delimiters
-	       :type elpa)
-	(:name rect-mark
-	       :type elpa)
-	(:name rua-mode
-	       :type elpa)
-	(:name markdown-mode
-	       :type elpa)
-	(:name color-theme :type elpa)
-	(:name color-theme-solarized
 	       :type elpa
 	       :after (lambda ()
+			(idle-highlight-mode t)))
+
+	;; "rainbow parentheses"-like mode
+	(:name rainbow-delimiters
+	       :type elpa
+	       :after (lambda ()
+			(require 'rainbow-delimiters)
+			(setq-default frame-background-mode 'dark)))
+
+	;; ...
+	(:name auto-complete
+	       :after (lambda ()
+                        (require 'auto-complete-config)
+                        (ac-config-default)
+                        (ac-flyspell-workaround)
+                        (ac-linum-workaround)
+
+                        (global-auto-complete-mode t)
+
+                        (set-default 'ac-sources
+                                     '(ac-source-dictionary
+                                       ac-source-words-in-buffer
+                                       ac-source-words-in-same-mode-buffers
+                                       ac-source-words-in-all-buffer))))
+	;; git
+	(:name magit
+               :after (lambda ()
+			(global-set-key (kbd "C-x C-z") 'magit-status)))
+	
+	;; ...
+	(:name color-theme-solarized
+	       :after (lambda ()
 			(load-theme 'solarized-dark t)))
+
 	;; input-method [eim] (C-\)
 	(:name eim
 	       :type git
@@ -72,7 +96,12 @@
         
 
 (setq my-packages
-      (append '(el-get)
+      (append
+       '(el-get
+	 lua-mode
+	 markdown-mode
+	 color-theme
+	 rect-mark)
 	      (mapcar 'el-get-source-name el-get-sources)))
 (el-get 'sync my-packages)
 
