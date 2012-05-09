@@ -1,8 +1,6 @@
-;; use elpa(offical) package manager (package-*)
-(require 'package)
-(add-to-list 'package-archives
-	     '("marmalade" . "http://marmalade-repo.org/packages/"))
-(package-initialize)
+;; (load "~/.emacs.d/init-packages")
+(add-to-list 'load-path "~/.emacs.d")
+(require 'init-packages)
 
 ;; menus
 ;(menu-bar-mode -1)
@@ -14,63 +12,23 @@
 (set-fontset-font (frame-parameter nil 'font)
               'han '("WenQuanYi Micro Hei"))
 
-;; color theme
-(load-theme 'solarized-dark t)
-
 ;; ido (C-x C-f/C-x b)
 (require 'ido)
 (ido-mode t)
-
-;; smex (M-x)
-(require 'smex)
-(smex-initialize)
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;; This is your old M-x.
-(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 ;; ibuffer (C-x C-b)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (autoload 'ibuffer "ibuffer" "List buffers." t)
 
-;; undo tree (C-x u)
-(require 'undo-tree)
-(global-undo-tree-mode)
-
-;; auto complete()
-;(add-to-list 'load-path "~/.emacs.d")
-(require 'auto-complete)
-(require 'auto-complete-config)
-(ac-config-default)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/dict")
-
-;; yasnippet (Tab/C-i)
-(require 'yasnippet)
-(yas/initialize)
-(yas/load-directory "~/.emacs.d/snippets")
-(yas/global-mode t)
+;; ;; yasnippet (Tab/C-i)
+;; (require 'yasnippet)
+;; (yas/initialize)
+;; (yas/load-directory "~/.emacs.d/snippets")
+;; (yas/global-mode t)
 
 ;; ;; auctex (for tex/ps/pdf)
 ;; (load "auctex.el" nil t t)
 ;; (load "preview-latex.el" nil t t)
-
-
-;; input-method [eim] (C-\)
-(add-to-list 'load-path "~/.emacs.d/site-lisp/eim")
-(require 'eim-extra)
-
-(autoload 'eim-use-package "eim" "Another emacs input method")
-(setq eim-punc-translate-p nil)
-(setq eim-use-tooltip nil)
-
-(register-input-method
-  "eim-py" "euc-cn" 'eim-use-package
-  "拼音" "汉字拼音输入法" "~/.emacs.d/site-lisp/eim/py.txt")
-
-(set-input-method "eim-py")
-(setq activate-input-method t)
-(toggle-input-method nil)
-;(provide 'eim-extension)
 
 ;; codings
 (defun my-coding-hook ()
