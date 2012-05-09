@@ -7,7 +7,8 @@
 (package-initialize)
 
 ;; el-get package manager
-(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+;(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+(add-to-list 'load-path (concat dotfiles-dir "/el-get/el-get"))
 (unless (require 'el-get nil t)
   (with-current-buffer
       (url-retrieve-synchronously
@@ -80,20 +81,21 @@
 	       :type git
 	       :url "https://github.com/viogus/eim.git"
 	       :after (lambda ()
-			(add-to-list 'load-path "~/.emacs.d/el-get/eim")
 			(require 'eim-extra)
-			(autoload 'eim-use-package "eim" "Another emacs input method")
-			(setq eim-punc-translate-p nil)
+			;; (autoload 'eim-use-package "eim"
+			;;   "Another emacs input method")
+
+			;; (setq eim-punc-translate-p nil)
 			(setq eim-use-tooltip nil)
 			(register-input-method
 			 "eim-py" "euc-cn" 'eim-use-package
-			 "拼音" "汉字拼音输入法" "~/.emacs.d/py.txt")
+			 "拼音" "汉字拼音输入法" (concat dotfiles-dir "/py.txt"))
 			(set-input-method "eim-py")
-			(setq activate-input-method t)
-			(toggle-input-method nil)))
+			;; (setq activate-input-method t)
+			;; (toggle-input-method nil)
+			))
 	)
       )
-        
 
 (setq my-packages
       (append
