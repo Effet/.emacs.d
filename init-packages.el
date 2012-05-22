@@ -91,8 +91,8 @@
 			 "eim-py" "euc-cn" 'eim-use-package
 			 "拼音" "汉字拼音输入法" (concat dotfiles-dir "/py.txt"))
 			(set-input-method "eim-py")
-			;; (setq activate-input-method t)
-			;; (toggle-input-method nil)
+;			(setq activate-input-method t)
+			(toggle-input-method nil)
 			))
 	)
       )

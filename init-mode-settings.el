@@ -1,5 +1,10 @@
 ;; ...
 
+(load "folding" 'nomessage 'noerror)
+(folding-mode-add-find-file-hook)
+;; C-c @ C-q to toggle
+(folding-add-to-marks-list 'lua-mode "-- {{{" "-- }}}" nil t)
+
 ;; codings
 (defun my-coding-hook ()
   ;; show line number
@@ -42,5 +47,6 @@
 (add-hook 'lua-mode-hook 'my-coding-hook)
 ;(add-hook 'ruby-mode-hook 'my-coding-hook)
 ;(add-hook 'js2-mode-hook 'my-coding-hook)
+
 
 (provide 'init-mode-settings)
