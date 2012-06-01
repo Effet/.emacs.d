@@ -1,9 +1,9 @@
 ;; ...
 
-(load "folding" 'nomessage 'noerror)
-(folding-mode-add-find-file-hook)
-;; C-c @ C-q to toggle
-(folding-add-to-marks-list 'lua-mode "-- {{{" "-- }}}" nil t)
+;; (load "folding" 'nomessage 'noerror)
+;; (folding-mode-add-find-file-hook)
+;; ;; C-c @ C-q to toggle
+;; (folding-add-to-marks-list 'lua-mode "-- {{{" "-- }}}" nil t)
 
 ;; codings
 (defun my-coding-hook ()
@@ -17,6 +17,8 @@
   (rainbow-delimiters-mode)
 
   (setq show-paren-style 'parentheses)
+
+  ;; (folding-mode t)
   )
 
 ;;=== C++设置 ===
@@ -45,6 +47,8 @@
 
 (add-hook 'emacs-lisp-mode-hook 'my-coding-hook)
 (add-hook 'lua-mode-hook 'my-coding-hook)
+;; (add-hook 'lua-mode-hook 'folding-mode-hook)
+
 ;(add-hook 'ruby-mode-hook 'my-coding-hook)
 ;(add-hook 'js2-mode-hook 'my-coding-hook)
 

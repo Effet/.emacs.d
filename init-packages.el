@@ -21,6 +21,11 @@
 ;; local sources
 (setq el-get-sources
       '(
+	;; theme
+	(:name color-theme-solarized
+	       :after (lambda ()
+			(load-theme 'solarized-dark t)))
+
 	;; smex (M-x)
 	(:name smex
 	       :after (lambda ()
@@ -66,16 +71,12 @@
                                        ac-source-words-in-buffer
                                        ac-source-words-in-same-mode-buffers
                                        ac-source-words-in-all-buffer))))
+
 	;; git
 	(:name magit
                :after (lambda ()
 			(global-set-key (kbd "C-x C-z") 'magit-status)))
 	
-	;; ...
-	(:name color-theme-solarized
-	       :after (lambda ()
-			(load-theme 'solarized-dark t)))
-
 	;; input-method [eim] (C-\)
 	(:name eim
 	       :type git
