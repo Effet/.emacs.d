@@ -3,7 +3,8 @@
 		    (or (buffer-file-name) load-file-name)))
 (add-to-list 'load-path dotfiles-dir)
 
-;(add-to-list 'load-path "~/.emacs.d")
-(require 'init-settings)
+;; load packages (need connect network)
 (require 'init-packages)
-(require 'init-mode-settings)
+(require 'init-settings)
+
+(require 'auto-complete-settings)
