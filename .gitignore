@@ -8,8 +8,7 @@ places
 ac-comphist.dat
 backups/
 elpa/
-el-get/*/
-!el-get/el-get/
+el-get/
 auto-save-list/
 .recentf
 tramp

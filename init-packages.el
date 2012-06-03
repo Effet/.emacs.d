@@ -8,13 +8,13 @@
 
 ;; el-get package manager
 ;; (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-(add-to-list 'load-path (concat dotfiles-dir "/el-get/el-get"))
-;; (unless (require 'el-get nil t)
-;;   (with-current-buffer
-;;       (url-retrieve-synchronously
-;;        "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
-;;     (goto-char (point-max))
-;;     (eval-print-last-sexp)))
+(add-to-list 'load-path (concat base-dir "/el-get/el-get"))
+(unless (require 'el-get nil t)
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://raw.github.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
 
 (require 'el-get)
 
@@ -24,7 +24,7 @@
         ;; smex (M-x)
         (:name smex
                :after (lambda ()
-                        (require 'smex)
+                        ;; (require 'smex)
                         (smex-initialize)
                         (global-set-key (kbd "M-x") 'smex)
                         ;; (global-set-key (kbd "M-x") 'smex-major-mode-commands)
@@ -39,18 +39,8 @@
                         (global-undo-tree-mode)))
 
         ;; highlight key work like eclipse
-        (:name idle-highlight-mode
-               :type elpa
-               :after (lambda ()
-                        (idle-highlight-mode t)))
+        (:name idle-highlight-mode :type elpa)
 
-        ;; "rainbow parentheses"-like mode
-        (:name rainbow-delimiters
-               :type elpa
-               :after (lambda ()
-                        (require 'rainbow-delimiters)
-                        (setq-default frame-background-mode 'dark)))
-        
         ;; input-method [eim] (C-\)
         (:name eim
                :type git
@@ -64,11 +54,10 @@
                         (setq eim-use-tooltip nil)
                         (register-input-method
                          "eim-py" "euc-cn" 'eim-use-package
-                         "拼音" "汉字拼音输入法" (concat dotfiles-dir "/py.txt"))
+                         "拼音" "汉字拼音输入法" (concat base-dir "/py.txt"))
                         (set-input-method "eim-py")
-                                        ;			(setq activate-input-method t)
-                        (toggle-input-method nil)
-                        ))
+                        ;; (activate-input-method t)
+                        (toggle-input-method nil)))
         )
       )
 
@@ -87,6 +76,8 @@
 
          ;; misc
          rect-mark                      ;visual rect operate
+         rainbow-delimiters             ;"rainbow parentheses"-like mode
+         highlight-parentheses          ;
 
          ;; color-themes
          color-theme

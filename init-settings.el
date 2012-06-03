@@ -79,49 +79,38 @@
 ;; (define-key global-map "C-c C-g" 'goto-line)
 (global-set-key (kbd "C-c C-g") 'goto-line)
 
-
-;; mode-settings
-
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-(define-key prog-mode-map [return] 'newline-and-indent)
-(add-hook 'emacs-lisp-mode-hook
-	  '(
-	    lambda()
-		  (rainbow-delimiters-mode))
-	  )
-
-
-;;=== C++设置 ===
-(defun my-cc-mode-hook()
-  (setq gdb-many-windows t)
-  ;; 换行的同时对齐
-  (define-key c++-mode-map [return] 'newline-and-indent)
-  ;; C编辑风格
-  (c-set-style "stroustrup")
-  (c-toggle-hungry-state)
-  (c-toggle-auto-state)
-  ;; 快速编译
-  (defun quick-compile ()
-    "A quick compile funciton for C++"
-    (interactive)
-    (compile (concat "g++ " (buffer-name (current-buffer)) " -g -pg"))
-    )
-  ;; F9编译
-  (global-set-key [(f9)] 'quick-compile)
-  )
-
-;; (add-hook 'c++-mode-hook 'my-coding-hook)
-(add-hook 'c++-mode-hook 'my-cc-mode-hook)
-
 ;; git status
 (global-set-key (kbd "C-x C-z") 'magit-status)
 
 
-;; (add-hook 'lua-mode-hook 'my-coding-hook)
-;; (add-hook 'lua-mode-hook 'folding-mode-hook)
 
-;(add-hook 'ruby-mode-hook 'my-coding-hook)
-;(add-hook 'js2-mode-hook 'my-coding-hook)
+;; mode-hook
+
+;; (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+;; (define-key prog-mode-map [return] 'newline-and-indent)
+
+(add-hook 'c++-mode-hook
+          '(lambda()
+             ;; (c-set-style "stroustrup")    ;c-style edit
+             ;; (c-toggle-hungry-state)
+             ;; (c-toggle-auto-state)
+             ;; keys
+             (define-key c++-mode-map [return] 'newline-and-indent)
+             (define-key c++-mode-map [(f9)]
+               '(lambda()
+                  "A quick compile funciton for C++"
+                  (interactive)
+                  (compile (concat "g++ " (buffer-name (current-buffer)) " -g -pg"))))
+             (highlight-parentheses-mode)
+             ))
+
+(add-hook 'emacs-lisp-mode-hook
+	  '(lambda()
+         (define-key emacs-lisp-mode-map [return] 'newline-and-indent)
+         (idle-highlight-mode)
+         (rainbow-delimiters-mode)
+         (highlight-parentheses-mode)   ;may conflict with rainbow-*
+         ))
 
 
 (provide 'init-settings)
