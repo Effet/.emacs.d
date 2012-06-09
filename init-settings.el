@@ -1,20 +1,9 @@
 ;; global settings
 
-
-;; font
-(set-default-font "Envy Code R 11")
-(set-fontset-font (frame-parameter nil 'font)
-		  'han '("WenQuanYi Micro Hei"))
-
 ;; menus
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-
-
-;; load the theme
-(load-theme 'solarized-dark t)
-
 
 ;; line/columns
 (global-linum-mode t)
@@ -26,7 +15,10 @@
 (show-paren-mode t)
 (setq show-paren-style 'parentheses)
 
-;; (setq-default cursor-type 'bar)
+(if (string= system-type "windows-nt")
+    (progn
+      (setq-default cursor-type 'bar)))
+
 ;; (global-font-lock-mode t)               ;highlight for grammar
 (require 'generic-x)                    ;advance highlight
 
@@ -42,25 +34,26 @@
  tab-width		4
  )
 
-(setq 
- ;; unable emacs/gnus startup message
- inhibit-startup-message		t
- gnus-inhibit-startup-message	t
-
- ring-bell-function		'ignore			;close 'bee' noise
- visible-bell			t
-
- echo-keystrokes				0.1
- ;; suggest-key-bindings			1
-
- scroll-margin					3		;let 3 lines after scroll
- default-fill-column			80
+(setq
+ default-major-mode		'text-mode
+ inhibit-startup-message	t           ;unable startup message
+ visible-bell		t                   ;use visible-bell instead of 'bee'
+ echo-keystrokes	0.1
+ ;; suggest-key-bindings 1
 
  font-lock-maximum-decoration	t		;only load current page
 
-;; 支持emacs和外部程序的粘贴
- x-select-enable-clipboard		t
+ scroll-margin			3               ;let 3 lines after scroll
+ default-fill-column	80
+
+ mouse-avoidance-mode	'animate
+ require-final-newline	t
  )
+
+;; (set-language-environment 'utf-8)
+(prefer-coding-system 'utf-8)
+;; (setq file-name-coding-system 'utf-8)
+;; (setq-default pathname-coding-system 'utf-8)
 
 
 ;; ido (C-x C-f/C-x b)
@@ -83,6 +76,42 @@
 (global-set-key (kbd "C-x C-z") 'magit-status)
 
 
+;; window settings
+
+;; usage:
+;;   M-x windmove-up	/ C-up
+;;   M-x windmove-down	/ C-down
+;;   M-x windmove-left	/ C-left
+;;   M-x windmove-right / C-right
+(windmove-default-keybindings 'ctrl)
+
+;; usage:
+;;   M-x winner-undo / C-c <left>
+;;   M-x winner-redo / c-c <right>
+(winner-mode t)
+
+(set-mouse-color "white")
+;; daemon settings
+(defun frame-setting ()
+  (if window-system
+      (progn
+        (blink-cursor-mode t)
+        (setq x-select-enable-clipboard t)
+        ;; font & theme
+        ;; (set-default-font "Envy Code R 11")
+        (set-frame-font "Envy Code R 11")
+        (set-fontset-font (frame-parameter nil 'font)
+                          'han '("WenQuanYi Micro Hei"))
+        (color-theme-solarized-dark))
+    (color-theme-calm-forest)))
+
+(if (and (fboundp 'daemonp) (daemonp))
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (with-selected-frame frame
+                  (frame-setting))))
+  (frame-setting))
+
 
 ;; mode-hook
 
@@ -91,9 +120,9 @@
 
 (add-hook 'c++-mode-hook
           '(lambda()
-             ;; (c-set-style "stroustrup")    ;c-style edit
-             ;; (c-toggle-hungry-state)
-             ;; (c-toggle-auto-state)
+             (c-set-style "stroustrup")    ;c-style edit
+             (c-toggle-hungry-state)
+             (c-toggle-auto-state)
              ;; keys
              (define-key c++-mode-map [return] 'newline-and-indent)
              (define-key c++-mode-map [(f9)]
@@ -103,6 +132,18 @@
                   (compile (concat "g++ " (buffer-name (current-buffer)) " -g -pg"))))
              (highlight-parentheses-mode)
              ))
+
+;; warning if a line too long
+(font-lock-add-keywords 
+ 'c++-mode
+ '(("^[^\n]\\{80\\}\\(.*\\)$"
+    1 font-lock-warning-face prepend)))
+
+(font-lock-add-keywords 
+ 'emacs-lisp-mode
+ '(("^[^\n]\\{80\\}\\(.*\\)$"
+    1 font-lock-warning-face prepend)))
+
 
 (add-hook 'emacs-lisp-mode-hook
 	  '(lambda()
