@@ -31,6 +31,8 @@
                         ;; This is your old M-x.
                         (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)))
 
+        ;; (:name cedet)
+
         ;; undo tree (C-x u) (C-/) (C-?)
         (:name undo-tree
                :type elpa
@@ -40,7 +42,7 @@
 
         ;; highlight key work like eclipse
         (:name idle-highlight-mode :type elpa)
-        
+
         (:name kill-ring-search
                :type http
                :url "http://nschum.de/src/emacs/kill-ring-search/kill-ring-search.el"
@@ -56,7 +58,7 @@
                         (toggle-cursor-type-when-idle 1) ; Turn on cursor change when Emacs is idle
                         (change-cursor-mode 1) ; Turn on change for overwrite, read-only, and input mode
 
-                        (setq curchg-default-cursor-color "nil")
+                        (setq curchg-default-cursor-color "wheat2")
                         
                         ;; Change cursor color according to mode
                         (defvar hcz-set-cursor-color-color "")

@@ -7,6 +7,8 @@
 
 ;; line/columns
 (global-linum-mode t)
+;; (require 'wb-line-number)
+;; (wb-line-number-toggle)
 (column-number-mode t)
 ;; highlight line
 (global-hl-line-mode t)
@@ -69,9 +71,6 @@
 ;; Start eshell or switch to it if it's active.
 (global-set-key (kbd "C-c C-x") 'eshell)
 
-;; (define-key global-map "C-c C-g" 'goto-line)
-(global-set-key (kbd "C-c C-g") 'goto-line)
-
 ;; git status
 (global-set-key (kbd "C-x C-z") 'magit-status)
 
@@ -131,15 +130,16 @@
                   (interactive)
                   (compile (concat "g++ " (buffer-name (current-buffer)) " -g -pg"))))
              (highlight-parentheses-mode)
+             (idle-highlight-mode)
              ))
 
 ;; warning if a line too long
-(font-lock-add-keywords 
+(font-lock-add-keywords
  'c++-mode
  '(("^[^\n]\\{80\\}\\(.*\\)$"
     1 font-lock-warning-face prepend)))
 
-(font-lock-add-keywords 
+(font-lock-add-keywords
  'emacs-lisp-mode
  '(("^[^\n]\\{80\\}\\(.*\\)$"
     1 font-lock-warning-face prepend)))
@@ -150,7 +150,7 @@
          (define-key emacs-lisp-mode-map [return] 'newline-and-indent)
          (idle-highlight-mode)
          (rainbow-delimiters-mode)
-         (highlight-parentheses-mode)   ;may conflict with rainbow-*
+         ;; (highlight-parentheses-mode)   ;may conflict with rainbow-*
          ))
 
 
