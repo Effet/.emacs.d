@@ -21,27 +21,17 @@
 ;; local sources
 (setq el-get-sources
       '(
-        ;; smex (M-x)
-        (:name smex
-               :after (lambda ()
-                        ;; (require 'smex)
-                        (smex-initialize)
-                        (global-set-key (kbd "M-x") 'smex)
-                        ;; (global-set-key (kbd "M-x") 'smex-major-mode-commands)
-                        ;; This is your old M-x.
-                        (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)))
-
-        ;; (:name cedet)
-
-        ;; undo tree (C-x u) (C-/) (C-?)
-        (:name undo-tree
-               :type elpa
-               :after (lambda ()
-                        (require 'undo-tree)
-                        (global-undo-tree-mode)))
-
+        ;; undo operates
+        (:name undo-tree :type elpa)
         ;; highlight key work like eclipse
         (:name idle-highlight-mode :type elpa)
+
+        (:name linum-relative
+               :after (lambda()
+                        (require 'linum-relative)
+                        ;; (setq linum-relative-current-symbol "->")
+                        )
+               )
 
         (:name kill-ring-search
                :type http
@@ -110,15 +100,22 @@
 
          ;; autocomplete
          auto-complete
+         auto-complete-clang
+
+         ;; ido
+         smex
 
          ;; misc
+         pos-tip
          rect-mark                      ;visual rect operate
          rainbow-delimiters             ;"rainbow parentheses"-like mode
-         highlight-parentheses          ;
+         highlight-parentheses
 
          ;; color-themes
          color-theme
          color-theme-solarized
+
+         ;; effective tools
 
          ;; git
          magit

@@ -7,4 +7,5 @@
 (require 'init-packages)
 (require 'init-settings)
 
-(require 'auto-complete-settings)
+(require 'ac-settings)
+;; (require 'test)
