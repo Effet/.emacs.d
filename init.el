@@ -3,9 +3,17 @@
 		    (or (buffer-file-name) load-file-name)))
 (add-to-list 'load-path base-dir)
 
-;; load packages (need connect network)
-(require 'init-packages)
-(require 'init-settings)
+;; Load `el-get', `elpa'. (needs to connect network)
+(require 'pkg-sync)
 
-(require 'ac-settings)
-;; (require 'test)
+;; General Settings
+(require 'init-conf)
+
+;; Load `eshell' stuff.
+(require 'esh-conf)
+
+;; Load `auto-complete', `auto-complete-clang', `yasnippet'.
+(require 'ac-conf)
+
+;; Things for `test'
+(require 'test)

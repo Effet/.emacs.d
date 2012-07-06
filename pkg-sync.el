@@ -1,14 +1,15 @@
 ;; some from https://github.com/thelmstedt/emacs.d/blob/master/init-packages.el
 
-;; use elpa(offical) package manager (package-*)
+
+;; Use `elpa'(offical) package manager.
 (require 'package)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
 
+
 ;; el-get package manager
-;; (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-(add-to-list 'load-path (concat base-dir "/el-get/el-get"))
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 (unless (require 'el-get nil t)
   (with-current-buffer
       (url-retrieve-synchronously
@@ -16,32 +17,28 @@
     (goto-char (point-max))
     (eval-print-last-sexp)))
 
+
 (require 'el-get)
+
 
 ;; local sources
 (setq el-get-sources
       '(
-        ;; undo operates
-        (:name undo-tree :type elpa)
-        ;; highlight key work like eclipse
+        ;; highlight key work like `eclipse'
         (:name idle-highlight-mode :type elpa)
+        
+        ;;`rainbow-parentheses'-like mode
+        (:name rainbow-delimiters :type git
+               :url "https://github.com/jlr/rainbow-delimiters.git")
 
-        (:name linum-relative
-               :after (lambda()
-                        (require 'linum-relative)
-                        ;; (setq linum-relative-current-symbol "->")
-                        )
-               )
+        ;; use the lastest version
+        (:name minimap :type git
+               :url "https://github.com/dustinlacewell/emacs-minimap.git")
 
-        (:name kill-ring-search
-               :type http
-               :url "http://nschum.de/src/emacs/kill-ring-search/kill-ring-search.el"
-               :after (lambda ()
-                        (autoload 'kill-ring-search "kill-ring-search"
-                          "Search the kill ring in the minibuffer."
-                          (interactive))
-                        (global-set-key (kbd "C-M-y") 'kill-ring-search)))
-
+        ;; use the lastest version
+        (:name yasnippet :type git
+               :url "https://github.com/capitaomorte/yasnippet.git")
+        
         (:name cursor-chg
                :after (lambda ()
                         (require 'cursor-chg)  ; Load the library
@@ -74,19 +71,21 @@
                :url "https://github.com/viogus/eim.git"
                :after (lambda ()
                         (require 'eim-extra)
-                        ;; (autoload 'eim-use-package "eim"
-                        ;;   "Another emacs input method")
+                        (autoload 'eim-use-package "eim"
+                          "Another emacs input method")
 
-                        ;; (setq eim-punc-translate-p nil)
-                        (setq eim-use-tooltip nil)
+                        (setq eim-punc-translate-p nil)
+                        (setq eim-use-tooltip t)
                         (register-input-method
                          "eim-py" "euc-cn" 'eim-use-package
                          "拼音" "汉字拼音输入法" (concat base-dir "/py.txt"))
                         (set-input-method "eim-py")
                         ;; (activate-input-method t)
+                        (activate-input-method "eim-py")
                         (toggle-input-method nil)))
         )
       )
+
 
 (setq my-packages
       (append
@@ -98,29 +97,50 @@
          lua-mode
          markdown-mode
 
-         ;; autocomplete
-         auto-complete
-         auto-complete-clang
-
          ;; ido
          smex
 
          ;; misc
          pos-tip
-         rect-mark                      ;visual rect operate
-         rainbow-delimiters             ;"rainbow parentheses"-like mode
+         popup-kill-ring
+         ;; browse-kill-ring
+         ;; sunrise-commander              ;`midnight-commander'-like files manager
+
+         rect-mark
          highlight-parentheses
+
 
          ;; color-themes
          color-theme
          color-theme-solarized
+         
+         ;; eye-candy
+         powerline
+         ;; pretty-mode
+
+         ;; auto-complete
+         ;; and use a modified `auto-complete-config.el', from
+         ;; `https://github.com/tkf/auto-complete/commit/337caa2ccc254a79f615bb2417f0d2fb9552b547'
+         ;; look here `http://blog.binchen.org/?p=357',
+         auto-complete
+         auto-complete-clang
+         ;; auto-complete-yasnippet
 
          ;; effective tools
+         undo-tree
+         linum-relative
+         ace-jump-mode
+         ;; minimap  ;Use `git' version
 
          ;; git
          magit
+
+         ;; test to use
+         ;; tabbar
          )
        (mapcar 'el-get-source-name el-get-sources)))
+
 (el-get 'sync my-packages)
 
-(provide 'init-packages)
+
+(provide 'pkg-sync)

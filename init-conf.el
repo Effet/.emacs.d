@@ -1,32 +1,50 @@
 ;; global settings
 
+
 ;; menus
-(menu-bar-mode -1)
-(tool-bar-mode -1)
+;; (menu-bar-mode -1)
+;; (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-;; line/columns
-(global-linum-mode t)
-;; (require 'wb-line-number)
-;; (wb-line-number-toggle)
-(column-number-mode t)
+
+;; (line-number-mode    t) ;default
+(column-number-mode  t)
 ;; highlight line
 (global-hl-line-mode t)
+
+
+;; lines
+(global-linum-mode t)
+
+
+(require 'linum-relative)
+(global-set-key [(f12)]
+                '(lambda ()
+                   (interactive)
+                   (if (eq linum-format 'dynamic)
+                       (setq linum-format 'linum-relative)
+                     (setq linum-format 'dynamic))))
+(setq linum-relative-current-symbol "->")
+(set-face-attribute 'linum-relative-current-face nil
+                    :foreground "#d33582" ;$magenta:   #d33682;
+                    :background "#073642" ;$base02:    #073642;
+                    )
+
 
 ;; highlight parens
 (show-paren-mode t)
 (setq show-paren-style 'parentheses)
 
-(if (string= system-type "windows-nt")
-    (progn
-      (setq-default cursor-type 'bar)))
 
 ;; (global-font-lock-mode t)               ;highlight for grammar
 (require 'generic-x)                    ;advance highlight
 
 
-
 (fset 'yes-or-no-p 'y-or-n-p)           ;always use y-n instead of yes-no
+
+
+(put 'dired-find-alternate-file 'disabled nil)
+
 
 ;; back up & tab
 (setq-default
@@ -36,10 +54,11 @@
  tab-width		4
  )
 
+
 (setq
  default-major-mode		'text-mode
  inhibit-startup-message	t           ;unable startup message
- visible-bell		t                   ;use visible-bell instead of 'bee'
+ visible-bell		nil                 ;use visible-bell instead of 'bee'
  echo-keystrokes	0.1
  ;; suggest-key-bindings 1
 
@@ -48,14 +67,42 @@
  scroll-margin			3               ;let 3 lines after scroll
  default-fill-column	80
 
- mouse-avoidance-mode	'animate
  require-final-newline	t
  )
 
-;; (set-language-environment 'utf-8)
+
+;; Use `Trash' when deleting files
+(setq delete-by-moving-to-trash t)
+
+
+;; (set-language-environment 'utf-8) ;this may couse `eim' error
 (prefer-coding-system 'utf-8)
 ;; (setq file-name-coding-system 'utf-8)
 ;; (setq-default pathname-coding-system 'utf-8)
+
+
+(require 'rect-mark)
+
+
+;; ;; lambda -> λ
+;; (require 'pretty-mode)
+;; (global-pretty-mode t)
+
+
+;; this indent guides is `NOT-IN-PACKAGES', is copied from
+;; https://github.com/ran9er/init.emacs/blob/master/20_aux-line.el
+(require 'aux-line)
+;; (indent-vline)
+;; (indent-vline-lisp)
+
+
+;; sublime text2 minimap
+;; (require 'minimap)
+;; (global-set-key [(f11)] 'minimap-toggle)
+
+
+(require 'ace-jump-mode)
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
 
 ;; nice look tooltip
@@ -63,17 +110,27 @@
 (if (string= system-type "windows-nt")
     '(pos-tip-w32-max-width-height))
 
+;; (require 'popup)
+;; (require 'pos-tip)
+(require 'popup-kill-ring)
+;; (setq popup-kill-ring-interactive-insert t)
+(global-set-key (kbd "C-y") 'popup-kill-ring)
+
+
 ;; undo tree (C-x u) (C-/) (C-?)
 (require 'undo-tree)
 (global-undo-tree-mode)
+
 
 ;; ido (C-x C-f/C-x b)
 (require 'ido)
 (ido-mode t)
 
+
 ;; ibuffer (C-x C-b)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (autoload 'ibuffer "ibuffer" "List buffers." t)
+
 
 ;; smex (M-x)
 (require 'smex)
@@ -82,13 +139,20 @@
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 
-
-;; (C-x C-x) (C-u C-x C-x)
-;; Start eshell or switch to it if it's active.
-(global-set-key (kbd "C-c C-x") 'eshell)
-
 ;; git status
 (global-set-key (kbd "C-x C-z") 'magit-status)
+
+
+;; warning if a line too long
+(font-lock-add-keywords
+ 'c++-mode
+ '(("^[^\n]\\{80\\}\\(.*\\)$"
+    1 font-lock-warning-face prepend)))
+
+(font-lock-add-keywords
+ 'emacs-lisp-mode
+ '(("^[^\n]\\{80\\}\\(.*\\)$"
+    1 font-lock-warning-face prepend)))
 
 
 ;; window settings
@@ -100,10 +164,12 @@
 ;;   M-x windmove-right / C-right
 (windmove-default-keybindings 'ctrl)
 
+
 ;; usage:
 ;;   M-x winner-undo / C-c <left>
 ;;   M-x winner-redo / c-c <right>
 (winner-mode t)
+
 
 (set-mouse-color "white")
 ;; daemon settings
@@ -117,8 +183,9 @@
         (set-frame-font "Envy Code R 11")
         (set-fontset-font (frame-parameter nil 'font)
                           'han '("WenQuanYi Micro Hei"))
-        (color-theme-solarized-dark))
-    (color-theme-calm-forest)))
+        (color-theme-solarized-dark)
+        )
+    (color-theme-charcoal-black)))
 
 (if (and (fboundp 'daemonp) (daemonp))
     (add-hook 'after-make-frame-functions
@@ -133,11 +200,13 @@
 ;; (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 ;; (define-key prog-mode-map [return] 'newline-and-indent)
 
+
 (add-hook 'c++-mode-hook
           '(lambda()
              (c-set-style "stroustrup")    ;c-style edit
              (c-toggle-hungry-state)
              (c-toggle-auto-state)
+             (indent-vline-fixed)       ;`TEST-SIGNAL'
              ;; keys
              (define-key c++-mode-map [return] 'newline-and-indent)
              (define-key c++-mode-map [(f9)]
@@ -149,56 +218,21 @@
              (idle-highlight-mode)
              ))
 
-;; warning if a line too long
-(font-lock-add-keywords
- 'c++-mode
- '(("^[^\n]\\{80\\}\\(.*\\)$"
-    1 font-lock-warning-face prepend)))
-
-(font-lock-add-keywords
- 'emacs-lisp-mode
- '(("^[^\n]\\{80\\}\\(.*\\)$"
-    1 font-lock-warning-face prepend)))
-
-
 (add-hook 'emacs-lisp-mode-hook
 	  '(lambda()
          (define-key emacs-lisp-mode-map [return] 'newline-and-indent)
          (idle-highlight-mode)
          (rainbow-delimiters-mode)
          ;; (highlight-parentheses-mode)   ;may conflict with rainbow-*
+         (indent-vline-lisp)            ;`TEST-SIGNAL'
          ))
 
-(add-to-list 'load-path
-             "~/.emacs.d/dictionary-1.8.7"
-             t)
 
-(autoload 'dictionary-search "dictionary"
-  "Ask for a word and search it in all dictionaries" t)
-(autoload 'dictionary-match-words "dictionary"
-  "Ask for a word and search all matching words in the dictionaries" t)
-(autoload 'dictionary-lookup-definition "dictionary"
-  "Unconditionally lookup the word at point." t)
-(autoload 'dictionary "dictionary"
-  "Create a new dictionary buffer" t)
-(autoload 'dictionary-mouse-popup-matching-words "dictionary"
-  "Display entries matching the word at the cursor" t)
-(autoload 'dictionary-popup-matching-words "dictionary"
-  "Display entries matching the word at the point" t)
-(autoload 'dictionary-tooltip-mode "dictionary"
-  "Display tooltips for the current word" t)
+;; (autoload 'flymake-find-file-hook "flymake" "" t)
+;; (add-hook 'find-file-hook 'flymake-find-file-hook)
+;; (setq flymake-gui-warnings-enabled nil)
+;; (setq flymake-log-level 0)
 
-(setq dictionary-server "dict.org")
-(global-set-key (kbd "C-c s") 'dictionary-search)
-;; (global-set-key (kbd "C-c m") 'dictionary-match-words)
 
-;; (setq dictionary-tooltip-dictionary "gcide")
-(require 'dictionary)
-(global-dictionary-tooltip-mode t)
 
-(global-set-key (kbd "<mouse-3>") 'dictionary-mouse-popup-matching-words)
-(global-set-key (kbd "C-c m") 'dictionary-popup-matching-words)
-
-(add-hook 'text-mode-hook 'dictionary-tooltip-mode)
-
-(provide 'init-settings)
+(provide 'init-conf)
