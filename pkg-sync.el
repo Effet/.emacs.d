@@ -38,6 +38,9 @@
         ;; use the lastest version
         (:name yasnippet :type git
                :url "https://github.com/capitaomorte/yasnippet.git")
+
+        (:name autopair :type git
+               :url "https://github.com/capitaomorte/autopair.git")
         
         (:name cursor-chg
                :after (lambda ()
@@ -96,6 +99,7 @@
          ;; modes
          lua-mode
          markdown-mode
+         graphviz-dot-mode              ;`C-cc' compile, `C-cp' show pictrue.
 
          ;; ido
          smex
@@ -115,7 +119,7 @@
          color-theme-solarized
          
          ;; eye-candy
-         powerline
+         ;; powerline
          ;; pretty-mode
 
          ;; auto-complete
@@ -131,9 +135,13 @@
          linum-relative
          ace-jump-mode
          ;; minimap  ;Use `git' version
+         autopair
 
          ;; git
          magit
+
+         ;; TeX
+         auctex
 
          ;; test to use
          ;; tabbar
@@ -141,6 +149,7 @@
        (mapcar 'el-get-source-name el-get-sources)))
 
 (el-get 'sync my-packages)
+;; (el-get 'wait my-packages)
 
 
 (provide 'pkg-sync)

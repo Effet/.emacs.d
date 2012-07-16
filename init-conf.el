@@ -7,10 +7,8 @@
 (scroll-bar-mode -1)
 
 
-;; (line-number-mode    t) ;default
+;; (line-number-mode    t)
 (column-number-mode  t)
-;; highlight line
-(global-hl-line-mode t)
 
 
 ;; lines
@@ -24,6 +22,7 @@
                    (if (eq linum-format 'dynamic)
                        (setq linum-format 'linum-relative)
                      (setq linum-format 'dynamic))))
+
 (setq linum-relative-current-symbol "->")
 (set-face-attribute 'linum-relative-current-face nil
                     :foreground "#d33582" ;$magenta:   #d33682;
@@ -31,54 +30,62 @@
                     )
 
 
-;; highlight parens
-(show-paren-mode t)
-(setq show-paren-style 'parentheses)
-
-
-;; (global-font-lock-mode t)               ;highlight for grammar
-(require 'generic-x)                    ;advance highlight
-
-
-(fset 'yes-or-no-p 'y-or-n-p)           ;always use y-n instead of yes-no
-
-
+;; `dired' in single buffer
 (put 'dired-find-alternate-file 'disabled nil)
 
 
-;; back up & tab
-(setq-default
- make-backup-files	nil                 ;do not back up
- indent-tabs-mode	nil                 ;use [space] to indet
- ;; tab-always-indent	nil
- tab-width		4
- )
-
-
-(setq
- default-major-mode		'text-mode
- inhibit-startup-message	t           ;unable startup message
- visible-bell		nil                 ;use visible-bell instead of 'bee'
- echo-keystrokes	0.1
- ;; suggest-key-bindings 1
-
- font-lock-maximum-decoration	t		;only load current page
-
- scroll-margin			3               ;let 3 lines after scroll
- default-fill-column	80
-
- require-final-newline	t
- )
+(fset 'yes-or-no-p 'y-or-n-p)        ;always use y-n instead of yes-no
 
 
 ;; Use `Trash' when deleting files
 (setq delete-by-moving-to-trash t)
 
 
+(setq-default
+ ;; `Backup' & `Tab' settings
+ make-backup-files    nil               ;do `not' back up
+ indent-tabs-mode     nil               ;use `Tab' to indent
+ ;; tab-always-indent	nil
+ tab-width             4
+ 
+ ;; Other stuffs
+ major-mode    'text-mode
+ fill-column          80
+ )
+
+
+(setq
+ inhibit-startup-message  t             ;unable startup message
+ visible-bell		nil                 ;use visible-bell instead of 'bee'
+ echo-keystrokes	0.1
+ ;; suggest-key-bindings 1
+
+
+ scroll-margin   3                      ;let 3 lines after scroll
+
+ require-final-newline	t
+ )
+
+
+;; -- Setting for `font-look'.
+;; (global-font-lock-mode t)               ;highlight for grammar
+(setq font-lock-maximum-decoration t)   ;only load current page
+(require 'generic-x)                    ;advance highlight
+
+
+(require 'autopair)
+(autopair-global-mode) ;; enable autopair in all buffers
+
+
+(delete-selection-mode t)
+
+
+;; `coding-system'
 ;; (set-language-environment 'utf-8) ;this may couse `eim' error
 (prefer-coding-system 'utf-8)
 ;; (setq file-name-coding-system 'utf-8)
 ;; (setq-default pathname-coding-system 'utf-8)
+
 
 
 (require 'rect-mark)
@@ -97,8 +104,8 @@
 
 
 ;; sublime text2 minimap
-;; (require 'minimap)
-;; (global-set-key [(f11)] 'minimap-toggle)
+(require 'minimap)
+(global-set-key [(f11)] 'minimap-toggle)
 
 
 (require 'ace-jump-mode)
@@ -107,7 +114,7 @@
 
 ;; nice look tooltip
 (require 'pos-tip)
-(if (string= system-type "windows-nt")
+(if (eq system-type 'windows-nt)
     '(pos-tip-w32-max-width-height))
 
 ;; (require 'popup)
@@ -117,45 +124,34 @@
 (global-set-key (kbd "C-y") 'popup-kill-ring)
 
 
-;; undo tree (C-x u) (C-/) (C-?)
+;; `undo-tree' (C-x u) (C-/) (C-?)
 (require 'undo-tree)
 (global-undo-tree-mode)
 
 
-;; ido (C-x C-f/C-x b)
-(require 'ido)
+;; `ido' (C-x C-f/C-x b)
+;; (require 'ido)
 (ido-mode t)
 
 
-;; ibuffer (C-x C-b)
+;; `ibuffer' (C-x C-b)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (autoload 'ibuffer "ibuffer" "List buffers." t)
 
 
-;; smex (M-x)
-(require 'smex)
+;; `smex' (M-x)
+;; (require 'smex)
 (smex-initialize)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 
-;; git status
+;; `git' status
 (global-set-key (kbd "C-x C-z") 'magit-status)
 
 
-;; warning if a line too long
-(font-lock-add-keywords
- 'c++-mode
- '(("^[^\n]\\{80\\}\\(.*\\)$"
-    1 font-lock-warning-face prepend)))
 
-(font-lock-add-keywords
- 'emacs-lisp-mode
- '(("^[^\n]\\{80\\}\\(.*\\)$"
-    1 font-lock-warning-face prepend)))
-
-
-;; window settings
+;; -- Window settings.
 
 ;; usage:
 ;;   M-x windmove-up	/ C-up
@@ -172,33 +168,56 @@
 
 
 (set-mouse-color "white")
-;; daemon settings
-(defun frame-setting ()
-  (if window-system
-      (progn
-        (blink-cursor-mode t)
-        (setq x-select-enable-clipboard t)
-        ;; font & theme
-        ;; (set-default-font "Envy Code R 11")
-        (set-frame-font "Envy Code R 11")
-        (set-fontset-font (frame-parameter nil 'font)
-                          'han '("WenQuanYi Micro Hei"))
-        (color-theme-solarized-dark)
-        )
-    (color-theme-charcoal-black)))
 
-(if (and (fboundp 'daemonp) (daemonp))
-    (add-hook 'after-make-frame-functions
-              (lambda (frame)
-                (with-selected-frame frame
-                  (frame-setting))))
-  (frame-setting))
+(if window-system
+    (progn
+      (blink-cursor-mode t)
+
+      (global-hl-line-mode t) ;; highlight line
+      (setq x-select-enable-clipboard t)
+      
+      ;; font & theme
+      ;; (set-default-font "Envy Code R 11")
+      (set-frame-font "Envy Code R 11")
+      (set-fontset-font (frame-parameter nil 'font)
+                        'han '("WenQuanYi Micro Hei"))
+      (color-theme-solarized-dark)
+      )
+  (color-theme-calm-forest)
+  )
 
 
-;; mode-hook
 
-;; (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-;; (define-key prog-mode-map [return] 'newline-and-indent)
+;; -- Settings for `mode-hook'.
+
+
+;; Warning if a `line-too-long', `TODO', `FIXME', `BUG'.
+;; http://emacs-fu.blogspot.com/2008/12/highlighting-lines-that-are-too-long.html
+(defun highlight-if-too-long ()
+  (font-lock-add-keywords nil
+                          '(("^[^\n]\\{80\\}\\(.*\\)$"
+                             1 font-lock-warning-face t))))
+;; http://emacs-fu.blogspot.com/2008/12/highlighting-todo-fixme-and-friends.html
+(defun highlight-fixme-todo-bug ()
+  (font-lock-add-keywords nil
+                          '(("\\<\\(FIXME\\|TODO\\|BUG\\):"
+                             1 font-lock-warning-face t))))
+
+(add-hook 'prog-mode-hook
+          '(lambda()
+             ;; -- highlight `parens'
+             (show-paren-mode t)
+             ;; (setq show-paren-style 'parentheses)
+             (setq show-paren-style 'expression)
+
+             (idle-highlight-mode)
+             (highlight-parentheses-mode)
+             
+             (indent-vline-fixed)       ;`TEST-SIGNAL'
+             (highlight-if-too-long)    ;`personal-function'
+             (highlight-fixme-todo-bug) ;`personal-function'
+             ))
+
 
 
 (add-hook 'c++-mode-hook
@@ -206,28 +225,23 @@
              (c-set-style "stroustrup")    ;c-style edit
              (c-toggle-hungry-state)
              (c-toggle-auto-state)
-             (indent-vline-fixed)       ;`TEST-SIGNAL'
+             
              ;; keys
              (define-key c++-mode-map [return] 'newline-and-indent)
-             (define-key c++-mode-map [(f9)]
-               '(lambda()
-                  "A quick compile funciton for C++"
-                  (interactive)
-                  (compile (concat "g++ " (buffer-name (current-buffer)) " -g -pg"))))
-             (highlight-parentheses-mode)
-             (idle-highlight-mode)
+             ;; (define-key c++-mode-map "\C-j" 'newline)
              ))
+
 
 (add-hook 'emacs-lisp-mode-hook
 	  '(lambda()
-         (define-key emacs-lisp-mode-map [return] 'newline-and-indent)
-         (idle-highlight-mode)
          (rainbow-delimiters-mode)
-         ;; (highlight-parentheses-mode)   ;may conflict with rainbow-*
-         (indent-vline-lisp)            ;`TEST-SIGNAL'
+         
+         (define-key emacs-lisp-mode-map [return] 'newline-and-indent)
          ))
 
 
+
+;; `test'
 ;; (autoload 'flymake-find-file-hook "flymake" "" t)
 ;; (add-hook 'find-file-hook 'flymake-find-file-hook)
 ;; (setq flymake-gui-warnings-enabled nil)

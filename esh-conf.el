@@ -1,7 +1,8 @@
 ;; http://www.emacswiki.org/emacs/EshellFunctions
 
 
-;; (require 'eshell)
+(require 'eshell)
+(require 'pcomplete)
 
 (setq
  eshell-save-history-on-exit   t
@@ -22,20 +23,11 @@
  eshell-cmpl-cycle-completions t
  )
 
-;; (defadvice pcomplete (around avoid-remote-connections activate)
-;;   (let ((file-name-handler-alist (copy-alist file-name-handler-alist)))
-;;     (setq file-name-handler-alist
-;;           (delete (rassoc 'tramp-completion-file-name-handler
-;;                           file-name-handler-alist) file-name-handler-alist))
-;;     ad-do-it))
-
 
 (setq eshell-prompt-function
       (lambda ()
         (concat
          "[" (eshell/pwd) "]\n"
-         ;; (number-to-string eshell-last-command-status)
-         (if (= eshell-last-command-status 0) "" "")
          ;; (if (= (user-uid) 0) "# " "$ "))
          (if (= (user-uid) 0) "Δ " "λ "))
         ))
@@ -56,28 +48,19 @@
             (setq outline-regexp "^[^Δλ\n]*[Δλ] "
                   scroll-margin 0
                   )
-            
-            (define-key eshell-mode-map (kbd "SPC") 'user-spc)
-            ;; (define-key eshell-mode-map (kbd "DEL") 'user-del)
-            (define-key eshell-mode-map (kbd "<tab>") 'user-tab)
             (define-key eshell-mode-map (kbd "<return>") 'user-ret)
-
-            (define-key eshell-mode-map (kbd "<up>")
-              'eshell-previous-matching-input-from-input)
-            (define-key eshell-mode-map (kbd "<down>")
-              'eshell-next-matching-input-from-input)
             ))
 
 
 
-;; Command path environment
-;; http://ergoemacs.org/emacs/eshell.html
-(setenv "PATH"
-        (let ((home-dir (getenv "HOME")))
-          (concat
-           home-dir "/Scripts/acm" ":"
-           home-dir "/Scripts" ":"
-           (getenv "PATH"))))
+;; ;; Command path environment
+;; ;; http://ergoemacs.org/emacs/eshell.html
+;; (setenv "PATH"
+;;         (let ((home-dir (getenv "HOME")))
+;;           (concat
+;;            home-dir "/Scripts/acm" ":"
+;;            home-dir "/Scripts" ":"
+;;            (getenv "PATH"))))
 
 
 ;; (C-x C-x) (C-u C-x C-x)
@@ -85,33 +68,19 @@
 (global-set-key (kbd "C-c C-x") 'eshell)
 
 
-;; Use `emacs <filename1,[filename2,...]>' command in eshell.
-;; http://www.emacswiki.org/emacs/EshellFunctions#toc2
-(defun eshell/emacs (&rest args)
-  "Open a file in emacs. Some habits die hard."
-  (if (null args)
-      ;; If I just ran "emacs", I probably expect to be launching
-      ;; Emacs, which is rather silly since I'm already in Emacs.
-      ;; So just pretend to do what I ask.
-      (bury-buffer)
-    ;; We have to expand the file names or else naming a directory in an
-    ;; argument causes later arguments to be looked for in that directory,
-    ;; not the starting directory
-    (mapc #'find-file (mapcar #'expand-file-name (eshell-flatten-list (reverse args))))))
-
-
-;; Analyzing Command Line Arguments, from
-;; http://www.emacswiki.org/emacs/EshellFunctions#toc3
-(defun eshell/vi (&rest args)
-  "Invoke `find-file' on the file.
-    \"vi +42 foo\" also goes to line 42 in the buffer."
-  (while args
-    (if (string-match "\\`\\+\\([0-9]+\\)\\'" (car args))
-        (let* ((line (string-to-number (match-string 1 (pop args))))
-               (file (pop args)))
-          (find-file file)
-          (goto-line line))
-      (find-file (pop args)))))
+;; ;; Use `emacs <filename1,[filename2,...]>' command in eshell.
+;; ;; http://www.emacswiki.org/emacs/EshellFunctions#toc2
+;; (defun eshell/emacs (&rest args)
+;;   "Open a file in emacs. Some habits die hard."
+;;   (if (null args)
+;;       ;; If I just ran "emacs", I probably expect to be launching
+;;       ;; Emacs, which is rather silly since I'm already in Emacs.
+;;       ;; So just pretend to do what I ask.
+;;       (bury-buffer)
+;;     ;; We have to expand the file names or else naming a directory in an
+;;     ;; argument causes later arguments to be looked for in that directory,
+;;     ;; not the starting directory
+;;     (mapc #'find-file (mapcar #'expand-file-name (eshell-flatten-list (reverse args))))))
 
 
 ;; `C-a' to beginning of line, and `C-a C-a' to beginning of command line.
@@ -177,83 +146,20 @@
     (pcomplete-here* (pcmpl-git-get-refs "heads")))))
 
 
-;; Last command timer.
-;; https://github.com/ran9er/init.emacs/blob/master/_extensions/%2Beshell.el
-(add-hook 'eshell-load-hook
-          (lambda()(setq last-command-start-time (float-time))))
-(add-hook 'eshell-pre-command-hook
-          (lambda()(setq last-command-start-time (float-time))))
-(add-hook 'eshell-before-prompt-hook
-          (lambda()
-              (message "%s ==> spend %g seconds"
-                       (cond
-                        ((not eshell-last-command-name) "GO!")
-                        ((string-match "^#<" eshell-last-command-name)
-                         (substring eshell-last-command-name 2 -1))
-                        (t eshell-last-command-name))
-                       (- (float-time) last-command-start-time))))
-
-
 ;; Open image files in eshell.
 ;; https://github.com/ran9er/init.emacs/blob/master/_extensions/%2Beshell.el
 (defun eshell/img(img)
   (propertize "Image" (quote display) (create-image (expand-file-name img))))
 
 
-
 ;; tests
-
-(defun user-tab ()
-  (interactive)
-  (let ((input (eshell-get-old-input)))
-    (if (string-equal input "")
-        (insert-string "cd ")
-      (progn
-        (cond
-         ((string-equal input "cd  ")
-          (delete-backward-char 1)
-          (insert-string "-0"))
-         ((string-match "^cd\\ -[0-9]$" input)
-          (delete-backward-char 1)
-          (insert-string (+ 1 (read(substring input -1)))))
-         ((string-match "^cd\\ -[0-9]\\{2\\}$" input)
-          (delete-backward-char 2)
-          (insert-string "0"))
-         (t
-          (pcomplete))
-         )))))
-
-(defun user-spc ()
-  (interactive)
-  (let ((input (eshell-get-old-input)))
-    (if (string-equal input "")
-        (insert-string "!-1")
-      (progn
-        (cond
-         ((string-match "^!-[0-9]+$" input)
-          (let ((len (length input)))
-            (delete-backward-char (- len 2))
-            (insert-string (+ 1 (read(substring input 2 len))))))
-         (t
-          (self-insert-command 1))
-         )))))
-
-(defun user-del ()
-  (interactive)
-  (let ((input (eshell-get-old-input)))
-    (if (string-equal input "")
-        (progn
-          (insert-string "..")
-          (eshell-send-input))
-        (delete-backward-char 1)
-        )))
 
 (defun user-ret ()
   (interactive)
   (let ((input (eshell-get-old-input)))
     (if (string-equal input "")
         (progn
-          (insert-string "ls")
+          (insert "ls")
           (eshell-send-input))
       (progn
         (cond
@@ -262,7 +168,7 @@
             (while (> len n )
               (setq n (1+ n))(setq p (concat p "/..")))
             (eshell-bol)(kill-line)
-            (insert-string p)
+            (insert p)
             (eshell-send-input)))
          (t
           (eshell-send-input))))

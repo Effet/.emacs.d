@@ -8,12 +8,16 @@
 
 ;; General Settings
 (require 'init-conf)
+(require 'my-acm-special-conf)
 
 ;; Load `eshell' stuff.
 (require 'esh-conf)
 
 ;; Load `auto-complete', `auto-complete-clang', `yasnippet'.
 (require 'ac-conf)
+
+;; Load `AucTeX'
+(require 'auctex-conf)
 
 ;; Things for `test'
 (require 'test)

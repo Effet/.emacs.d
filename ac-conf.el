@@ -35,10 +35,14 @@
 
 (global-auto-complete-mode t)
 
-;; (setq ac-dwim t)
-;; (setq ac-auto-start nil)
+;; After selecting candidates, `TAB' will behave as `RET'
+(setq ac-dwim t)
+
+(ac-set-trigger-key "TAB")
 (setq ac-delay 0.5)
 
+
+;; (setq ac-auto-start nil)
 
 (setq-default ac-sources
               '(ac-source-abbrev
