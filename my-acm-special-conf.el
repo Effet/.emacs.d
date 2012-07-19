@@ -1,3 +1,14 @@
+;;; my-acm-special-conf.el --- My special configs for ACM/ICPC.
+;; 
+;; Copyright (C) 2012 n4k0master <nesuadark@gmail.com>
+;; 
+;; Created: Thu Jul 19 20:59:16 2012 (+0800)
+;; Last-Updated: Thu Jul 19 20:59:32 2012 (+0800)
+;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 
+;;; Code:
+
 
 ;; C++ specials
 (defun acm-c++-quick-compile()
@@ -44,6 +55,8 @@ sSpecial option: ")
              (define-key c++-mode-map "\C-cr" 'acm-c++-quick-run)
              (define-key c++-mode-map "\C-cs" 'acm-c++-solve)
              (define-key c++-mode-map "\C-cg" 'acm-get-desc)
+
+             (setq gdb-many-windows t)
              ))
 
 (add-hook 'dired-mode-hook
@@ -55,3 +68,6 @@ sSpecial option: ")
 
 
 (provide 'my-acm-special-conf)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; my-acm-special-conf.el ends here

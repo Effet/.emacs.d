@@ -1,3 +1,14 @@
+;;; auctex-conf.el --- Tex configs.
+;; 
+;; Copyright (C) 2012 n4k0master <nesuadark@gmail.com>
+;; 
+;; Created: Thu Jul 19 21:01:27 2012 (+0800)
+;; Last-Updated: Thu Jul 19 21:01:36 2012 (+0800)
+;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 
+;;; Code:
+
 
 (add-hook 'LaTeX-mode-hook
           (lambda ()
@@ -29,3 +40,6 @@
 
 
 (provide 'auctex-conf)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; auctex-conf.el ends here

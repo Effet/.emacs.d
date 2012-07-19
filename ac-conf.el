@@ -1,4 +1,13 @@
-;; -*- encoding: utf-8-unix; -*-
+;;; ac-conf.el --- Auto-complete and yasnippet configs.
+;; 
+;; Copyright (C) 2012 n4k0master <nesuadark@gmail.com>
+;; 
+;; Created: Thu Jul 19 21:01:50 2012 (+0800)
+;; Last-Updated: Thu Jul 19 21:02:09 2012 (+0800)
+;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 
+;;; Code:
 
 
 ;; (require 'auto-complete)
@@ -75,3 +84,6 @@
 
 
 (provide 'ac-conf)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; ac-conf.el ends here

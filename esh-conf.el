@@ -1,3 +1,15 @@
+;;; esh-conf.el --- Configs and functions for `eshell'.
+;; 
+;; Copyright (C) 2012 n4k0master <nesuadark@gmail.com>
+;; 
+;; Created: Thu Jul 19 20:58:03 2012 (+0800)
+;; Last-Updated: Thu Jul 19 20:58:22 2012 (+0800)
+;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; 
+;;; Code:
+
+
 ;; http://www.emacswiki.org/emacs/EshellFunctions
 
 
@@ -176,3 +188,6 @@
 
 
 (provide 'esh-conf)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; esh-conf.el ends here
