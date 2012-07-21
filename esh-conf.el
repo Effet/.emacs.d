@@ -3,7 +3,7 @@
 ;; Copyright (C) 2012 n4k0master <nesuadark@gmail.com>
 ;; 
 ;; Created: Thu Jul 19 20:58:03 2012 (+0800)
-;; Last-Updated: Thu Jul 19 20:58:22 2012 (+0800)
+;; Last-Updated: Fri Jul 20 10:40:12 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -61,18 +61,22 @@
                   scroll-margin 0
                   )
             (define-key eshell-mode-map (kbd "<return>") 'user-ret)
+
+            ;; https://github.com/emacs-helm/helm/wiki#wiki-helmeshellcompletion
+            (require 'helm-files)
+            (define-key eshell-mode-map [remap pcomplete] 'helm-esh-pcomplete)
+            (define-key eshell-mode-map (kbd "M-p") 'helm-eshell-history)
             ))
 
 
-
-;; ;; Command path environment
-;; ;; http://ergoemacs.org/emacs/eshell.html
-;; (setenv "PATH"
-;;         (let ((home-dir (getenv "HOME")))
-;;           (concat
-;;            home-dir "/Scripts/acm" ":"
-;;            home-dir "/Scripts" ":"
-;;            (getenv "PATH"))))
+;; Command path environment
+;; http://ergoemacs.org/emacs/eshell.html
+(setenv "PATH"
+        (let ((home-dir (getenv "HOME")))
+          (concat
+           home-dir "/Scripts/acm" ":"
+           home-dir "/Scripts" ":"
+           (getenv "PATH"))))
 
 
 ;; (C-x C-x) (C-u C-x C-x)

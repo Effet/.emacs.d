@@ -3,7 +3,7 @@
 ;; Copyright (C) 2012 n4k0master <nesuadark@gmail.com>
 ;; 
 ;; Created: Thu Jul 19 20:55:36 2012 (+0800)
-;; Last-Updated: Thu Jul 19 20:56:44 2012 (+0800)
+;; Last-Updated: Sat Jul 21 14:26:38 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -23,7 +23,7 @@
 ;; Modeline Settings
 (line-number-mode    t)
 (column-number-mode  t)
-(size-indication-mode t)
+(size-indication-mode t)                ;show file size
 
 
 ;; line-number
@@ -41,13 +41,11 @@
 ;;     (fringe-mode 6))
 
 
-;; https://github.com/bbatsov/prelude/blob/master/prelude/prelude-ui.el#L90
-;; more useful frame title, that show either a file or a
-;; buffer name (if the buffer isn't visiting a file)
+;; http://www.emacswiki.org/emacs/FrameTitle#toc4
 (setq frame-title-format
-      '("" invocation-name (:eval (if (buffer-file-name)
-                                      (abbreviate-file-name (buffer-file-name))
-                                    "%b"))))
+          '(buffer-file-name
+            "%f"
+            (dired-directory dired-directory "%b")))
 
 
 ;; For `Server-Client'.
@@ -58,11 +56,11 @@
         ;; (alpha 86 84)
         (vertical-scroll-bars . nil)
         ;; (vertical-scroll-bars . 'right)
-        (menu-bar-lines . 0)
+        ;; (menu-bar-lines . 0)
         (tool-bar-lines . 0)
-
+        
         (mouse-color . "white")
-
+        
         (cursor-color . "wheat2")
         (cursor-type . bar)
         ;; (foreground-color . "white")
@@ -72,12 +70,10 @@
 
 
 ;; ;; Themes
-;; ;; (color-theme-solarized-dark)
-;; (require 'solarized-mod-theme)
-;; (if window-system
-;;     (enable-theme 'solarized-mod)
-;;   (enable-theme 'solarized-mod))
-(load-theme 'solarized-dark t)
+(if window-system
+    ;; M-x package-install RET solarized-theme
+    (load-theme 'solarized-dark t)
+  )
 
 
 (blink-cursor-mode t)
@@ -163,39 +159,47 @@
 ;; (global-pretty-mode t)
 
 
-;; this indent guides is `NOT-IN-PACKAGES', is copied from
-;; https://github.com/ran9er/init.emacs/blob/master/20_aux-line.el
-(require 'aux-line)
-;; (indent-vline)
-;; (indent-vline-lisp)
-
-
 ;; ;; sublime text2 minimap
 ;; (require 'minimap)
 ;; (global-set-key [(f11)] 'minimap-toggle)
 
 
-;; ;; Change Cursor when Mode.
-;; (require 'cursor-chg)  ; Load the library
-;; (toggle-cursor-type-when-idle 1) ; Turn on cursor change when Emacs is idle
-;; (change-cursor-mode 1) ; Turn on change for overwrite, read-only, and input mode
-;; (setq curchg-default-cursor-color "wheat2")
+;; Change Cursor when Mode.
+(require 'cursor-chg)  ; Load the library
+(toggle-cursor-type-when-idle 1) ; Turn on cursor change when Emacs is idle
+(change-cursor-mode 1) ; Turn on change for overwrite, read-only, and input mode
+(setq curchg-default-cursor-color "wheat2")
 
 
 (require 'ace-jump-mode)
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
 
-;; ;; nice look tooltip
-;; (require 'pos-tip)
-;; (if (eq system-type 'windows-nt)
-;;     '(pos-tip-w32-max-width-height))
+;; nice look tooltip
+(require 'pos-tip)
+(if (eq system-type 'windows-nt)
+    '(pos-tip-w32-max-width-height))
 
 ;; ;; (require 'popup)
 ;; ;; (require 'pos-tip)
 ;; (require 'popup-kill-ring)
 ;; ;; (setq popup-kill-ring-interactive-insert t)
 ;; (global-set-key (kbd "C-y") 'popup-kill-ring)
+
+
+;; https://github.com/m2ym/popwin-el
+(require 'popwin)
+(setq display-buffer-function 'popwin:display-buffer)
+;; (setq popwin:special-display-config
+;;       (append '(("*Apropos*") ("*sdic*") ("*Faces*") ("*Colors*"))
+;;               popwin:special-display-config))
+(push '("*quickrun*") popwin:special-display-config)
+;; (push '("*helm M-x*") popwin:special-display-config)
+
+
+;; https://github.com/syohex/emacs-quickrun
+(require 'quickrun)
+(global-set-key (kbd "<f5>") 'quickrun)
 
 
 ;; `undo-tree' (C-x u) (C-/) (C-?)
@@ -208,9 +212,10 @@
 ;; (autoload 'ibuffer "ibuffer" "List buffers." t)
 
 
-;; ;; `ido' (C-x C-f/C-x b)
-;; ;; (require 'ido)
-;; (ido-mode t)
+;; `ido' (C-x C-f/C-x b)
+(require 'ido)
+(ido-mode t)
+(global-set-key (kbd "C-x C-d") 'ido-dired)
 
 
 ;; ;; `smex' (M-x)
@@ -219,12 +224,36 @@
 ;; (global-set-key (kbd "M-x") 'smex)
 ;; (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
+;; $base03:    #002b36;
+;; $base02:    #073642;
+;; $base01:    #586e75;
+;; $base00:    #657b83;
+;; $base0:     #839496;
+;; $base1:     #93a1a1;
+;; $base2:     #eee8d5;
+;; $base3:     #fdf6e3;
+;; $yellow:    #b58900;
+;; $orange:    #cb4b16;
+;; $red:       #dc322f;
+;; $magenta:   #d33682;
+;; $violet:    #6c71c4;
+;; $blue:      #268bd2;
+;; $cyan:      #2aa198;
+;; $green:     #859900;
 
-(add-to-list 'load-path (concat dot-emacs-dir "/helm"))
+
+;; M-x package-install RET helm
+(require 'helm)                         ;need for set-face
 (require 'helm-config)
+(helm-mode 1)
+;; (set-face-background 'helm-selection (face-background 'highlight))
+(set-face-background 'helm-selection "#fdf6e3")
+;; (setq helm-idle-delay nil)
+;; (setq helm-input-idle-delay nil)
+
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-x d")   'helm-find-files)
-(global-set-key (kbd "C-x C-d") 'helm-find-files)
+;; (global-set-key (kbd "C-x d")   'helm-find-files)
+;; (global-set-key (kbd "C-x C-d") 'helm-find-files)
 
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-y") 'helm-show-kill-ring)
@@ -232,12 +261,9 @@
 
 (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
 
+(require 'helm-files)
+(helm-dired-bindings 1)
 
-;; (require 'autoinsert)
-;; (auto-insert-mode)  ;;; Adds hook to find-files-hook
-;; (setq auto-insert-directory (concat dot-emacs-dir "/auto-insert"))
-;; (setq auto-insert-query nil)
-;; (define-auto-insert "\.py" "my-python.py")
 
 ;; User Commands:
 ;;   M-x make-header
@@ -247,10 +273,6 @@
 
 (setq
  header-copyright-notice "Copyright (C) 2012 n4k0master <nesuadark@gmail.com>\n"
- ;; header-author               'user-full-name
- ;; header-modification-author  'user-full-name
- header-author               'user-login-name
- header-modification-author  'user-login-name
  ;; header-file-name            'buffer-file-name
  ;; header-creation-date        'current-time-string
  ;; header-date-format          nil
@@ -283,7 +305,6 @@
 ;; (global-set-key (kbd "C-x C-g") 'magit-status)
 
 
-
 ;; ``Time-stamp: <>'' in first 8 lines
 (add-hook 'write-file-hooks 'time-stamp)
 ;; (setq time-stamp-format "%:u %02m/%02d/%04y %02H:%02M:%02S")
@@ -313,11 +334,11 @@
 
 
 ;; Warning if a `line-too-long', `TODO', `FIXME', `BUG'.
-;; http://emacs-fu.blogspot.com/2008/12/highlighting-lines-that-are-too-long.html
-(defun highlight-if-too-long ()
-  (font-lock-add-keywords nil
-                          '(("^[^\n]\\{80\\}\\(.*\\)$"
-                             1 font-lock-warning-face t))))
+;; ;; http://emacs-fu.blogspot.com/2008/12/highlighting-lines-that-are-too-long.html
+;; (defun highlight-if-too-long ()
+;;   (font-lock-add-keywords nil
+;;                           '(("^[^\n]\\{80\\}\\(.*\\)$"
+;;                              1 font-lock-warning-face t))))
 ;; http://emacs-fu.blogspot.com/2008/12/highlighting-todo-fixme-and-friends.html
 (defun highlight-fixme-todo-bug ()
   (font-lock-add-keywords nil
@@ -349,6 +370,7 @@
 						(hl-paren-color-update)))))))
 
 
+;; http://emacswiki.org/emacs/ShowParenMode
 (defun lispy-parens ()
   "Setup parens display for lisp modes"
   (setq show-paren-delay 0)
@@ -364,7 +386,6 @@
   (set-face-attribute 'show-paren-match-face nil :weight 'extra-bold))
 
 
-
 (add-hook 'prog-mode-hook
           '(lambda()
              ;; -- highlight `parens'
@@ -373,12 +394,20 @@
              ;; (setq show-paren-style 'expression)
              (lispy-parens)
 
+             ;; http://www.emacswiki.org/emacs/FillColumnIndicator
+             ;; (require 'fill-column-indicator)
+             (fci-mode)
+
              (highlight-parentheses-mode)
              (highlight-symbol-mode)
              (rainbow-mode)
 
-             (indent-vline-fixed)       ;`TEST-SIGNAL'
-             (highlight-if-too-long)    ;`personal-function'
+             ;; ;; this indent guides is `NOT-IN-PACKAGES', is copied from
+             ;; ;; https://github.com/ran9er/init.emacs/blob/master/20_aux-line.el
+             ;; (require 'aux-line)
+             ;; (indent-hint-mode t)
+             
+             ;; (highlight-if-too-long)    ;`personal-function'
              (highlight-fixme-todo-bug) ;`personal-function'
              ))
 
@@ -389,7 +418,7 @@
              (c-set-style "stroustrup")    ;c-style edit
              (c-toggle-hungry-state)
              (c-toggle-auto-state)
-
+             
              ;; keys
              (define-key c++-mode-map [return] 'newline-and-indent)
              ;; (define-key c++-mode-map "\C-j" 'newline)
@@ -397,32 +426,33 @@
 
 
 (add-hook 'emacs-lisp-mode-hook
-	  '(lambda()
-         (rainbow-delimiters-mode)
-
-         (define-key emacs-lisp-mode-map [return] 'newline-and-indent)
-         ))
-
-
+          '(lambda()
+             (rainbow-delimiters-mode)
+             
+             (define-key emacs-lisp-mode-map [return] 'newline-and-indent)
+             ))
 
 
-;; ;; input-method [eim] (C-\)
-;; ;; `https://github.com/viogus/eim.git'
-
-;; (require 'eim-extra)
-;; (autoload 'eim-use-package "eim"
-;;   "Another emacs input method")
+(when nil
+;; input-method [eim] (C-\)
+;; `https://github.com/viogus/eim.git'
+(add-to-list 'load-path (concat dot-emacs-dir "/plugins/eim"))
+(autoload 'eim-use-package "eim" "Another emacs input method")
 
 ;; (setq eim-punc-translate-p nil)
-;; (setq eim-use-tooltip t)
-;; (register-input-method
-;;  "eim-py" "euc-cn" 'eim-use-package
-;;  "拼音" "汉字拼音输入法" (concat dot-emacs-dir "/py.txt"))
-;; (set-input-method "eim-py")
-;; ;; (activate-input-method t)
-;; (activate-input-method "eim-py")
-;; (toggle-input-method nil)
+(setq eim-use-tooltip t)
+(register-input-method
+ "eim-py" "euc-cn" 'eim-use-package
+ "拼音" "汉字拼音输入法" (concat dot-emacs-dir "/py.txt"))
+(set-input-method "eim-py")
+;; (activate-input-method t)
+(activate-input-method "eim-py")
+(toggle-input-method nil)
 
+;; ;; 用 ; 暂时输入英文
+;; (require 'eim-extra)
+;; (global-set-key ";" 'eim-insert-ascii)
+)
 
 (provide 'init-conf)
 
