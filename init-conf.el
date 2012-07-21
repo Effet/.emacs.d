@@ -3,7 +3,7 @@
 ;; Copyright (C) 2012 n4k0master <nesuadark@gmail.com>
 ;; 
 ;; Created: Thu Jul 19 20:55:36 2012 (+0800)
-;; Last-Updated: Sat Jul 21 14:26:38 2012 (+0800)
+;; Last-Updated: Sat Jul 21 19:51:09 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -171,10 +171,12 @@
 (setq curchg-default-cursor-color "wheat2")
 
 
+;; M-x package-install RET ace-jump-mode
 (require 'ace-jump-mode)
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
 
+;; M-x package-install RET pos-tip
 ;; nice look tooltip
 (require 'pos-tip)
 (if (eq system-type 'windows-nt)
@@ -187,6 +189,7 @@
 ;; (global-set-key (kbd "C-y") 'popup-kill-ring)
 
 
+;; M-x package-install RET popwin
 ;; https://github.com/m2ym/popwin-el
 (require 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
@@ -197,11 +200,13 @@
 ;; (push '("*helm M-x*") popwin:special-display-config)
 
 
+;; M-x package-install RET quickrun
 ;; https://github.com/syohex/emacs-quickrun
 (require 'quickrun)
 (global-set-key (kbd "<f5>") 'quickrun)
 
 
+;; M-x package-install RET undo-tree
 ;; `undo-tree' (C-x u) (C-/) (C-?)
 (require 'undo-tree)
 (global-undo-tree-mode)
@@ -218,36 +223,12 @@
 (global-set-key (kbd "C-x C-d") 'ido-dired)
 
 
-;; ;; `smex' (M-x)
-;; ;; (require 'smex)
-;; (smex-initialize)
-;; (global-set-key (kbd "M-x") 'smex)
-;; (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
-
-;; $base03:    #002b36;
-;; $base02:    #073642;
-;; $base01:    #586e75;
-;; $base00:    #657b83;
-;; $base0:     #839496;
-;; $base1:     #93a1a1;
-;; $base2:     #eee8d5;
-;; $base3:     #fdf6e3;
-;; $yellow:    #b58900;
-;; $orange:    #cb4b16;
-;; $red:       #dc322f;
-;; $magenta:   #d33682;
-;; $violet:    #6c71c4;
-;; $blue:      #268bd2;
-;; $cyan:      #2aa198;
-;; $green:     #859900;
-
-
 ;; M-x package-install RET helm
 (require 'helm)                         ;need for set-face
 (require 'helm-config)
 (helm-mode 1)
 ;; (set-face-background 'helm-selection (face-background 'highlight))
-(set-face-background 'helm-selection "#fdf6e3")
+;; (set-face-background 'helm-selection "#fdf6e3")
 ;; (setq helm-idle-delay nil)
 ;; (setq helm-input-idle-delay nil)
 
@@ -265,6 +246,7 @@
 (helm-dired-bindings 1)
 
 
+;; M-x package-install RET header2
 ;; User Commands:
 ;;   M-x make-header
 ;;   M-x make-revision
@@ -346,7 +328,8 @@
                              1 font-lock-warning-face t))))
 
 
-;; (require 'highlight-symbol)
+;; M-x package-intall RET highlight-symbol
+(require 'highlight-symbol)
 (setq highlight-symbol-idle-delay 0.5)
 (defvar highlight-symbol-colors
   '("yellow" "DeepPink" "cyan" "MediumPurple1"
