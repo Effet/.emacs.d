@@ -3,7 +3,7 @@
 ;; Copyright (C) 2012 n4k0master <nesuadark@gmail.com>
 ;; 
 ;; Created: Thu Jul 19 20:55:36 2012 (+0800)
-;; Last-Updated: Sat Jul 21 19:51:09 2012 (+0800)
+;; Last-Updated: Sun Jul 22 09:15:18 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -29,16 +29,10 @@
 ;; line-number
 (global-linum-mode t)
 (setq linum-format "%5d ")
+;; M-x toggle-truncate-lines
 
 
 ;; (global-hl-line-mode t) ;; highlight line
-
-
-;; ;; https://github.com/bbatsov/prelude/blob/master/prelude/prelude-ui.el#L82
-;; ;; make the fringe (gutter) smaller
-;; ;; the argument is a width in pixels (the default is 8)
-;; (if (fboundp 'fringe-mode)
-;;     (fringe-mode 6))
 
 
 ;; http://www.emacswiki.org/emacs/FrameTitle#toc4
@@ -78,7 +72,10 @@
 
 (blink-cursor-mode t)
 
-
+;; M-x describe-coding-system
+;; M-x revert-buffer-with-coding-system
+;; M-x set-buffer-file-coding-system
+;; M-x universal-coding-system-argument
 ;; `coding-system'
 ;; (set-language-environment 'utf-8) ;this may couse `eim' error
 (prefer-coding-system 'utf-8)
@@ -233,8 +230,6 @@
 ;; (setq helm-input-idle-delay nil)
 
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
-;; (global-set-key (kbd "C-x d")   'helm-find-files)
-;; (global-set-key (kbd "C-x C-d") 'helm-find-files)
 
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-y") 'helm-show-kill-ring)
