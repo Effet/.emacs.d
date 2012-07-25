@@ -1,9 +1,10 @@
 ;;; ac-conf.el --- Auto-complete and yasnippet configs.
 ;; 
-;; Copyright (C) 2012 n4k0master <nesuadark@gmail.com>
+;; Author: n4k0master
+;; Mail: nesuadark@gmail.com
 ;; 
-;; Created: Thu Jul 19 21:01:50 2012 (+0800)
-;; Last-Updated: Fri Jul 20 21:53:55 2012 (+0800)
+;; Created: Mon Jul 23 21:31:03 2012 (+0800)
+;; Last-Updated: Mon Jul 23 21:31:20 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -17,26 +18,25 @@
 (ac-config-default)
 (global-auto-complete-mode t)
 
+(global-set-key (kbd "M-TAB") 'ac-start)
+(define-key ac-complete-mode-map (kbd "TAB") 'ac-complete)
+(define-key ac-complete-mode-map (kbd "RET")  nil)
 
-(define-key ac-complete-mode-map "\t"      'ac-complete)
-(define-key ac-complete-mode-map "\r"       nil)
-
-(define-key ac-complete-mode-map "\C-n"    'ac-next)
-(define-key ac-complete-mode-map "\C-p"    'ac-previous)
-(define-key ac-complete-mode-map "\M-/"    'ac-stop)
-
+(define-key ac-complete-mode-map (kbd "C-n") 'ac-next)
+(define-key ac-complete-mode-map (kbd "C-p") 'ac-previous)
+(define-key ac-complete-mode-map (kbd "C-g") 'ac-stop)
 
 
 ;; After selecting candidates, `TAB' will behave as `RET'
 (setq ac-dwim t)
 
 (ac-set-trigger-key "TAB")
-;; (setq ac-auto-start nil)
-(setq ac-auto-show-menu 0.1)
-;; (setq ac-delay 0.5)
 
+(setq ac-auto-start nil)
+;; (setq ac-auto-show-menu 0)
+;; (setq ac-delay 0)
 
-;; (setq ac-auto-start nil)
+(setq ac-use-fuzzy t)
 
 (setq-default ac-sources
               '(ac-source-abbrev
@@ -52,7 +52,7 @@
 ;; M-x package-install RET yasnippet
 (require 'yasnippet)
 (yas/initialize)
-;; (yas/load-directory "~/.emacs.d/snippets")
+(yas/load-directory "~/.emacs.d/snippets")
 
 ;; (yas/global-mode 1)
 

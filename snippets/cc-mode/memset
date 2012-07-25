@@ -1,4 +1,6 @@
 # -*- mode: snippet -*-
 # name : memset
+# contributor : n4k0master
+# key : memset
 # --
 memset(${1:a}, ${2:0}, sizeof($1));

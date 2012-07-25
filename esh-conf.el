@@ -1,9 +1,10 @@
 ;;; esh-conf.el --- Configs and functions for `eshell'.
 ;; 
-;; Copyright (C) 2012 n4k0master <nesuadark@gmail.com>
+;; Author: n4k0master
+;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Thu Jul 19 20:58:03 2012 (+0800)
-;; Last-Updated: Fri Jul 20 10:40:12 2012 (+0800)
+;; Last-Updated: Tue Jul 24 11:50:17 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -62,10 +63,10 @@
                   )
             (define-key eshell-mode-map (kbd "<return>") 'user-ret)
 
-            ;; https://github.com/emacs-helm/helm/wiki#wiki-helmeshellcompletion
-            (require 'helm-files)
-            (define-key eshell-mode-map [remap pcomplete] 'helm-esh-pcomplete)
-            (define-key eshell-mode-map (kbd "M-p") 'helm-eshell-history)
+            ;; ;; https://github.com/emacs-helm/helm/wiki#wiki-helmeshellcompletion
+            ;; (require 'helm-files)
+            ;; (define-key eshell-mode-map [remap pcomplete] 'helm-esh-pcomplete)
+            ;; (define-key eshell-mode-map (kbd "M-p") 'helm-eshell-history)
             ))
 
 

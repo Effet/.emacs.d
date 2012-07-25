@@ -1,9 +1,10 @@
 ;;; init.el --- First step for every thing.
 ;; 
-;; Copyright (C) 2012 n4k0master <nesuadark@gmail.com>
+;; Author: n4k0master
+;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Thu Jul 19 20:52:37 2012 (+0800)
-;; Last-Updated: Sun Jul 22 09:09:48 2012 (+0800)
+;; Last-Updated: Tue Jul 24 19:00:38 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -28,8 +29,8 @@
 ;; Load `auto-complete', `auto-complete-clang', `yasnippet'.
 (require 'ac-conf)
 
-;; ;; Load `AucTeX'
-;; (require 'auctex-conf)
+;; Load `AucTeX'
+(require 'auctex-conf)
 
 ;; ;; Things for `test'
 ;; (require 'test)

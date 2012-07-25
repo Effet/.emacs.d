@@ -1,9 +1,10 @@
 ;;; auctex-conf.el --- Tex configs.
 ;; 
-;; Copyright (C) 2012 n4k0master <nesuadark@gmail.com>
+;; Author: n4k0master
+;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Thu Jul 19 21:01:27 2012 (+0800)
-;; Last-Updated: Thu Jul 19 21:01:36 2012 (+0800)
+;; Last-Updated: Tue Jul 24 19:10:04 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -12,10 +13,14 @@
 
 (add-hook 'LaTeX-mode-hook
           (lambda ()
+            (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
+            (setq TeX-command-default "XeLaTeX")
+            
             (setq TeX-auto-untabify t     ; remove all tabs before saving
-                  ;; TeX-engine 'xetex       ; use xelatex default
-                  ;; TeX-show-compilation t
-                  ) ; display compilation windows
+                  TeX-engine 'xetex       ; use xelatex default
+                  ;; TeX-show-compilation t ; display compilation windows
+                  )
+            
             (TeX-global-PDF-mode t)       ; PDF mode enable, not plain
             (setq TeX-save-query nil)
             (imenu-add-menubar-index)

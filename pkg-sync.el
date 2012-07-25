@@ -1,9 +1,10 @@
 ;;; pkg-sync.el --- Prepair packages.
 ;; 
-;; Copyright (C) 2012 n4k0master <nesuadark@gmail.com>
+;; Author: n4k0master
+;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Thu Jul 19 20:59:58 2012 (+0800)
-;; Last-Updated: Sat Jul 21 14:23:46 2012 (+0800)
+;; Last-Updated: Tue Jul 24 19:00:24 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -62,8 +63,8 @@
     ;; ;; git
     ;; magit
 
-    ;; ;; TeX
-    ;; auctex
+    ;; TeX
+    auctex
 
     ;; test to use
     ;; tabbar

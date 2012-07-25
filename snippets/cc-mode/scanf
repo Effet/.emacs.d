@@ -1,9 +1,6 @@
 # -*- mode: snippet -*-
-# name : else { ... }
+# name : scanf
 # contributor : n4k0master
-# key : else
+# key : scanf
 # --
-else
-{
-     $0
-}
+scanf("${1:%s}", $2);$0

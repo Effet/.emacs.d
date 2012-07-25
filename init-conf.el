@@ -1,9 +1,10 @@
 ;;; init-conf.el --- Many configs after packages installed.
 ;; 
-;; Copyright (C) 2012 n4k0master <nesuadark@gmail.com>
+;; Author: n4k0master
+;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Thu Jul 19 20:55:36 2012 (+0800)
-;; Last-Updated: Sun Jul 22 09:15:18 2012 (+0800)
+;; Last-Updated: Wed Jul 25 21:32:16 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -11,6 +12,7 @@
 
 
 ;; global settings
+
 
 ;; ;; -- UI
 ;; (when (fboundp 'tool-bar-mode)
@@ -195,6 +197,10 @@
 ;;               popwin:special-display-config))
 (push '("*quickrun*") popwin:special-display-config)
 ;; (push '("*helm M-x*") popwin:special-display-config)
+(push '("*TeX Help*") popwin:special-display-config)
+(push '("*Backtrace*") popwin:special-display-config)
+(push '("*Shell Command Output*") popwin:special-display-config)
+(push '("*Async Shell Command*") popwin:special-display-config)
 
 
 ;; M-x package-install RET quickrun
@@ -224,6 +230,7 @@
 (require 'helm)                         ;need for set-face
 (require 'helm-config)
 (helm-mode 1)
+(setq helm-ff-transformer-show-only-basename t)
 ;; (set-face-background 'helm-selection (face-background 'highlight))
 ;; (set-face-background 'helm-selection "#fdf6e3")
 ;; (setq helm-idle-delay nil)
@@ -249,22 +256,26 @@
 ;;   M-x make-box-comment
 
 (setq
+ user-full-name "n4k0master"
+ user-mail-address "nesuadark@gmail.com"
+ )
+
+(setq
  header-copyright-notice "Copyright (C) 2012 n4k0master <nesuadark@gmail.com>\n"
  ;; header-file-name            'buffer-file-name
  ;; header-creation-date        'current-time-string
  ;; header-date-format          nil
  )
 
+(defun header-author-email ()
+  (insert header-prefix-string "Mail: " user-mail-address "\n"))
+
 (setq make-header-hook
       '(header-title
         header-blank
-        header-copyright
+        header-author
+        header-author-email
         header-blank
-        ;; header-file-name
-        ;; header-description
-        
-        ;; header-author
-        ;; header-blank
         header-creation-date
         header-modification-date
         header-blank
@@ -274,7 +285,7 @@
 
 (add-hook 'write-file-hooks 'auto-update-file-header)
 
-(add-hook 'c-mode-common-hook 'auto-make-header)
+;; (add-hook 'c-mode-common-hook 'auto-make-header)
 (add-hook 'emacs-lisp-mode-hook 'auto-make-header)
 
 
@@ -327,7 +338,7 @@
 (require 'highlight-symbol)
 (setq highlight-symbol-idle-delay 0.5)
 (defvar highlight-symbol-colors
-  '("yellow" "DeepPink" "cyan" "MediumPurple1"
+  '("MediumPurple1" "DeepPink" "cyan" "yellow"
     "SpringGreen1" "DarkOrange" "HotPink1" "RoyalBlue1" "OliveDrab"))
 (global-set-key [(control f3)] 'highlight-symbol-at-point)
 (global-set-key [f3] 'highlight-symbol-next)
