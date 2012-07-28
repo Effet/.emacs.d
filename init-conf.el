@@ -4,7 +4,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Thu Jul 19 20:55:36 2012 (+0800)
-;; Last-Updated: Wed Jul 25 21:32:16 2012 (+0800)
+;; Last-Updated: Sat Jul 28 19:47:12 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -15,11 +15,11 @@
 
 
 ;; ;; -- UI
-;; (when (fboundp 'tool-bar-mode)
-;;   (tool-bar-mode -1))
+(when (fboundp 'tool-bar-mode)
+  (tool-bar-mode -1))
 
-;; ;; (menu-bar-mode -1)
-;; (scroll-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
 
 
 ;; Modeline Settings
@@ -50,10 +50,15 @@
         (font . "Inconsolata-12")
         ;; (font . "Envy Code R-11")
         ;; (alpha 86 84)
+        (height . 45)
+        (width . 120)
         (vertical-scroll-bars . nil)
         ;; (vertical-scroll-bars . 'right)
         ;; (menu-bar-lines . 0)
         (tool-bar-lines . 0)
+
+        ;; (left-fringe . 0)
+        ;; (right-fringe . 0)
         
         (mouse-color . "white")
         
@@ -64,15 +69,12 @@
       ))
 
 
-
-;; ;; Themes
-(if window-system
-    ;; M-x package-install RET solarized-theme
-    (load-theme 'solarized-dark t)
-  )
-
+;; Themes
+;; M-x package-install RET solarized-theme
+(load-theme 'solarized-dark t)
 
 (blink-cursor-mode t)
+
 
 ;; M-x describe-coding-system
 ;; M-x revert-buffer-with-coding-system
@@ -85,13 +87,8 @@
 ;; (setq-default pathname-coding-system 'utf-8)
 
 
-;; https://github.com/bbatsov/prelude/blob/master/prelude/prelude-editor.el#L80
-;; meaningful names for buffers with the same name
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
-(setq uniquify-separator "/")
-(setq uniquify-after-kill-buffer-p t)    ; rename after killing uniquified
-(setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
 
 
 ;; `dired' in single buffer by type `a'
@@ -118,7 +115,6 @@
 
  ;; Other stuffs
  major-mode    'text-mode
- fill-column          80
  )
 
 
@@ -136,6 +132,13 @@
  )
 
 
+;; Line Wrapping
+(setq fill-column 80)
+(set-default 'truncate-lines nil)
+(setq truncate-partial-width-windows nil)
+(set-display-table-slot standard-display-table 'wrap ?\ )
+
+
 
 ;; -- Setting for `font-look'.
 ;; (global-font-lock-mode t)               ;highlight for grammar
@@ -151,11 +154,6 @@
 
 
 (require 'rect-mark)
-
-
-;; ;; lambda -> λ
-;; (require 'pretty-mode)
-;; (global-pretty-mode t)
 
 
 ;; ;; sublime text2 minimap
@@ -176,7 +174,6 @@
 
 
 ;; M-x package-install RET pos-tip
-;; nice look tooltip
 (require 'pos-tip)
 (if (eq system-type 'windows-nt)
     '(pos-tip-w32-max-width-height))
@@ -233,8 +230,8 @@
 (setq helm-ff-transformer-show-only-basename t)
 ;; (set-face-background 'helm-selection (face-background 'highlight))
 ;; (set-face-background 'helm-selection "#fdf6e3")
-;; (setq helm-idle-delay nil)
-;; (setq helm-input-idle-delay nil)
+(setq helm-idle-delay 0.1)
+(setq helm-input-idle-delay 0.1)
 
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 
@@ -404,6 +401,9 @@
 
 (add-hook 'c++-mode-hook
           '(lambda()
+             (setq c-default-style "linux"
+                   c-basic-offset 4)
+             
              (c-set-style "stroustrup")    ;c-style edit
              (c-toggle-hungry-state)
              (c-toggle-auto-state)

@@ -4,7 +4,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Thu Jul 19 20:59:16 2012 (+0800)
-;; Last-Updated: Wed Jul 25 21:18:52 2012 (+0800)
+;; Last-Updated: Sat Jul 28 18:10:50 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -22,8 +22,17 @@
   (interactive)
   (if (not (file-exists-p "in"))
       (find-file "in")
-    (async-shell-command "timeout 2 ./a.out < in"))
+    (let ((sec 2)
+          (buf (get-buffer-create "*Quick Run for ACM*"))
+          (cmd (if (eq system-type 'windows-nt)
+                   "a.exe < in"
+                 "./a.out < in")))
+      (async-shell-command cmd buf)
+      (run-with-timer sec nil (lambda (buf) (kill-process buf)) buf)
+      )
+    )
   )
+(push '("*Quick Run for ACM*") popwin:special-display-config)
 
 (defun acm-c++-solve()
   (interactive)
@@ -63,6 +72,19 @@ sSpecial option: ")
              (define-key c++-mode-map (kbd "C-c C-s") 'acm-c++-solve)
              (define-key c++-mode-map (kbd "C-c C-g") 'acm-get-desc)
 
+             (define-key c++-mode-map [f5] 'gdb)
+             (define-key c++-mode-map [C-f5] 'gud-run)
+             (define-key c++-mode-map [S-f5] 'gud-cont)
+             (define-key c++-mode-map [f7] 'compile)
+             (define-key c++-mode-map [f8] 'gud-print)
+             (define-key c++-mode-map [C-f8] 'gud-pstar)
+             (define-key c++-mode-map [f9] 'gud-break)
+             (define-key c++-mode-map [C-f9] 'gud-remove)
+             (define-key c++-mode-map [f10] 'gud-next)
+             (define-key c++-mode-map [C-f10] 'gud-until)
+             (define-key c++-mode-map [S-f10] 'gud-jump)
+             (define-key c++-mode-map [f11] 'gud-step)
+             (define-key c++-mode-map [C-f11] 'gud-finish)
              (setq gdb-many-windows t)
              ))
 

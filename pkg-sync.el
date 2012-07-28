@@ -4,7 +4,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Thu Jul 19 20:59:58 2012 (+0800)
-;; Last-Updated: Tue Jul 24 19:00:24 2012 (+0800)
+;; Last-Updated: Sat Jul 28 20:01:09 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -18,8 +18,12 @@
 (package-initialize)
 
 
-;; https://github.com/bbatsov/prelude/blob/master/prelude/prelude-packages.el
-(defvar prelude-packages
+;; See https://github.com/technomancy/emacs-starter-kit
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
+
+(defvar my-packages
   '(
     ;; language-modes
     lua-mode
@@ -71,25 +75,9 @@
     ))
 
 
-(require 'cl)
-
-(defun prelude-packages-installed-p ()
-  (loop for p in prelude-packages
-        when (not (package-installed-p p)) do (return nil)
-        finally (return t)))
-
-(defun prelude-install-packages ()
-  (unless (prelude-packages-installed-p)
-    ;; check for new packages (package versions)
-    (message "%s" "Emacs Prelude is now refreshing its package database...")
-    (package-refresh-contents)
-    (message "%s" " done.")
-    ;; install the missing packages
-    (dolist (p prelude-packages)
-      (unless (package-installed-p p)
-        (package-install p)))))
-
-(prelude-install-packages)
+(dolist (p my-packages)
+  (when (not (package-installed-p p))
+    (package-install p)))
 
 
 (provide 'pkg-sync)
