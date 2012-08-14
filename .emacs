@@ -1,10 +1,10 @@
-;;; init.el --- First step for every thing.
+;;; .emacs --- Emacs dot file.
 ;; 
-;; Author: n4k0master
+;; Author: Catl Sing
 ;; Mail: nesuadark@gmail.com
 ;; 
-;; Created: Thu Jul 19 20:52:37 2012 (+0800)
-;; Last-Updated: Tue Aug 14 18:47:28 2012 (+0800)
+;; Created: Tue Aug 14 22:27:18 2012 (+0800)
+;; Last-Updated: Tue Aug 14 22:27:39 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -36,4 +36,4 @@
 (require 'personal-auctex)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; init.el ends here
+;;; .emacs ends here
