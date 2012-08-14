@@ -1,10 +1,10 @@
-;;; auctex-conf.el --- Tex configs.
+;;; personal-auctex.el --- Tex configs.
 ;; 
-;; Author: n4k0master
+;; Author: Catl Sing
 ;; Mail: nesuadark@gmail.com
 ;; 
-;; Created: Thu Jul 19 21:01:27 2012 (+0800)
-;; Last-Updated: Tue Jul 24 19:10:04 2012 (+0800)
+;; Created: Tue Aug 14 20:22:43 2012 (+0800)
+;; Last-Updated: Tue Aug 14 20:23:11 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -44,7 +44,7 @@
  )
 
 
-(provide 'auctex-conf)
+(provide 'personal-auctex)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; auctex-conf.el ends here
+;;; personal-auctex.el ends here

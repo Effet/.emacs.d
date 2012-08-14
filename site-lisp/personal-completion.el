@@ -1,10 +1,10 @@
-;;; ac-conf.el --- Auto-complete and yasnippet configs.
+;;; personal-completion.el --- Auto-complete and yasnippet configs.
 ;; 
-;; Author: n4k0master
+;; Author: Catl Sing
 ;; Mail: nesuadark@gmail.com
 ;; 
-;; Created: Mon Jul 23 21:31:03 2012 (+0800)
-;; Last-Updated: Thu Jul 26 22:10:25 2012 (+0800)
+;; Created: Tue Aug 14 20:21:57 2012 (+0800)
+;; Last-Updated: Tue Aug 14 20:22:13 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -14,7 +14,7 @@
 ;; M-x package-install RET auto-complete
 (require 'auto-complete)
 (require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories (concat dot-emacs-dir "/ac-dict/"))
+;; (add-to-list 'ac-dictionary-directories (concat dot-emacs-dir "/ac-dict/"))
 (ac-config-default)
 (global-auto-complete-mode t)
 
@@ -52,7 +52,7 @@
 ;; M-x package-install RET yasnippet
 (require 'yasnippet)
 (yas/initialize)
-(yas/load-directory "~/.emacs.d/snippets")
+(yas/load-directory (concat user-emacs-directory "snippets/"))
 
 ;; (yas/global-mode 1)
 
@@ -99,11 +99,11 @@
       (mapcar (lambda (item) (concat "-I" item))
               (split-string
                "
- /usr/lib/gcc/x86_64-pc-linux-gnu/4.5.3/include/g++-v4
- /usr/lib/gcc/x86_64-pc-linux-gnu/4.5.3/include/g++-v4/x86_64-pc-linux-gnu
- /usr/lib/gcc/x86_64-pc-linux-gnu/4.5.3/include/g++-v4/backward
- /usr/lib/gcc/x86_64-pc-linux-gnu/4.5.3/include
- /usr/lib/gcc/x86_64-pc-linux-gnu/4.5.3/include-fixed
+ /usr/lib/gcc/x86_64-pc-linux-gnu/4.6.3/include/g++-v4
+ /usr/lib/gcc/x86_64-pc-linux-gnu/4.6.3/include/g++-v4/x86_64-pc-linux-gnu
+ /usr/lib/gcc/x86_64-pc-linux-gnu/4.6.3/include/g++-v4/backward
+ /usr/lib/gcc/x86_64-pc-linux-gnu/4.6.3/include
+ /usr/lib/gcc/x86_64-pc-linux-gnu/4.6.3/include-fixed
  /usr/include
 ")))
 
@@ -256,7 +256,7 @@
                       ac-sources))))
 
 
-(provide 'ac-conf)
+(provide 'personal-completion)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; ac-conf.el ends here
+;;; personal-completion.el ends here

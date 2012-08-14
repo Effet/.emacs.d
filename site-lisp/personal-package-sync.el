@@ -1,10 +1,10 @@
-;;; pkg-sync.el --- Prepair packages.
+;;; personal-package-sync.el --- Prepair packages.
 ;; 
-;; Author: n4k0master
+;; Author: Catl Sing
 ;; Mail: nesuadark@gmail.com
 ;; 
-;; Created: Thu Jul 19 20:59:58 2012 (+0800)
-;; Last-Updated: Sat Jul 28 20:01:09 2012 (+0800)
+;; Created: Tue Aug 14 20:19:51 2012 (+0800)
+;; Last-Updated: Tue Aug 14 20:20:07 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -34,15 +34,13 @@
     undo-tree
     ace-jump-mode
     autopair
-    rect-mark
     highlight-parentheses
     highlight-symbol
     header2
     quickrun
-    helm                                ;fork of `anything'
+    helm                                ;`anything'
 
     ;; ;; misc
-    pos-tip
     popwin
     ;; popup-kill-ring
     ;; browse-kill-ring
@@ -56,22 +54,17 @@
     ;; eye-candy
     cursor-chg
     fill-column-indicator
-    ;; powerline
-    ;; pretty-mode
 
     ;; Completions
     auto-complete
     auto-complete-clang
     yasnippet
 
-    ;; ;; git
-    ;; magit
-
     ;; TeX
     auctex
 
-    ;; test to use
-    ;; tabbar
+    org
+
     ))
 
 
@@ -80,7 +73,7 @@
     (package-install p)))
 
 
-(provide 'pkg-sync)
+(provide 'personal-package-sync)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; pkg-sync.el ends here
+;;; personal-package-sync.el ends here

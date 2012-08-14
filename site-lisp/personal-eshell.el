@@ -1,10 +1,10 @@
-;;; esh-conf.el --- Configs and functions for `eshell'.
+;;; personal-eshell.el --- Configs and functions for `eshell'.
 ;; 
-;; Author: n4k0master
+;; Author: Catl Sing
 ;; Mail: nesuadark@gmail.com
 ;; 
-;; Created: Thu Jul 19 20:58:03 2012 (+0800)
-;; Last-Updated: Wed Jul 25 22:35:13 2012 (+0800)
+;; Created: Tue Aug 14 20:21:23 2012 (+0800)
+;; Last-Updated: Tue Aug 14 20:21:36 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -192,7 +192,7 @@
       )))
 
 
-(provide 'esh-conf)
+(provide 'personal-eshell)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; esh-conf.el ends here
+;;; personal-eshell.el ends here

@@ -1,10 +1,10 @@
 ;;; my-acm-special-conf.el --- My special configs for ACM/ICPC.
 ;; 
-;; Author: n4k0master
+;; Author: Catl Sing
 ;; Mail: nesuadark@gmail.com
 ;; 
-;; Created: Thu Jul 19 20:59:16 2012 (+0800)
-;; Last-Updated: Sat Jul 28 18:10:50 2012 (+0800)
+;; Created: Tue Aug 14 20:24:34 2012 (+0800)
+;; Last-Updated: Tue Aug 14 20:26:43 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -41,11 +41,11 @@
 
 
 ;; Generals
-(defun acm-get-desc()
-  (interactive)
-  (shell-command "~/Scripts/acm/get_desc.sh")
-  (find-file "./desc.xml")
-  )
+;; (defun acm-get-desc()
+;;   (interactive)
+;;   (shell-command "~/Scripts/acm/get_desc.sh")
+;;   (find-file "./desc.xml")
+;;   )
 
 (defun acm-quick-make-symbol-link-to-contest (oj begin_id label sp)
   (interactive "sWhich oj: 
@@ -70,7 +70,7 @@ sSpecial option: ")
              (define-key c++-mode-map (kbd "C-c C-c") 'acm-c++-quick-compile)
              (define-key c++-mode-map (kbd "C-c C-r") 'acm-c++-quick-run)
              (define-key c++-mode-map (kbd "C-c C-s") 'acm-c++-solve)
-             (define-key c++-mode-map (kbd "C-c C-g") 'acm-get-desc)
+             ;; (define-key c++-mode-map (kbd "C-c C-g") 'acm-get-desc)
 
              (define-key c++-mode-map [f5] 'gdb)
              (define-key c++-mode-map [C-f5] 'gud-run)
@@ -91,7 +91,7 @@ sSpecial option: ")
 (add-hook 'dired-mode-hook
           '(lambda()
              (define-key dired-mode-map (kbd "C-c C-s") 'acm-c++-solve)
-             (define-key dired-mode-map (kbd "C-c C-g") 'acm-get-desc)
+             ;; (define-key dired-mode-map (kbd "C-c C-g") 'acm-get-desc)
              (define-key dired-mode-map (kbd "C-c C-l") 'acm-quick-make-symbol-link-to-contest)
              ))
 
