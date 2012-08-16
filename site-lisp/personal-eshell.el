@@ -4,7 +4,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:21:23 2012 (+0800)
-;; Last-Updated: Tue Aug 14 20:21:36 2012 (+0800)
+;; Last-Updated: Thu Aug 16 12:14:05 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -75,9 +75,14 @@
 (setenv "PATH"
         (let ((home-dir (getenv "HOME")))
           (concat
-           home-dir "/Scripts/acm" ":"
            home-dir "/Scripts" ":"
+           home-dir "/Scripts/acm" ":"
            (getenv "PATH"))))
+
+;; (add-hook 'emacs-startup-hook #'(lambda ()
+;;                                   (let ((default-directory (getenv "HOME")))
+;;                                     (command-execute 'eshell)
+;;                                     (bury-buffer))))
 
 
 ;; (C-x C-x) (C-u C-x C-x)

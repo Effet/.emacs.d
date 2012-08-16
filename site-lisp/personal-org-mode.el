@@ -4,14 +4,14 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:23:31 2012 (+0800)
-;; Last-Updated: Tue Aug 14 20:23:50 2012 (+0800)
+;; Last-Updated: Wed Aug 15 10:33:34 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
 ;;; Code:
 
 
-(require 'htmlize)
+;; (require 'htmlize)
 
 (require 'org-publish)
 (setq org-publish-project-alist

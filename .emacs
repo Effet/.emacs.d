@@ -4,15 +4,21 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 22:27:18 2012 (+0800)
-;; Last-Updated: Tue Aug 14 22:27:39 2012 (+0800)
+;; Last-Updated: Thu Aug 16 15:29:55 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
 ;;; Code:
 
 
-;; load paths
+;; Personal Information
+(setq
+ user-full-name "Catl Sing"
+ user-mail-address "nesuadark@gmail.com"
+ )
 
+
+;; Paths Setting
 (setq user-emacs-directory "~/dotEmacs/")
 
 (setq personal-lisp-directory
@@ -22,10 +28,14 @@
 (add-to-list 'load-path personal-lisp-directory)
 (add-to-list 'load-path (concat personal-lisp-directory "/plugins/"))
 
+(setq package-user-dir (concat personal-lisp-directory "elpa/"))
+(setq personal-snippet-directory
+      (concat user-emacs-directory "snippets/"))
+
 (setq custom-file (concat personal-lisp-directory "personal-ui.el"))
-(setq package-user-dir (concat user-emacs-directory "elpa/"))
 
 
+;; Personal Stuffs
 (require 'personal-package-sync)
 (require 'personal-ui)
 (require 'personal-config)

@@ -4,7 +4,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:20:23 2012 (+0800)
-;; Last-Updated: Tue Aug 14 20:20:39 2012 (+0800)
+;; Last-Updated: Thu Aug 16 14:18:40 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -12,6 +12,30 @@
 
 
 ;;{{{ General Behaviors
+
+;; At head of a line, press C-k will kill whole line.
+(setq kill-whole-line t)
+
+
+;; <return> always `newline-and-indent'
+(global-set-key (kbd "RET") 'newline-and-indent)
+(global-set-key (kbd "C-j") 'newline)
+
+;; http://emacswiki.org/emacs/AutoIndentation
+;; `yank-and-indent'
+(dolist (command '(yank yank-pop helm-c-kill-ring-action))
+  (eval `(defadvice ,command (after indent-region activate)
+           (and (not current-prefix-arg)
+                (member major-mode '(emacs-lisp-mode lisp-mode
+                                                     clojure-mode    scheme-mode
+                                                     haskell-mode    ruby-mode
+                                                     rspec-mode      python-mode
+                                                     c-mode          c++-mode
+                                                     objc-mode       latex-mode
+                                                     plain-tex-mode))
+                (let ((mark-even-if-inactive transient-mark-mode))
+                  (indent-region (region-beginning) (region-end) nil))))))
+
 
 ;; `dired' in single buffer by type `a'
 (put 'dired-find-alternate-file 'disabled nil)
@@ -22,11 +46,18 @@
 
 ;; M-x package-install RET fill-column-indicator
 (require 'fill-column-indicator)
-(add-hook 'prog-mode-hook 'fci-mode)
-;; (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
-;; (global-fci-mode 1)
+;; (add-hook 'prog-mode-hook 'fci-mode)
+
+(defun auto-fci-mode (&optional unused)
+  (if (> (frame-width) (+ fill-column 7))
+      (fci-mode 1)
+    (fci-mode 0))
+  )
+(add-hook 'window-configuration-change-hook 'auto-fci-mode)
 
 
+(setq default-indicate-empty-lines t
+      default-indicate-buffer-boundaries 'left)
 
 ;; (global-font-lock-mode t)               ;highlight for grammar
 ;; (setq font-lock-maximum-decoration t)   ;only load current page
@@ -52,102 +83,31 @@
 (global-subword-mode t)
 
 
-;; http://calvinyoung.org/2010/06/upgrading-backward-kill-word-in-emacs/
-;; Eclipes-style kill-word in the beginning of a line.
-(defun my-backward-kill-word (&optional arg)
-  "Replacement for the backward-kill-word command
-If the region is active, then invoke kill-region.  Otherwise, use
-the following custom backward-kill-word procedure.
-If the previous word is on the same line, then kill the previous
-word.  Otherwise, if the previous word is on a prior line, then kill
-to the beginning of the line.  If point is already at the beginning
-of the line, then kill to the end of the previous line.
+;; ;; http://calvinyoung.org/2010/06/upgrading-backward-kill-word-in-emacs/
+;; ;; Eclipes-style kill-word in the beginning of a line.
+;; (defun my-backward-kill-word (&optional arg)
+;;   "Replacement for the backward-kill-word command
+;; If the region is active, then invoke kill-region.  Otherwise, use
+;; the following custom backward-kill-word procedure.
+;; If the previous word is on the same line, then kill the previous
+;; word.  Otherwise, if the previous word is on a prior line, then kill
+;; to the beginning of the line.  If point is already at the beginning
+;; of the line, then kill to the end of the previous line.
 
-With argument ARG and region inactive, do this that many times."
-  (interactive "p")
-  (if (use-region-p)
-      (kill-region (mark) (point))
-    (let (count)
-      (dotimes (count arg)
-        (if (bolp)
-            (delete-backward-char 1)
-          (kill-region (max (save-excursion (backward-word)(point))
-                            (line-beginning-position))
-                       (point)))))))
+;; With argument ARG and region inactive, do this that many times."
+;;   (interactive "p")
+;;   (if (use-region-p)
+;;       (kill-region (mark) (point))
+;;     (let (count)
+;;       (dotimes (count arg)
+;;         (if (bolp)
+;;             (delete-backward-char 1)
+;;           (kill-region (max (save-excursion (backward-word)(point))
+;;                             (line-beginning-position))
+;;                        (point)))))))
 
-(define-key (current-global-map) [remap backward-kill-word]
-  'my-backward-kill-word)
-
-;;}}}
-
-;;{{{ Folding
-
-(autoload 'folding-mode          "folding" "Folding mode" t)
-(autoload 'turn-off-folding-mode "folding" "Folding mode" t)
-(autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
-
-(if (load "folding" 'nomessage 'noerror)
-    (folding-mode-add-find-file-hook))
-
-(folding-add-to-marks-list
- 'lua-mode "-- {{{" "-- }}}" nil t)
-
-;; (folding-mode t)
-
-(add-hook 'find-file-hook
-          '(lambda ()
-             (folding-mode)))
-
-;;}}}
-;;{{{ Time Stamp (head of file)
-
-;; ``Time-stamp: <>'' in first 8 lines
-(add-hook 'write-file-hooks 'time-stamp)
-;; (setq time-stamp-format "%:u %02m/%02d/%04y %02H:%02M:%02S")
-(setq time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)") ; date format
-
-;;}}}
-;;{{{ Header2 (file information)
-
-;; M-x package-install RET header2
-;; User Commands:
-;;   M-x make-header
-;;   M-x make-revision
-;;   M-x make-divider
-;;   M-x make-box-comment
-
-(setq
- user-full-name "Catl Sing"
- user-mail-address "nesuadark@gmail.com"
- )
-
-(setq
- header-copyright-notice "Copyright (C) 2012 Catl Sing <nesuadark@gmail.com>\n"
- ;; header-file-name            'buffer-file-name
- ;; header-creation-date        'current-time-string
- ;; header-date-format          nil
- )
-
-(defun header-author-email ()
-  (insert header-prefix-string "Mail: " user-mail-address "\n"))
-
-(setq make-header-hook
-      '(header-title
-        header-blank
-        header-author
-        header-author-email
-        header-blank
-        header-creation-date
-        header-modification-date
-        header-blank
-        header-end-line
-        ;; header-free-software
-        header-code header-eof))
-
-(add-hook 'write-file-hooks 'auto-update-file-header)
-
-;; (add-hook 'c-mode-common-hook 'auto-make-header)
-(add-hook 'emacs-lisp-mode-hook 'auto-make-header)
+;; (define-key (current-global-map) [remap backward-kill-word]
+;;   'my-backward-kill-word)
 
 ;;}}}
 
@@ -212,6 +172,77 @@ With argument ARG and region inactive, do this that many times."
 ;; `undo-tree' (C-x u) (C-/) (C-?)
 (require 'undo-tree)
 (global-undo-tree-mode)
+
+;;{{{ Folding
+
+(autoload 'folding-mode          "folding" "Folding mode" t)
+;; (autoload 'turn-off-folding-mode "folding" "Folding mode" t)
+(autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
+
+(if (load "folding" 'nomessage 'noerror)
+    (folding-mode-add-find-file-hook))
+
+(folding-add-to-marks-list
+ 'lua-mode "-- {{{" "-- }}}" nil t)
+(add-hook 'lua-mode-hook 'folding-mode)
+
+;; (folding-mode t)
+
+;; (add-hook 'find-file-hook
+;;           '(lambda ()
+;;              (folding-mode)))
+
+(add-hook 'c-mode-common-hook 'folding-mode)
+(add-hook 'emacs-lisp-mode-hook 'folding-mode)
+
+;;}}}
+
+;;{{{ Time Stamp (head of file)
+
+;; ``Time-stamp: <>'' in first 8 lines
+(add-hook 'write-file-hooks 'time-stamp)
+;; (setq time-stamp-format "%:u %02m/%02d/%04y %02H:%02M:%02S")
+(setq time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)") ; date format
+
+;;}}}
+;;{{{ Header2 (file information)
+
+;; M-x package-install RET header2
+;; User Commands:
+;;   M-x make-header
+;;   M-x make-revision
+;;   M-x make-divider
+;;   M-x make-box-comment
+
+(setq
+ header-copyright-notice (concat "Copyright (C) 2012 "
+                                 user-full-name
+                                 " <" user-mail-address ">\n")
+ )
+
+(defun header-author-email ()
+  (insert header-prefix-string "Mail: " user-mail-address "\n"))
+
+(setq make-header-hook
+      '(header-title
+        header-blank
+        header-author
+        header-author-email
+        header-blank
+        header-copyright
+        header-creation-date
+        header-modification-date
+        header-blank
+        header-end-line
+        ;; header-free-software
+        header-code header-eof))
+
+(add-hook 'write-file-hooks 'auto-update-file-header)
+
+;; (add-hook 'c-mode-common-hook 'auto-make-header)
+(add-hook 'emacs-lisp-mode-hook 'auto-make-header)
+
+;;}}}
 
 
 ;;{{{ Ido (select-base menu)
@@ -295,12 +326,12 @@ With argument ARG and region inactive, do this that many times."
              (setq c-default-style "linux"
                    c-basic-offset 4)
              
-             (c-set-style "stroustrup")    ;c-style edit
+             (c-set-style "stroustrup")    ;c++ style
              (c-toggle-hungry-state)
              (c-toggle-auto-state)
              
              ;; keys
-             (define-key c++-mode-map [return] 'newline-and-indent)
+             ;; (define-key c++-mode-map [return] 'newline-and-indent)
              ;; (define-key c++-mode-map "\C-j" 'newline)
              ))
 
@@ -309,8 +340,10 @@ With argument ARG and region inactive, do this that many times."
           '(lambda()
              (rainbow-delimiters-mode)
              
-             (define-key emacs-lisp-mode-map [return] 'newline-and-indent)
+             ;; (define-key emacs-lisp-mode-map [return] 'newline-and-indent)
              ))
+
+;; (define-derived-mode lua-mode prog-mode "lua-mode")
 
 ;;}}}
 

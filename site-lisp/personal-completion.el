@@ -1,15 +1,17 @@
-;;; personal-completion.el --- Auto-complete and yasnippet configs.
+;;; personal-completion.el --- Completion Stuffs.
 ;; 
 ;; Author: Catl Sing
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:21:57 2012 (+0800)
-;; Last-Updated: Tue Aug 14 20:22:13 2012 (+0800)
+;; Last-Updated: Thu Aug 16 16:20:27 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
 ;;; Code:
 
+
+;;{{{ Auto-Complete
 
 ;; M-x package-install RET auto-complete
 (require 'auto-complete)
@@ -18,7 +20,7 @@
 (ac-config-default)
 (global-auto-complete-mode t)
 
-(global-set-key (kbd "M-TAB") 'ac-start)
+(global-set-key (kbd "TAB") 'ac-start)
 (define-key ac-complete-mode-map (kbd "TAB") 'ac-complete)
 (define-key ac-complete-mode-map (kbd "RET")  nil)
 
@@ -30,7 +32,8 @@
 ;; After selecting candidates, `TAB' will behave as `RET'
 (setq ac-dwim t)
 
-(ac-set-trigger-key "TAB")
+;; If nothing to complete, `TAB' is become original.
+(ac-set-trigger-key (kbd "TAB"))
 
 (setq ac-auto-start nil)
 ;; (setq ac-auto-show-menu 0)
@@ -43,24 +46,41 @@
                 ac-source-dictionary
                 ac-source-words-in-same-mode-buffers
                 ac-source-words-in-all-buffer
-                ac-source-filename
-                ))
+                ac-source-filename))
 
+(add-hook
+ 'c-mode-common-hook
+ '(lambda()
+    (setq ac-sources (append
+                      '(
+                        ac-source-yasnippet
+                        ac-source-semantic
+                        ac-source-clang
+                        )
+                      ac-sources))))
 
+;;}}}
+
+;;{{{ YASnippet Setting
 
 ;; Use `yasnippet' backend.
 ;; M-x package-install RET yasnippet
 (require 'yasnippet)
-(yas/initialize)
-(yas/load-directory (concat user-emacs-directory "snippets/"))
 
-;; (yas/global-mode 1)
+;; Modify the variable defined in `yasnippet.el'.
+(setq yas-snippet-dirs
+      (list personal-snippet-directory
+            (when yas--load-file-name
+              (concat (file-name-directory yas--load-file-name) "snippets"))))
 
-(add-hook 'prog-mode-hook
-          '(lambda ()
-             (yas/minor-mode)))
+(yas/global-mode 1)
+;; (yas-reload-all)
+;; (add-hook 'prog-mode-hook
+;;           '(lambda ()
+;;              (yas/minor-mode)))
 
-(setq yas/trigger-key "TAB")
+;; (setq yas-trigger-key (kbd "TAB"))
+
 
 ;; M-x package-install RET helm
 ;; (require 'helm)
@@ -88,8 +108,9 @@
 ;; (setq yas/prompt-functions '(yas/dropdown-prompt))
 (setq yas/prompt-functions '(shk-yas/helm-prompt))
 
+;;}}}
 
-
+;;{{{ Clang backend for auto-complete
 
 ;; Use `clang' backend.
 ;; M-x package-install RET auto-complete-clang
@@ -107,10 +128,10 @@
  /usr/include
 ")))
 
+;;}}}
 
 
-
-;; cedet
+;;{{{ semantic
 
 (require 'semantic/ia)
 (require 'semantic/bovine/c)
@@ -137,7 +158,6 @@
 ;;                  '(project unloaded system recursive))
 
 
-
 (defconst user-include-dirs
   (list ".." "../include" "../inc" "../common" "../public"
         "../.." "../../include" "../../inc" "../../common" "../../public"))
@@ -154,6 +174,9 @@
           (semantic-add-system-include dir 'c-mode))
         include-dirs))
 
+;;}}}
+
+;;{{{ C/C++ include-files helper
 
 ;; http://emacser.com/include_files_helper.htm
 ;; 输入 inc , 可以自动提示输入文件名称,可以自动补全.
@@ -242,18 +265,8 @@
   "|XXX|"
   (yc/update-inc-marks))
 
+;;}}}
 
-
-(add-hook
- 'c-mode-common-hook
- '(lambda()
-    (setq ac-sources (append
-                      '(
-                        ac-source-yasnippet
-                        ac-source-semantic
-                        ac-source-clang
-                        )
-                      ac-sources))))
 
 
 (provide 'personal-completion)

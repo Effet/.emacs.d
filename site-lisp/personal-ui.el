@@ -4,7 +4,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:18:44 2012 (+0800)
-;; Last-Updated: Tue Aug 14 20:19:34 2012 (+0800)
+;; Last-Updated: Thu Aug 16 16:12:40 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -50,43 +50,28 @@
         (vertical-scroll-bars . nil)
         ;; (vertical-scroll-bars . 'right)
         ;; (menu-bar-lines . 0)
-        (tool-bar-lines . 0)
+        (tool-bar-lines . 0) 
       ))
 
 
-;; ;; Cursor Setting.
-;; (blink-cursor-mode t)
-
-
-;; ;; http://emacswiki.org/emacs/ShowParenMode
-;; (defun lispy-parens ()
-;;   "Setup parens display for lisp modes"
-;;   (setq show-paren-delay 0)
-;;   (setq show-paren-style 'parenthesis)
-;;   (make-variable-buffer-local 'show-paren-mode)
-;;   (show-paren-mode 1)
-;;   (set-face-background 'show-paren-match-face (face-background 'default))
-;;   (if (boundp 'font-lock-comment-face)
-;;       (set-face-foreground 'show-paren-match-face
-;;                            (face-foreground 'font-lock-comment-face))
-;;     (set-face-foreground 'show-paren-match-face
-;;                          (face-foreground 'default)))
-;;   (set-face-attribute 'show-paren-match-face nil :weight 'extra-bold))
-
-
-;; (dolist (charset '(kana han symbol cjk-misc bopomofo))
-;;   (set-fontset-font (frame-parameter nil 'font)
-;;                     charset
-;;                     (font-spec :family "WenQuanYi Micro Hei Mono" :size 16)))
-
+;; http://emacswiki.org/emacs/ShowParenMode
+(defun lispy-parens ()
+  "Setup parens display for lisp modes"
+  (setq show-paren-delay 0)
+  (setq show-paren-style 'parenthesis)
+  (make-variable-buffer-local 'show-paren-mode)
+  (show-paren-mode 1)
+  (set-face-background 'show-paren-match-face (face-background 'default))
+  (if (boundp 'font-lock-comment-face)
+      (set-face-foreground 'show-paren-match-face
+                           (face-foreground 'font-lock-comment-face))
+    (set-face-foreground 'show-paren-match-face
+                         (face-foreground 'default)))
+  (set-face-attribute 'show-paren-match-face nil :weight 'extra-bold))
 
 
 (defun frame-setting ()
-  ;;   ;; Themes
-  ;;   (if window-system
-  ;;       (load-theme 'solarized-dark t))
-  
-  ;; (lispy-parens)
+  (lispy-parens)
   (when window-system
     ;; http://emacser.com/torture-emacs.htm
     ;; Setting English Font
@@ -100,6 +85,9 @@
                         (font-spec :family "WenQuanYi Micro Hei Mono" :size 16)))
     )
   )
+
+;; FIXME: if non-daemon, need this,
+(add-hook 'prog-mode-hook 'lispy-parens)
 
 (if (and (fboundp 'daemonp) (daemonp))
     (add-hook 'after-make-frame-functions
@@ -116,17 +104,17 @@
 (setq curchg-default-cursor-color "wheat2")
 
 
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(auto-save-list-file-prefix nil)
  '(blink-cursor-delay 0.5)
  '(blink-cursor-mode t)
  '(cursor-in-non-selected-windows nil)
  '(custom-enabled-themes (quote (solarized-dark)))
- '(custom-safe-themes (quote ("501caa208affa1145ccbb4b74b6cd66c3091e41c5bb66c677feda9def5eab19c" default)))
+ '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "501caa208affa1145ccbb4b74b6cd66c3091e41c5bb66c677feda9def5eab19c" default)))
  '(delete-by-moving-to-trash t)
  '(delete-selection-mode t)
  '(echo-keystrokes 0.1)
