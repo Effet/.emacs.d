@@ -4,7 +4,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:20:23 2012 (+0800)
-;; Last-Updated: Thu Aug 16 14:18:40 2012 (+0800)
+;; Last-Updated: Thu Aug 16 20:29:36 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -12,6 +12,56 @@
 
 
 ;;{{{ General Behaviors
+
+;; always use y/n instead of yes/no
+(fset 'yes-or-no-p 'y-or-n-p)
+
+
+;; Delete Files to Trash
+(setq delete-by-moving-to-trash t)
+
+
+;; History
+(setq auto-save-list-file-prefix nil
+      make-backup-files nil)
+
+
+(setq-default major-mode 'text-mode)
+
+
+;; Ediff
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+
+;; `dired' in single buffer by type `a'
+(put 'dired-find-alternate-file 'disabled nil)
+
+
+;; Cursor
+(setq cursor-in-non-selected-windows nil)
+(blink-cursor-mode -1)
+;; (blink-cursor-delay 0.5)
+
+
+;; Mouse
+(setq mouse-wheel-progressive-speed nil)
+
+
+;; Misc
+(setq scroll-margin 3
+      echo-keystrokes 0.1)
+
+
+(setq-default require-final-newline t)
+(setq-default fill-column 80)
+
+
+;; Tab
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+
+;; <backspace> after selection
+(delete-selection-mode t)
 
 ;; At head of a line, press C-k will kill whole line.
 (setq kill-whole-line t)
@@ -37,13 +87,6 @@
                   (indent-region (region-beginning) (region-end) nil))))))
 
 
-;; `dired' in single buffer by type `a'
-(put 'dired-find-alternate-file 'disabled nil)
-
-
-(fset 'yes-or-no-p 'y-or-n-p)        ;always use y-n instead of yes-no
-
-
 ;; M-x package-install RET fill-column-indicator
 (require 'fill-column-indicator)
 ;; (add-hook 'prog-mode-hook 'fci-mode)
@@ -56,11 +99,8 @@
 (add-hook 'window-configuration-change-hook 'auto-fci-mode)
 
 
-(setq default-indicate-empty-lines t
-      default-indicate-buffer-boundaries 'left)
-
 ;; (global-font-lock-mode t)               ;highlight for grammar
-;; (setq font-lock-maximum-decoration t)   ;only load current page
+(setq font-lock-maximum-decoration nil)   ;only load current page
 ;; (require 'generic-x)                    ;advance highlight
 
 
@@ -229,7 +269,7 @@
         header-author
         header-author-email
         header-blank
-        header-copyright
+        ;; header-copyright
         header-creation-date
         header-modification-date
         header-blank

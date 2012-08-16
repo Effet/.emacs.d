@@ -4,7 +4,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:21:57 2012 (+0800)
-;; Last-Updated: Thu Aug 16 16:20:27 2012 (+0800)
+;; Last-Updated: Thu Aug 16 19:25:26 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -20,7 +20,7 @@
 (ac-config-default)
 (global-auto-complete-mode t)
 
-(global-set-key (kbd "TAB") 'ac-start)
+;; (global-set-key (kbd "TAB") 'ac-start)
 (define-key ac-complete-mode-map (kbd "TAB") 'ac-complete)
 (define-key ac-complete-mode-map (kbd "RET")  nil)
 

@@ -4,7 +4,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:18:44 2012 (+0800)
-;; Last-Updated: Thu Aug 16 16:12:40 2012 (+0800)
+;; Last-Updated: Thu Aug 16 20:00:30 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -17,30 +17,6 @@
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 
-
-;; Modeline Settings
-(line-number-mode    t)
-(column-number-mode  t)
-(size-indication-mode t)                ;show file size
-
-
-;; line-number
-(global-linum-mode t)
-(setq linum-format "%5d ")
-;; M-x toggle-truncate-lines
-
-
-;; (global-hl-line-mode t) ;; highlight line
-
-
-;; http://www.emacswiki.org/emacs/FrameTitle#toc4
-(setq frame-title-format
-          '(buffer-file-name
-            "%f"
-            (dired-directory dired-directory "%b")))
-
-
-;; For `Server-Client'.
 (setq default-frame-alist
       '(
         ;; (font . "Inconsolata-12")
@@ -50,8 +26,38 @@
         (vertical-scroll-bars . nil)
         ;; (vertical-scroll-bars . 'right)
         ;; (menu-bar-lines . 0)
-        (tool-bar-lines . 0) 
-      ))
+        (tool-bar-lines . 0)
+        ))
+
+
+(setq inhibit-startup-screen t)
+
+
+;; Modeline Settings
+(line-number-mode t)
+(column-number-mode t)
+(size-indication-mode t)                ;show file size
+
+
+;; line-number
+(global-linum-mode t)
+(setq linum-format "%5d ")
+;; M-x toggle-truncate-lines
+
+
+(global-hl-line-mode t)                 ;highlight line
+
+
+;; http://www.emacswiki.org/emacs/FrameTitle#toc4
+(setq frame-title-format
+      '(buffer-file-name
+        "%f"
+        (dired-directory dired-directory "%b")))
+
+
+;; Fringe Show line
+(setq default-indicate-empty-lines t
+      default-indicate-buffer-boundaries 'left)
 
 
 ;; http://emacswiki.org/emacs/ShowParenMode
@@ -86,6 +92,7 @@
     )
   )
 
+
 ;; FIXME: if non-daemon, need this,
 (add-hook 'prog-mode-hook 'lispy-parens)
 
@@ -109,25 +116,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(auto-save-list-file-prefix nil)
- '(blink-cursor-delay 0.5)
- '(blink-cursor-mode t)
- '(cursor-in-non-selected-windows nil)
  '(custom-enabled-themes (quote (solarized-dark)))
- '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "501caa208affa1145ccbb4b74b6cd66c3091e41c5bb66c677feda9def5eab19c" default)))
- '(delete-by-moving-to-trash t)
- '(delete-selection-mode t)
- '(echo-keystrokes 0.1)
- '(ediff-window-setup-function (quote ediff-setup-windows-plain))
- '(fill-column 80)
- '(indent-tabs-mode nil)
- '(inhibit-startup-screen t)
- '(major-mode (quote text-mode))
- '(make-backup-files nil)
- '(mouse-wheel-progressive-speed nil)
- '(require-final-newline t)
- '(scroll-margin 3)
- '(tab-width 4))
+ '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+ )
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
