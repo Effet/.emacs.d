@@ -4,7 +4,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:18:44 2012 (+0800)
-;; Last-Updated: Fri Aug 17 10:08:23 2012 (+0800)
+;; Last-Updated: Sat Aug 18 16:33:12 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -98,6 +98,12 @@
                         charset
                         (font-spec :family "WenQuanYi Micro Hei Mono" :size 16)))
     )
+  ;; (dolist (charset '(kana han symbol cjk-misc bopomofo))
+  ;;   (set-fontset-font (frame-parameter nil 'font)
+  ;;                     charset
+  ;;                     (font-spec :family "微软雅黑" :size 16)))
+  ;; )
+
   )
 
 

@@ -4,7 +4,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:19:51 2012 (+0800)
-;; Last-Updated: Fri Aug 17 10:16:31 2012 (+0800)
+;; Last-Updated: Sat Aug 18 16:27:09 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -36,6 +36,7 @@
     autopair
     highlight-parentheses
     ;; highlight-symbol
+    volatile-highlights
     header2
     quickrun
     helm                                ;`anything'

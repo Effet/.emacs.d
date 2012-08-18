@@ -4,7 +4,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:20:23 2012 (+0800)
-;; Last-Updated: Sat Aug 18 09:40:09 2012 (+0800)
+;; Last-Updated: Sat Aug 18 16:34:21 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -254,6 +254,16 @@
 
 (setq-default require-final-newline t)
 (setq-default fill-column 80)
+
+
+;; Buffer
+;; https://github.com/bbatsov/prelude/blob/master/prelude/prelude-editor.el#L80
+;; meaningful names for buffers with the same name
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'forward)
+(setq uniquify-separator "/")
+(setq uniquify-after-kill-buffer-p t)    ; rename after killing uniquified
+(setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
 
 
 ;; Tab
