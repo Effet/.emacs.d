@@ -4,11 +4,211 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:20:23 2012 (+0800)
-;; Last-Updated: Thu Aug 16 20:29:36 2012 (+0800)
+;; Last-Updated: Sat Aug 18 09:40:09 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
 ;;; Code:
+
+
+;;{{{ Efficient Tools
+
+;; M-x package-install RET autopair
+(require 'autopair)
+(autopair-global-mode) ;; enable autopair in all buffers
+
+
+;; (require 'autopair)
+
+;; (defvar autopair-modes '(r-mode ruby-mode))
+;; (defun turn-on-autopair-mode () (autopair-mode 1))
+;; (dolist (mode autopair-modes) (add-hook (intern (concat (symbol-name mode) "-hook")) 'turn-on-autopair-mode))
+
+;; (require 'paredit)
+;; (defadvice paredit-mode (around disable-autopairs-around (arg))
+;;   "Disable autopairs mode if paredit-mode is turned on"
+;;   ad-do-it
+;;   (if (null ad-return-value)
+;;       (autopair-mode 1)
+;;     (autopair-mode 0)
+;;     ))
+
+;; (ad-activate 'paredit-mode)
+
+
+;; M-x package-install RET ace-jump-mode
+(require 'ace-jump-mode)
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+
+
+;; M-x package-install RET undo-tree
+;; `undo-tree' (C-x u) (C-/) (C-?)
+(require 'undo-tree)
+(global-undo-tree-mode)
+
+
+;;{{{ Time Stamp (head of file)
+
+;; ``Time-stamp: <>'' in first 8 lines
+(add-hook 'write-file-hooks 'time-stamp)
+;; (setq time-stamp-format "%:u %02m/%02d/%04y %02H:%02M:%02S")
+(setq time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)") ; date format
+
+;;}}}
+;;{{{ Header2 (file information)
+
+;; M-x package-install RET header2
+;; User Commands:
+;;   M-x make-header
+;;   M-x make-revision
+;;   M-x make-divider
+;;   M-x make-box-comment
+
+(setq
+ header-copyright-notice (concat "Copyright (C) 2012 "
+                                 user-full-name
+                                 " <" user-mail-address ">\n")
+ )
+
+(defun header-author-email ()
+  (insert header-prefix-string "Mail: " user-mail-address "\n"))
+
+(setq make-header-hook
+      '(header-title
+        header-blank
+        header-author
+        header-author-email
+        header-blank
+        ;; header-copyright
+        header-creation-date
+        header-modification-date
+        header-blank
+        header-end-line
+        ;; header-free-software
+        header-code header-eof))
+
+(add-hook 'write-file-hooks 'auto-update-file-header)
+
+;; (add-hook 'c-mode-common-hook 'auto-make-header)
+(add-hook 'emacs-lisp-mode-hook 'auto-make-header)
+
+;;}}}
+
+
+;;{{{ Folding
+
+;; http://www.emacswiki.org/emacs/FoldingMode
+
+(autoload 'folding-mode          "folding" "Folding mode" t)
+(autoload 'turn-off-folding-mode "folding" "Folding mode" t)
+(autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
+
+(if (load "folding" 'nomessage 'noerror)
+    (folding-mode-add-find-file-hook))
+
+(folding-add-to-marks-list
+ 'lua-mode "-- {{{" "-- }}}" nil t)
+(add-hook 'lua-mode-hook 'folding-mode)
+
+;; (folding-mode t)
+
+;; (add-hook 'find-file-hook
+;;           '(lambda ()
+;;              (folding-mode)))
+
+(add-hook 'c-mode-common-hook 'folding-mode)
+(add-hook 'emacs-lisp-mode-hook 'folding-mode)
+
+;;}}}
+
+;;{{{ Auto Highlight Symbol
+
+;; cd /your-emacs-load-path/
+;; wget http://github.com/mitsuo-saito/auto-highlight-symbol-mode/raw/master/auto-highlight-symbol.el
+;; emacs -batch -f batch-byte-compile auto-highlight-symbol.el
+(require 'auto-highlight-symbol)
+(global-auto-highlight-symbol-mode t)
+(setq ahs-case-fold-search nil)
+(ahs-set-idle-interval 0.5)
+
+;;}}}
+;;{{{ Volatile Highlights (visual feedback to some operations)
+
+;; M-x package-install RET volatile-highlights
+(require 'volatile-highlights)
+(vhl/define-extension 'undo-tree 'undo-tree-undo 'undo-tree-redo)
+(vhl/install-extension 'undo-tree)
+
+;; (vhl/define-extension 'copy 'kill-ring-save)
+;; (vhl/install-extension 'copy)
+
+(vhl/define-extension 'helm-yank 'helm-c-kill-ring-action)
+(vhl/install-extension 'helm-yank)
+
+(volatile-highlights-mode t)
+
+;;}}}
+
+;;{{{ Ido (select-base menu)
+
+;; `ido' (C-x C-f/C-x b)
+(require 'ido)
+(ido-mode t)
+(global-set-key (kbd "C-x C-d") 'ido-dired)
+
+;;}}}
+;;{{{ Helm (anything)
+
+;; M-x package-install RET helm
+(require 'helm-config)
+(helm-mode 1)
+(setq helm-ff-transformer-show-only-basename t)
+;; (set-face-background 'helm-selection (face-background 'highlight))
+;; (set-face-background 'helm-selection "#fdf6e3")
+(setq helm-idle-delay 0.2)
+(setq helm-input-idle-delay 0.2)
+
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-y") 'helm-show-kill-ring)
+;; (global-set-key (kbd "M-y") 'helm-show-kill-ring) ;`M-y' is hard to type for `Dovark'-typist.
+
+(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
+
+(require 'helm-files)
+(helm-dired-bindings 1)
+
+;;}}}
+
+;;{{{ Quickrun
+
+;; M-x package-install RET quickrun
+;; https://github.com/syohex/emacs-quickrun
+(require 'quickrun)
+(global-set-key (kbd "<f5>") 'quickrun)
+
+;;}}}
+;;{{{ Popwin (C-g to hide temp buffer)
+
+;; M-x package-install RET popwin
+;; https://github.com/m2ym/popwin-el
+(require 'popwin)
+(setq display-buffer-function 'popwin:display-buffer)
+;; (setq popwin:special-display-config
+;;       (append '(("*Apropos*") ("*sdic*") ("*Faces*") ("*Colors*"))
+;;               popwin:special-display-config))
+(push '("*quickrun*") popwin:special-display-config)
+;; (push '("*helm M-x*") popwin:special-display-config)
+(push '("*Backtrace*") popwin:special-display-config)
+(push '("*Compile-Log*") popwin:special-display-config)
+(push '("*TeX Help*") popwin:special-display-config)
+(push '("*Shell Command Output*") popwin:special-display-config)
+(push '("*Async Shell Command*") popwin:special-display-config)
+
+;;}}}
+
+;;}}}
 
 
 ;;{{{ General Behaviors
@@ -38,7 +238,7 @@
 
 
 ;; Cursor
-(setq cursor-in-non-selected-windows nil)
+(setq-default cursor-in-non-selected-windows nil)
 (blink-cursor-mode -1)
 ;; (blink-cursor-delay 0.5)
 
@@ -87,20 +287,20 @@
                   (indent-region (region-beginning) (region-end) nil))))))
 
 
-;; M-x package-install RET fill-column-indicator
-(require 'fill-column-indicator)
-;; (add-hook 'prog-mode-hook 'fci-mode)
-
-(defun auto-fci-mode (&optional unused)
-  (if (> (frame-width) (+ fill-column 7))
-      (fci-mode 1)
-    (fci-mode 0))
-  )
-(add-hook 'window-configuration-change-hook 'auto-fci-mode)
+;; ;; M-x package-install RET fill-column-indicator
+;; (require 'fill-column-indicator)
+;; ;; (add-hook 'prog-mode-hook 'fci-mode)
+;; (setq fci-handle-truncate-lines nil)
+;; (defun auto-fci-mode (&optional unused)
+;;   (if (> (frame-width) (+ fill-column 7))
+;;       (fci-mode 1)
+;;     (fci-mode 0))
+;;   )
+;; (add-hook 'window-configuration-change-hook 'auto-fci-mode)
 
 
 ;; (global-font-lock-mode t)               ;highlight for grammar
-(setq font-lock-maximum-decoration nil)   ;only load current page
+;; (setq font-lock-maximum-decoration nil)   ;only load current page
 ;; (require 'generic-x)                    ;advance highlight
 
 
@@ -110,13 +310,23 @@
 ;; M-x revert-buffer-with-coding-system
 ;; M-x set-buffer-file-coding-system
 ;; M-x universal-coding-system-argument
-;; `coding-system'
-;; (set-language-environment 'utf-8) ;this may couse `eim' error
+
+;; http://www.masteringemacs.org/articles/2012/08/09/working-coding-systems-unicode-emacs/
 (prefer-coding-system 'utf-8)
-;; (setq file-name-coding-system 'utf-8)
-;; (setq-default pathname-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+;; backwards compatibility as default-buffer-file-coding-system
+;; is deprecated in 23.2.
+(if (boundp 'buffer-file-coding-system)
+    (setq-default buffer-file-coding-system 'utf-8)
+  (setq default-buffer-file-coding-system 'utf-8))
+
+;; Treat clipboard input as UTF-8 string first; compound text next, etc.
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
 ;;}}}
+
 ;;{{{ Words Behaviors
 
 ;; `AbcAbc' as two words `Abc' and `Abc'
@@ -168,20 +378,6 @@
 (winner-mode t)
 
 ;;}}}
-;;{{{ Highlight Symbol
-
-;; M-x package-intall RET highlight-symbol
-(require 'highlight-symbol)
-(setq highlight-symbol-idle-delay 0.5)
-(defvar highlight-symbol-colors
-  '("MediumPurple1" "DeepPink" "cyan" "yellow"
-    "SpringGreen1" "DarkOrange" "HotPink1" "RoyalBlue1" "OliveDrab"))
-(global-set-key [(control f3)] 'highlight-symbol-at-point)
-(global-set-key [f3] 'highlight-symbol-next)
-(global-set-key [(shift f3)] 'highlight-symbol-prev)
-(global-set-key [(meta f3)] 'highlight-symbol-prev)
-
-;;}}}
 ;;{{{ Highlight TODO: FIXME: BUG:
 
 ;; http://emacs-fu.blogspot.com/2008/12/highlighting-todo-fixme-and-friends.html
@@ -197,162 +393,12 @@
 
 ;;}}}
 
-;;{{{ Efficient Tools
-
-(require 'autopair)
-(autopair-global-mode) ;; enable autopair in all buffers
-
-
-;; M-x package-install RET ace-jump-mode
-(require 'ace-jump-mode)
-(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
-
-
-;; M-x package-install RET undo-tree
-;; `undo-tree' (C-x u) (C-/) (C-?)
-(require 'undo-tree)
-(global-undo-tree-mode)
-
-;;{{{ Folding
-
-(autoload 'folding-mode          "folding" "Folding mode" t)
-;; (autoload 'turn-off-folding-mode "folding" "Folding mode" t)
-(autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
-
-(if (load "folding" 'nomessage 'noerror)
-    (folding-mode-add-find-file-hook))
-
-(folding-add-to-marks-list
- 'lua-mode "-- {{{" "-- }}}" nil t)
-(add-hook 'lua-mode-hook 'folding-mode)
-
-;; (folding-mode t)
-
-;; (add-hook 'find-file-hook
-;;           '(lambda ()
-;;              (folding-mode)))
-
-(add-hook 'c-mode-common-hook 'folding-mode)
-(add-hook 'emacs-lisp-mode-hook 'folding-mode)
-
-;;}}}
-
-;;{{{ Time Stamp (head of file)
-
-;; ``Time-stamp: <>'' in first 8 lines
-(add-hook 'write-file-hooks 'time-stamp)
-;; (setq time-stamp-format "%:u %02m/%02d/%04y %02H:%02M:%02S")
-(setq time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)") ; date format
-
-;;}}}
-;;{{{ Header2 (file information)
-
-;; M-x package-install RET header2
-;; User Commands:
-;;   M-x make-header
-;;   M-x make-revision
-;;   M-x make-divider
-;;   M-x make-box-comment
-
-(setq
- header-copyright-notice (concat "Copyright (C) 2012 "
-                                 user-full-name
-                                 " <" user-mail-address ">\n")
- )
-
-(defun header-author-email ()
-  (insert header-prefix-string "Mail: " user-mail-address "\n"))
-
-(setq make-header-hook
-      '(header-title
-        header-blank
-        header-author
-        header-author-email
-        header-blank
-        ;; header-copyright
-        header-creation-date
-        header-modification-date
-        header-blank
-        header-end-line
-        ;; header-free-software
-        header-code header-eof))
-
-(add-hook 'write-file-hooks 'auto-update-file-header)
-
-;; (add-hook 'c-mode-common-hook 'auto-make-header)
-(add-hook 'emacs-lisp-mode-hook 'auto-make-header)
-
-;;}}}
-
-
-;;{{{ Ido (select-base menu)
-
-;; `ido' (C-x C-f/C-x b)
-(require 'ido)
-(ido-mode t)
-(global-set-key (kbd "C-x C-d") 'ido-dired)
-
-;;}}}
-;;{{{ Helm (anything)
-
-;; M-x package-install RET helm
-(require 'helm)                         ;need for set-face
-(require 'helm-config)
-(helm-mode 1)
-(setq helm-ff-transformer-show-only-basename t)
-;; (set-face-background 'helm-selection (face-background 'highlight))
-;; (set-face-background 'helm-selection "#fdf6e3")
-(setq helm-idle-delay 0.3)
-(setq helm-input-idle-delay 0.3)
-
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-y") 'helm-show-kill-ring)
-;; (global-set-key (kbd "M-y") 'helm-show-kill-ring) ;`M-y' is hard to type for `dovark'-typist.
-
-(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
-
-(require 'helm-files)
-(helm-dired-bindings 1)
-
-;;}}}
-
-;;{{{ Quickrun
-
-;; M-x package-install RET quickrun
-;; https://github.com/syohex/emacs-quickrun
-(require 'quickrun)
-(global-set-key (kbd "<f5>") 'quickrun)
-
-;;}}}
-;;{{{ Popwin (C-g to hide temp buffer)
-
-;; M-x package-install RET popwin
-;; https://github.com/m2ym/popwin-el
-(require 'popwin)
-(setq display-buffer-function 'popwin:display-buffer)
-;; (setq popwin:special-display-config
-;;       (append '(("*Apropos*") ("*sdic*") ("*Faces*") ("*Colors*"))
-;;               popwin:special-display-config))
-(push '("*quickrun*") popwin:special-display-config)
-;; (push '("*helm M-x*") popwin:special-display-config)
-(push '("*Backtrace*") popwin:special-display-config)
-(push '("*Compile-Log*") popwin:special-display-config)
-(push '("*TeX Help*") popwin:special-display-config)
-(push '("*Shell Command Output*") popwin:special-display-config)
-(push '("*Async Shell Command*") popwin:special-display-config)
-
-;;}}}
-
-;;}}}
-
 ;;{{{ Programming
 
 (add-hook 'prog-mode-hook
           '(lambda()
              (highlight-parentheses-mode)
-             (highlight-symbol-mode)
+             ;; (highlight-symbol-mode)
              (rainbow-mode)
              ;; ;; this indent guides is `NOT-IN-PACKAGES', is copied from
              ;; ;; https://github.com/ran9er/init.emacs/blob/master/20_aux-line.el
@@ -389,17 +435,18 @@
 
 ;;{{{ Input Chinese
 
+;; There's some problems.
 (when nil
 ;; input-method [eim] (C-\)
 ;; `https://github.com/viogus/eim.git'
-(add-to-list 'load-path (concat dot-emacs-dir "/plugins/eim"))
+(add-to-list 'load-path (concat personal-lisp-directory "plugins/eim"))
 (autoload 'eim-use-package "eim" "Another emacs input method")
 
 ;; (setq eim-punc-translate-p nil)
 (setq eim-use-tooltip t)
 (register-input-method
  "eim-py" "euc-cn" 'eim-use-package
- "拼音" "汉字拼音输入法" (concat dot-emacs-dir "/py.txt"))
+ "拼音" "汉字拼音输入法" (concat user-emacs-directory "/py.txt"))
 (set-input-method "eim-py")
 ;; (activate-input-method t)
 (activate-input-method "eim-py")

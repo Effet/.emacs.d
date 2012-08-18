@@ -4,7 +4,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 22:27:18 2012 (+0800)
-;; Last-Updated: Thu Aug 16 15:29:55 2012 (+0800)
+;; Last-Updated: Fri Aug 17 20:30:28 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -12,10 +12,8 @@
 
 
 ;; Personal Information
-(setq
- user-full-name "Catl Sing"
- user-mail-address "nesuadark@gmail.com"
- )
+(setq user-full-name "Catl Sing"
+      user-mail-address "nesuadark@gmail.com")
 
 
 ;; Paths Setting

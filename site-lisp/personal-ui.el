@@ -4,7 +4,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:18:44 2012 (+0800)
-;; Last-Updated: Thu Aug 16 20:00:30 2012 (+0800)
+;; Last-Updated: Fri Aug 17 10:08:23 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -45,7 +45,7 @@
 ;; M-x toggle-truncate-lines
 
 
-(global-hl-line-mode t)                 ;highlight line
+;; (global-hl-line-mode t)                 ;highlight line
 
 
 ;; http://www.emacswiki.org/emacs/FrameTitle#toc4
@@ -60,24 +60,32 @@
       default-indicate-buffer-boundaries 'left)
 
 
-;; http://emacswiki.org/emacs/ShowParenMode
-(defun lispy-parens ()
-  "Setup parens display for lisp modes"
-  (setq show-paren-delay 0)
-  (setq show-paren-style 'parenthesis)
-  (make-variable-buffer-local 'show-paren-mode)
-  (show-paren-mode 1)
-  (set-face-background 'show-paren-match-face (face-background 'default))
-  (if (boundp 'font-lock-comment-face)
-      (set-face-foreground 'show-paren-match-face
-                           (face-foreground 'font-lock-comment-face))
-    (set-face-foreground 'show-paren-match-face
-                         (face-foreground 'default)))
-  (set-face-attribute 'show-paren-match-face nil :weight 'extra-bold))
+;; ;; http://emacswiki.org/emacs/ShowParenMode
+;; (defun lispy-parens ()
+;;   "Setup parens display for lisp modes"
+;;   (setq show-paren-delay 0)
+;;   (setq show-paren-style 'parenthesis)
+;;   (make-variable-buffer-local 'show-paren-mode)
+;;   (show-paren-mode 1)
+;;   (set-face-background 'show-paren-match-face (face-background 'default))
+;;   (if (boundp 'font-lock-comment-face)
+;;       (set-face-foreground 'show-paren-match-face
+;;                            (face-foreground 'font-lock-comment-face))
+;;     (set-face-foreground 'show-paren-match-face
+;;                          (face-foreground 'default)))
+;;   (set-face-attribute 'show-paren-match-face nil :weight 'extra-bold))
 
+(setq show-paren-delay 0)
+(show-paren-mode t)
+(setq show-paren-style 'mixed)
+;; (setq show-paren-style 'expression)
+
+
+;; ;; FIXME: if non-daemon, need this,
+;; (add-hook 'prog-mode-hook 'lispy-parens)
 
 (defun frame-setting ()
-  (lispy-parens)
+  ;; (lispy-parens)
   (when window-system
     ;; http://emacser.com/torture-emacs.htm
     ;; Setting English Font
@@ -92,9 +100,6 @@
     )
   )
 
-
-;; FIXME: if non-daemon, need this,
-(add-hook 'prog-mode-hook 'lispy-parens)
 
 (if (and (fboundp 'daemonp) (daemonp))
     (add-hook 'after-make-frame-functions

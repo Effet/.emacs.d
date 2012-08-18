@@ -4,7 +4,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:21:57 2012 (+0800)
-;; Last-Updated: Thu Aug 16 19:25:26 2012 (+0800)
+;; Last-Updated: Sat Aug 18 11:06:57 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -16,30 +16,31 @@
 ;; M-x package-install RET auto-complete
 (require 'auto-complete)
 (require 'auto-complete-config)
-;; (add-to-list 'ac-dictionary-directories (concat dot-emacs-dir "/ac-dict/"))
-(ac-config-default)
 (global-auto-complete-mode t)
+;; (ac-config-default)
 
-;; (global-set-key (kbd "TAB") 'ac-start)
-(define-key ac-complete-mode-map (kbd "TAB") 'ac-complete)
-(define-key ac-complete-mode-map (kbd "RET")  nil)
-
-(define-key ac-complete-mode-map (kbd "C-n") 'ac-next)
-(define-key ac-complete-mode-map (kbd "C-p") 'ac-previous)
-(define-key ac-complete-mode-map (kbd "C-g") 'ac-stop)
+;; (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
+(define-key ac-completing-map (kbd "C-n") 'ac-next)
+(define-key ac-completing-map (kbd "C-p") 'ac-previous)
+(define-key ac-completing-map (kbd "C-g") 'ac-stop)
 
 
 ;; After selecting candidates, `TAB' will behave as `RET'
 (setq ac-dwim t)
 
 ;; If nothing to complete, `TAB' is become original.
-(ac-set-trigger-key (kbd "TAB"))
+;; (ac-set-trigger-key (kbd "TAB"))
+;; (setq ac-trigger-key (kbd "<tab>"))
+;; (ac-set-trigger-key "TAB")
+
 
 (setq ac-auto-start nil)
+;; (ac-show-menu-immediately-on-auto-complete t)
 ;; (setq ac-auto-show-menu 0)
 ;; (setq ac-delay 0)
 
 (setq ac-use-fuzzy t)
+
 
 (setq-default ac-sources
               '(ac-source-abbrev
@@ -48,12 +49,38 @@
                 ac-source-words-in-all-buffer
                 ac-source-filename))
 
+
+;; TODO: need update.
+(require 'yasnippet)
+
+(defvar yas-candidates nil)
+
+(defun init-yas-candidates ()
+  (let ((table (yas--get-snippet-tables)))
+    (if table
+        (let (candidates (list))
+          (mapcar (lambda (mode)
+                    (maphash (lambda (key value)
+                               (push key candidates))
+                             (yas--table-hash mode)))
+                  table)
+          (setq yas-candidates candidates)))))
+
+
+(defvar ac-new-yas-source
+  '(	(init . init-yas-candidates)
+		(candidates . yas-candidates)
+		(action . yas/expand)
+		(symbol . "y")))
+
+
 (add-hook
  'c-mode-common-hook
  '(lambda()
     (setq ac-sources (append
                       '(
-                        ac-source-yasnippet
+                        ac-new-yas-source
+                        ;; ac-source-yasnippet
                         ac-source-semantic
                         ac-source-clang
                         )
@@ -82,7 +109,6 @@
 ;; (setq yas-trigger-key (kbd "TAB"))
 
 
-;; M-x package-install RET helm
 ;; (require 'helm)
 ;; http://emacswiki.org/Yasnippet#toc6
 (defun shk-yas/helm-prompt (prompt choices &optional display-fn)
@@ -116,17 +142,25 @@
 ;; M-x package-install RET auto-complete-clang
 (require 'auto-complete-clang)
 
+;; (setq ac-clang-flags
+;;       (mapcar (lambda (item) (concat "-I" item))
+;;               (split-string
+;;                "
+;;  /usr/lib/gcc/x86_64-pc-linux-gnu/4.6.3/include/g++-v4
+;;  /usr/lib/gcc/x86_64-pc-linux-gnu/4.6.3/include/g++-v4/x86_64-pc-linux-gnu
+;;  /usr/lib/gcc/x86_64-pc-linux-gnu/4.6.3/include/g++-v4/backward
+;;  /usr/lib/gcc/x86_64-pc-linux-gnu/4.6.3/include
+;;  /usr/lib/gcc/x86_64-pc-linux-gnu/4.6.3/include-fixed
+;;  /usr/include
+;; ")))
+
+(require 'semantic/ia)
+(require 'semantic/bovine/c)
+(require 'semantic/bovine/gcc)
+
 (setq ac-clang-flags
       (mapcar (lambda (item) (concat "-I" item))
-              (split-string
-               "
- /usr/lib/gcc/x86_64-pc-linux-gnu/4.6.3/include/g++-v4
- /usr/lib/gcc/x86_64-pc-linux-gnu/4.6.3/include/g++-v4/x86_64-pc-linux-gnu
- /usr/lib/gcc/x86_64-pc-linux-gnu/4.6.3/include/g++-v4/backward
- /usr/lib/gcc/x86_64-pc-linux-gnu/4.6.3/include
- /usr/lib/gcc/x86_64-pc-linux-gnu/4.6.3/include-fixed
- /usr/include
-")))
+              (semantic-gcc-get-include-paths "c++")))
 
 ;;}}}
 
@@ -136,7 +170,6 @@
 (require 'semantic/ia)
 (require 'semantic/bovine/c)
 (require 'semantic/bovine/gcc)
-;; (require 'semantic/bovine/clang)
 ;; (require 'semantic/decorate/include)
 
 
@@ -268,6 +301,80 @@
 ;;}}}
 
 
+;;{{{ Hippie Expand
+
+(global-set-key (kbd "M-/") 'hippie-expand)
+
+(defun he-tag-beg ()
+  (let ((p
+         (save-excursion 
+           (backward-word 1)
+           (point))))
+    p))
+
+(defun try-expand-tag (old)
+  (unless  old
+    (he-init-string (he-tag-beg) (point))
+    (setq he-expand-list (sort
+                          (all-completions he-search-string 'tags-complete-tag) 'string-lessp)))
+  (while (and he-expand-list
+              (he-string-member (car he-expand-list) he-tried-table))
+    (setq he-expand-list (cdr he-expand-list)))
+  (if (null he-expand-list)
+      (progn
+        (when old (he-reset-string))
+        ())
+    (he-substitute-string (car he-expand-list))
+    (setq he-expand-list (cdr he-expand-list))
+    t))
+
+(setq hippie-expand-try-functions-list
+      '(try-expand-all-abbrevs try-expand-dabbrev
+                               try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill
+                               try-complete-lisp-symbol-partially try-complete-lisp-symbol
+                               try-complete-file-name-partially try-complete-file-name try-expand-tag))
+
+;; (global-set-key (kbd "TAB") 'hippie-expand)
+(setq hippie-expand-try-functions-list (cons 'yas/hippie-try-expand hippie-expand-try-functions-list))
+
+;;}}}
+
+
+
+
+;; https://github.com/purcell/emacs.d/blob/master/init-auto-complete.el
+(setq tab-always-indent 'complete)  ;; use 'complete when auto-complete is disabled
+(add-to-list 'completion-styles 'initials t)
+
+(setq completion-at-point-functions '(auto-complete))
+
+;; (add-to-list 'completion-at-point-functions 'semantic-completion-at-point-function)
+
+
+;; http://www.emacswiki.org/cgi-bin/wiki/TabCompletion
+;; http://emacsblog.org/2007/03/12/tab-completion-everywhere/
+(defun indent-or-expand (arg)
+  "Either indent according to mode, or expand the word preceding point."
+  (interactive "*P")
+  (if (and
+       (or (bobp) (= ?w (char-syntax (char-before))))
+       (or (eobp) (not (= ?w (char-syntax (char-after))))))
+      ;; (dabbrev-expand arg)
+      (complete-symbol arg)
+    (indent-according-to-mode)))
+
+(defun indent-or-expand-2 (arg)
+  (interactive "*P")
+  (if (looking-at "[^ ] ")
+  ;; (if (looking-at "\\>")
+      (complete-symbol arg)
+    (indent-according-to-mode)
+    ))
+
+(global-set-key (kbd "TAB") 'indent-or-expand-2)
+
+(setq completion-cycle-threshold 5)
+(add-to-list 'completion-styles 'substring)
 
 (provide 'personal-completion)
 
