@@ -1,10 +1,11 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;; -*- Mode: Emacs-Lisp -*- ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; personal-eshell.el --- Configs and functions for `eshell'.
 ;; 
 ;; Author: Catl Sing
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:21:23 2012 (+0800)
-;; Last-Updated: Thu Aug 16 12:14:05 2012 (+0800)
+;; Last-Updated: Sat Aug 18 16:50:17 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 

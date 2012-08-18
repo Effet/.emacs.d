@@ -1,10 +1,11 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;; -*- Mode: Emacs-Lisp -*- ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; personal-auctex.el --- Tex configs.
 ;; 
 ;; Author: Catl Sing
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:22:43 2012 (+0800)
-;; Last-Updated: Tue Aug 14 20:23:11 2012 (+0800)
+;; Last-Updated: Sat Aug 18 16:50:05 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 

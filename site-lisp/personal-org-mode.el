@@ -1,10 +1,11 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;; -*- Mode: Emacs-Lisp -*- ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; personal-org-mode.el --- org-mode configuration.
 ;; 
 ;; Author: Catl Sing
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:23:31 2012 (+0800)
-;; Last-Updated: Wed Aug 15 10:33:34 2012 (+0800)
+;; Last-Updated: Sat Aug 18 16:50:21 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 

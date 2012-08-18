@@ -1,10 +1,11 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;; -*- Mode: Emacs-Lisp -*- ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; personal-ui.el --- UI setup
 ;; 
 ;; Author: Catl Sing
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:18:44 2012 (+0800)
-;; Last-Updated: Sat Aug 18 16:33:12 2012 (+0800)
+;; Last-Updated: Sat Aug 18 16:50:28 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 

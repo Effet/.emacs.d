@@ -1,10 +1,11 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;; -*- Mode: Emacs-Lisp -*- ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; personal-config.el --- Many configs after packages installed.
 ;; 
 ;; Author: Catl Sing
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:20:23 2012 (+0800)
-;; Last-Updated: Sat Aug 18 16:34:21 2012 (+0800)
+;; Last-Updated: Sat Aug 18 16:50:13 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -74,7 +75,8 @@
   (insert header-prefix-string "Mail: " user-mail-address "\n"))
 
 (setq make-header-hook
-      '(header-title
+      '(header-mode-line
+        header-title
         header-blank
         header-author
         header-author-email
