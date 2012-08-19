@@ -5,7 +5,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:24:34 2012 (+0800)
-;; Last-Updated: Sat Aug 18 16:49:58 2012 (+0800)
+;; Last-Updated: Sat Aug 18 22:25:08 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -55,8 +55,8 @@ sWhich label(A-Z):
 sSpecial option: ")
   (if (y-or-n-p "Link it?")
       (progn
-        (let ((cmd (concat "~/Scripts/acm/quick_link.sh "
-                           "-o " oj " -i " begin_id " -l " label " " sp)))
+        (let ((cmd (concat "~/Scripts/acm/quick_link.sh"
+                           " -o " oj " -i " begin_id " -l " label " " sp)))
           (shell-command cmd)))
     (progn
       (message "Exit!!!")))
@@ -68,32 +68,34 @@ sSpecial option: ")
              ;; keys for `acm'
              (define-key c++-mode-map [(f9)] 'acm-c++-quick-compile)
 
-             (define-key c++-mode-map (kbd "C-c C-c") 'acm-c++-quick-compile)
-             (define-key c++-mode-map (kbd "C-c C-r") 'acm-c++-quick-run)
-             (define-key c++-mode-map (kbd "C-c C-s") 'acm-c++-solve)
+             (local-set-key (kbd "C-c C-c") 'acm-c++-quick-compile)
+             (local-set-key (kbd "C-c C-r") 'acm-c++-quick-run)
+             (local-set-key (kbd "C-c C-s") 'acm-c++-solve)
              ;; (define-key c++-mode-map (kbd "C-c C-g") 'acm-get-desc)
 
-             (define-key c++-mode-map [f5] 'gdb)
-             (define-key c++-mode-map [C-f5] 'gud-run)
-             (define-key c++-mode-map [S-f5] 'gud-cont)
-             (define-key c++-mode-map [f7] 'compile)
-             (define-key c++-mode-map [f8] 'gud-print)
-             (define-key c++-mode-map [C-f8] 'gud-pstar)
-             (define-key c++-mode-map [f9] 'gud-break)
-             (define-key c++-mode-map [C-f9] 'gud-remove)
-             (define-key c++-mode-map [f10] 'gud-next)
-             (define-key c++-mode-map [C-f10] 'gud-until)
-             (define-key c++-mode-map [S-f10] 'gud-jump)
-             (define-key c++-mode-map [f11] 'gud-step)
-             (define-key c++-mode-map [C-f11] 'gud-finish)
              (setq gdb-many-windows t)
+
+             ;; VC++6.0 style key-binding
+             (local-set-key [f5] 'gdb)
+             (local-set-key [C-f5] 'gud-run)
+             (local-set-key [S-f5] 'gud-cont)
+             (local-set-key [f7] 'compile)
+             (local-set-key [f8] 'gud-print)
+             (local-set-key [C-f8] 'gud-pstar)
+             (local-set-key [f9] 'gud-break)
+             (local-set-key [C-f9] 'gud-remove)
+             (local-set-key [f10] 'gud-next)
+             (local-set-key [C-f10] 'gud-until)
+             (local-set-key [S-f10] 'gud-jump)
+             (local-set-key [f11] 'gud-step)
+             (local-set-key [C-f11] 'gud-finish)
              ))
 
 (add-hook 'dired-mode-hook
           '(lambda()
-             (define-key dired-mode-map (kbd "C-c C-s") 'acm-c++-solve)
+             (local-set-key (kbd "C-c C-s") 'acm-c++-solve)
              ;; (define-key dired-mode-map (kbd "C-c C-g") 'acm-get-desc)
-             (define-key dired-mode-map (kbd "C-c C-l") 'acm-quick-make-symbol-link-to-contest)
+             (local-set-key (kbd "C-c C-l") 'acm-quick-make-symbol-link-to-contest)
              ))
 
 

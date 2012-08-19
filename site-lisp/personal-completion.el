@@ -5,7 +5,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:21:57 2012 (+0800)
-;; Last-Updated: Sat Aug 18 16:50:09 2012 (+0800)
+;; Last-Updated: Sat Aug 18 22:12:33 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -107,7 +107,9 @@
 ;;           '(lambda ()
 ;;              (yas/minor-mode)))
 
-;; (setq yas-trigger-key (kbd "TAB"))
+
+;; (setq yas-trigger-key "tab")
+;; (setq yas/trigger-key (kbd "<f4>"))
 
 
 ;; (require 'helm)
@@ -222,6 +224,9 @@
                                )))
  '(c-mode-abbrev-table c++-mode-abbrev-table))
 
+;; (defconst yc/inc-dir-list
+;;   (append (mode-local-value 'c++-mode 'semantic-dependency-system-include-path) '("./")) "nil")
+
 (if (eq system-type 'windows-nt)
     (defconst yc/inc-dir-list
       (append (mode-local-value 'c++-mode 'semantic-dependency-system-include-path) '("./")) "nil")
@@ -261,7 +266,7 @@
 (let ((map minibuffer-local-completion-map))
   (define-key map "/" 'yc/update-minibuffer-complete-table))
  
-(defun yc/update-inc-marks ( )
+(defun yc/update-inc-marks ()
   "description"
     (let ((statement (buffer-substring-no-properties
                       (point-at-bol) (point-at-eol)))
@@ -369,10 +374,15 @@
   (if (looking-at "[^ ] ")
   ;; (if (looking-at "\\>")
       (complete-symbol arg)
+    (indent-for-tab-command)
     (indent-according-to-mode)
     ))
 
-(global-set-key (kbd "TAB") 'indent-or-expand-2)
+;; (global-set-key (kbd "TAB") 'indent-or-expand-2)
+
+
+(global-set-key (kbd "TAB") 'complete-symbol)
+(global-set-key (kbd "<M-tab>") 'indent-for-tab-command)
 
 (setq completion-cycle-threshold 5)
 (add-to-list 'completion-styles 'substring)

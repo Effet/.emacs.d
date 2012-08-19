@@ -5,7 +5,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:20:23 2012 (+0800)
-;; Last-Updated: Sat Aug 18 16:50:13 2012 (+0800)
+;; Last-Updated: Sun Aug 19 09:52:23 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -17,24 +17,6 @@
 ;; M-x package-install RET autopair
 (require 'autopair)
 (autopair-global-mode) ;; enable autopair in all buffers
-
-
-;; (require 'autopair)
-
-;; (defvar autopair-modes '(r-mode ruby-mode))
-;; (defun turn-on-autopair-mode () (autopair-mode 1))
-;; (dolist (mode autopair-modes) (add-hook (intern (concat (symbol-name mode) "-hook")) 'turn-on-autopair-mode))
-
-;; (require 'paredit)
-;; (defadvice paredit-mode (around disable-autopairs-around (arg))
-;;   "Disable autopairs mode if paredit-mode is turned on"
-;;   ad-do-it
-;;   (if (null ad-return-value)
-;;       (autopair-mode 1)
-;;     (autopair-mode 0)
-;;     ))
-
-;; (ad-activate 'paredit-mode)
 
 
 ;; M-x package-install RET ace-jump-mode
@@ -165,8 +147,6 @@
 (require 'helm-config)
 (helm-mode 1)
 (setq helm-ff-transformer-show-only-basename t)
-;; (set-face-background 'helm-selection (face-background 'highlight))
-;; (set-face-background 'helm-selection "#fdf6e3")
 (setq helm-idle-delay 0.2)
 (setq helm-input-idle-delay 0.2)
 
@@ -188,7 +168,7 @@
 ;; M-x package-install RET quickrun
 ;; https://github.com/syohex/emacs-quickrun
 (require 'quickrun)
-(global-set-key (kbd "<f5>") 'quickrun)
+(global-set-key (kbd "C-<f5>") 'quickrun)
 
 ;;}}}
 ;;{{{ Popwin (C-g to hide temp buffer)
@@ -241,12 +221,34 @@
 
 ;; Cursor
 (setq-default cursor-in-non-selected-windows nil)
-(blink-cursor-mode -1)
-;; (blink-cursor-delay 0.5)
+(blink-cursor-mode t)
+(setq-default cursor-type 'bar)
+(add-to-list 'default-frame-alist '(cursor-color . "wheat2"))
+;; (setq blink-cursor-delay 0.5)
+
+;; ;; http://stackoverflow.com/questions/4642835/how-to-change-the-cursor-color-on-emacs
+;; (defvar blink-cursor-colors (list  "#92c48f" "#6785c5" "#be369c" "#d9ca65")
+;;   "On each blink the cursor will cycle to the next color in this list.")
+
+;; (setq blink-cursor-count 0)
+;; (defun blink-cursor-timer-function ()
+;;   "Zarza wrote this cyberpunk variant of timer `blink-cursor-timer'. 
+;; Warning: overwrites original version in `frame.el'.
+
+;; This one changes the cursor color on each blink. Define colors in `blink-cursor-colors'."
+;;   (when (not (internal-show-cursor-p))
+;;     (when (>= blink-cursor-count (length blink-cursor-colors))
+;;       (setq blink-cursor-count 0))
+;;     (set-cursor-color (nth blink-cursor-count blink-cursor-colors))
+;;     (setq blink-cursor-count (+ 1 blink-cursor-count))
+;;     )
+;;   (internal-show-cursor nil (not (internal-show-cursor-p)))
+;;   )
 
 
 ;; Mouse
 (setq mouse-wheel-progressive-speed nil)
+(add-to-list 'default-frame-alist '(mouse-color . "white"))
 
 
 ;; Misc
@@ -299,23 +301,6 @@
                   (indent-region (region-beginning) (region-end) nil))))))
 
 
-;; ;; M-x package-install RET fill-column-indicator
-;; (require 'fill-column-indicator)
-;; ;; (add-hook 'prog-mode-hook 'fci-mode)
-;; (setq fci-handle-truncate-lines nil)
-;; (defun auto-fci-mode (&optional unused)
-;;   (if (> (frame-width) (+ fill-column 7))
-;;       (fci-mode 1)
-;;     (fci-mode 0))
-;;   )
-;; (add-hook 'window-configuration-change-hook 'auto-fci-mode)
-
-
-;; (global-font-lock-mode t)               ;highlight for grammar
-;; (setq font-lock-maximum-decoration nil)   ;only load current page
-;; (require 'generic-x)                    ;advance highlight
-
-
 ;;{{{ Coding System
 
 ;; M-x describe-coding-system
@@ -336,6 +321,11 @@
 
 ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+
+
+;; TODO: use utf-8
+(if (eq system-type 'windows-nt)
+    (set-language-environment 'Chinese-GB))
 
 ;;}}}
 
@@ -427,19 +417,15 @@
              (c-set-style "stroustrup")    ;c++ style
              (c-toggle-hungry-state)
              (c-toggle-auto-state)
-             
-             ;; keys
-             ;; (define-key c++-mode-map [return] 'newline-and-indent)
-             ;; (define-key c++-mode-map "\C-j" 'newline)
+
+             (local-set-key (kbd "M-n") 'next-error)
+             (local-set-key (kbd "M-p") 'previous-error)
              ))
 
 
 (add-hook 'emacs-lisp-mode-hook
           '(lambda()
-             (rainbow-delimiters-mode)
-             
-             ;; (define-key emacs-lisp-mode-map [return] 'newline-and-indent)
-             ))
+             (rainbow-delimiters-mode)))
 
 ;; (define-derived-mode lua-mode prog-mode "lua-mode")
 

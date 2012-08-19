@@ -5,7 +5,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 22:27:18 2012 (+0800)
-;; Last-Updated: Sat Aug 18 16:49:38 2012 (+0800)
+;; Last-Updated: Sun Aug 19 09:31:58 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -31,7 +31,7 @@
 (setq personal-snippet-directory
       (concat user-emacs-directory "snippets/"))
 
-(setq custom-file (concat personal-lisp-directory "personal-ui.el"))
+(setq custom-file (concat personal-lisp-directory "personal-custom.el"))
 
 
 ;; Personal Stuffs
