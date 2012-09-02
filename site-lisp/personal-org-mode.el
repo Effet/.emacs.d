@@ -5,7 +5,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:23:31 2012 (+0800)
-;; Last-Updated: Sat Aug 18 16:50:21 2012 (+0800)
+;; Last-Updated: Mon Aug 20 02:38:48 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -18,7 +18,7 @@
 (setq org-publish-project-alist
       '(
         ("org-notes"
-         :base-directory "~/org/"
+         :base-directory "~/Dropbox/Linux/org/"
          :base-extension "org"
          
          :publishing-directory "~/public_html/"
@@ -33,7 +33,7 @@
          :auto-preamble t
          )
         ("org-static"
-         :base-directory "~/org/"
+         :base-directory "~/Dropbox/Linux/org/"
          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
          :publishing-directory "~/public_html/"
          :recursive t
