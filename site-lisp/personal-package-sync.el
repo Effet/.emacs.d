@@ -5,7 +5,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:19:51 2012 (+0800)
-;; Last-Updated: Sat Aug 18 16:50:25 2012 (+0800)
+;; Last-Updated: Thu Sep  6 14:37:36 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -42,10 +42,8 @@
     quickrun
     helm                                ;`anything'
 
-    ;; ;; misc
+    ;; misc
     popwin
-    ;; popup-kill-ring
-    ;; browse-kill-ring
     ;; sunrise-commander              ;`midnight-commander'-like files manager
 
     rainbow-delimiters                  ;`rainbow-parentheses'-like mode
@@ -67,6 +65,7 @@
 
     org
 
+    keyfreq
     ))
 
 

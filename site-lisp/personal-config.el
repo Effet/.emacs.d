@@ -5,7 +5,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:20:23 2012 (+0800)
-;; Last-Updated: Sun Aug 19 09:52:23 2012 (+0800)
+;; Last-Updated: Thu Sep  6 14:38:52 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -17,6 +17,12 @@
 ;; M-x package-install RET autopair
 (require 'autopair)
 (autopair-global-mode) ;; enable autopair in all buffers
+;; (add-hook 'c++-mode-hook
+;;           (lambda ()
+;;             (push '(?< . ?>)
+;;                   (getf autopair-extra-pairs :code))
+;;             (push ?{
+;;                   (getf autopair-dont-pair :comment))))
 
 
 ;; M-x package-install RET ace-jump-mode
@@ -28,6 +34,12 @@
 ;; `undo-tree' (C-x u) (C-/) (C-?)
 (require 'undo-tree)
 (global-undo-tree-mode)
+
+
+;; M-x package-install RET keyfreq
+(require 'keyfreq)
+(keyfreq-mode 1)
+(keyfreq-autosave-mode 1)
 
 
 ;;{{{ Time Stamp (head of file)

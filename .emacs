@@ -5,7 +5,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 22:27:18 2012 (+0800)
-;; Last-Updated: Sun Aug 19 09:31:58 2012 (+0800)
+;; Last-Updated: Fri Sep 14 09:43:57 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -25,7 +25,7 @@
               (convert-standard-filename "site-lisp/")))
 
 (add-to-list 'load-path personal-lisp-directory)
-(add-to-list 'load-path (concat personal-lisp-directory "/plugins/"))
+(add-to-list 'load-path (concat personal-lisp-directory "plugins/"))
 
 (setq package-user-dir (concat personal-lisp-directory "elpa/"))
 (setq personal-snippet-directory

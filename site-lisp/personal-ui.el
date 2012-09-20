@@ -5,7 +5,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:18:44 2012 (+0800)
-;; Last-Updated: Sun Aug 19 09:58:08 2012 (+0800)
+;; Last-Updated: Thu Sep  6 14:18:40 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -96,6 +96,9 @@
 
 
 (load-theme 'solarized-dark t)
+
+;; (if window-system
+;;     (load-theme 'solarized-dark t))
 
 
 (provide 'personal-ui)

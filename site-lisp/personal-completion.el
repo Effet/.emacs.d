@@ -5,7 +5,7 @@
 ;; Mail: nesuadark@gmail.com
 ;; 
 ;; Created: Tue Aug 14 20:21:57 2012 (+0800)
-;; Last-Updated: Sat Aug 18 22:12:33 2012 (+0800)
+;; Last-Updated: Wed Sep  5 10:15:20 2012 (+0800)
 ;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -262,7 +262,7 @@
                        yc/inc-dir-list)
                       inc-files)))))
   (insert "/"))
- 
+
 (let ((map minibuffer-local-completion-map))
   (define-key map "/" 'yc/update-minibuffer-complete-table))
  
@@ -283,7 +283,7 @@
           )
         (move-beginning-of-line 1)
         (kill-line)
-        (insert (format "#include %s%s%s" to-begin inc-file to-end))
+        (insert (format "#include %s%s%s\n" to-begin inc-file to-end))
         (move-end-of-line 1))))
  
 (define-skeleton skeleton-include
@@ -307,46 +307,6 @@
 ;;}}}
 
 
-;;{{{ Hippie Expand
-
-(global-set-key (kbd "M-/") 'hippie-expand)
-
-(defun he-tag-beg ()
-  (let ((p
-         (save-excursion 
-           (backward-word 1)
-           (point))))
-    p))
-
-(defun try-expand-tag (old)
-  (unless  old
-    (he-init-string (he-tag-beg) (point))
-    (setq he-expand-list (sort
-                          (all-completions he-search-string 'tags-complete-tag) 'string-lessp)))
-  (while (and he-expand-list
-              (he-string-member (car he-expand-list) he-tried-table))
-    (setq he-expand-list (cdr he-expand-list)))
-  (if (null he-expand-list)
-      (progn
-        (when old (he-reset-string))
-        ())
-    (he-substitute-string (car he-expand-list))
-    (setq he-expand-list (cdr he-expand-list))
-    t))
-
-(setq hippie-expand-try-functions-list
-      '(try-expand-all-abbrevs try-expand-dabbrev
-                               try-expand-dabbrev-all-buffers try-expand-dabbrev-from-kill
-                               try-complete-lisp-symbol-partially try-complete-lisp-symbol
-                               try-complete-file-name-partially try-complete-file-name try-expand-tag))
-
-;; (global-set-key (kbd "TAB") 'hippie-expand)
-(setq hippie-expand-try-functions-list (cons 'yas/hippie-try-expand hippie-expand-try-functions-list))
-
-;;}}}
-
-
-
 
 ;; https://github.com/purcell/emacs.d/blob/master/init-auto-complete.el
 (setq tab-always-indent 'complete)  ;; use 'complete when auto-complete is disabled
@@ -354,35 +314,12 @@
 
 (setq completion-at-point-functions '(auto-complete))
 
+;; (semantic-mode)
 ;; (add-to-list 'completion-at-point-functions 'semantic-completion-at-point-function)
-
-
-;; http://www.emacswiki.org/cgi-bin/wiki/TabCompletion
-;; http://emacsblog.org/2007/03/12/tab-completion-everywhere/
-(defun indent-or-expand (arg)
-  "Either indent according to mode, or expand the word preceding point."
-  (interactive "*P")
-  (if (and
-       (or (bobp) (= ?w (char-syntax (char-before))))
-       (or (eobp) (not (= ?w (char-syntax (char-after))))))
-      ;; (dabbrev-expand arg)
-      (complete-symbol arg)
-    (indent-according-to-mode)))
-
-(defun indent-or-expand-2 (arg)
-  (interactive "*P")
-  (if (looking-at "[^ ] ")
-  ;; (if (looking-at "\\>")
-      (complete-symbol arg)
-    (indent-for-tab-command)
-    (indent-according-to-mode)
-    ))
-
-;; (global-set-key (kbd "TAB") 'indent-or-expand-2)
-
 
 (global-set-key (kbd "TAB") 'complete-symbol)
 (global-set-key (kbd "<M-tab>") 'indent-for-tab-command)
+;; (global-set-key (kbd "<M-tab>") 'complete-symbol)
 
 (setq completion-cycle-threshold 5)
 (add-to-list 'completion-styles 'substring)
