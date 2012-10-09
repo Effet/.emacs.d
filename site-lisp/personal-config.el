@@ -83,10 +83,10 @@
         ;; header-free-software
         header-code header-eof))
 
-(add-hook 'write-file-hooks 'auto-update-file-header)
+;; (add-hook 'write-file-hooks 'auto-update-file-header)
 
 ;; (add-hook 'c-mode-common-hook 'auto-make-header)
-(add-hook 'emacs-lisp-mode-hook 'auto-make-header)
+;; (add-hook 'emacs-lisp-mode-hook 'auto-make-header)
 
 ;;}}}
 
