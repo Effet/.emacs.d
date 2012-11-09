@@ -284,7 +284,7 @@
 
 ;; Tab
 (setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
+(setq-default tab-width 2)
 
 ;; <backspace> after selection
 (delete-selection-mode t)
@@ -421,12 +421,14 @@
              ))
 
 
+(setq-default c-basic-offset 2)
+(c-set-offset 'substatement-open 0)
 (add-hook 'c++-mode-hook
           '(lambda()
              (setq c-default-style "linux"
-                   c-basic-offset 4)
+                   c-basic-offset 2)
              
-             (c-set-style "stroustrup")    ;c++ style
+             ;; (c-set-style "stroustrup")    ;c++ style
              (c-toggle-hungry-state)
              (c-toggle-auto-state)
 
