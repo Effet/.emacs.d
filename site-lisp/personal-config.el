@@ -1,63 +1,51 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;; -*- Mode: Emacs-Lisp -*- ;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; personal-config.el --- Many configs after packages installed.
-;; 
-;; Author: Catl Sing
-;; Mail: nesuadark@gmail.com
-;; 
-;; Created: Tue Aug 14 20:20:23 2012 (+0800)
-;; Last-Updated: Thu Sep  6 14:38:52 2012 (+0800)
-;; 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
-;;; Code:
+;;; Efficient Tools
 
-
-;;{{{ Efficient Tools
-
-;; M-x package-install RET autopair
 (require 'autopair)
 (autopair-global-mode) ;; enable autopair in all buffers
-;; (add-hook 'c++-mode-hook
-;;           (lambda ()
-;;             (push '(?< . ?>)
-;;                   (getf autopair-extra-pairs :code))
-;;             (push ?{
-;;                   (getf autopair-dont-pair :comment))))
 
 
-;; M-x package-install RET ace-jump-mode
 (require 'ace-jump-mode)
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
 
-;; M-x package-install RET undo-tree
-;; `undo-tree' (C-x u) (C-/) (C-?)
+(require 'iy-go-to-char)
+(global-set-key (kbd "C-c f") 'iy-go-to-char)
+(global-set-key (kbd "C-c F") 'iy-go-to-char-backward)
+(global-set-key (kbd "C-c ;") 'iy-go-to-char-continue)
+(global-set-key (kbd "C-c ,") 'iy-go-to-char-continue-backward)
+
+
 (require 'undo-tree)
 (global-undo-tree-mode)
+;; http://ergoemacs.org/emacs/emacs_best_redo_mode.html
+(defalias 'redo 'undo-tree-redo)
+(global-set-key (kbd "C-z") 'undo)
+(global-set-key (kbd "C-S-z") 'redo)
 
 
-;; M-x package-install RET keyfreq
-(require 'keyfreq)
-(keyfreq-mode 1)
-(keyfreq-autosave-mode 1)
+(require 'expand-region)
+(global-set-key (kbd "C-'") 'er/expand-region)
+(global-set-key (kbd "C-M-'") 'er/contract-region)
 
 
-;;{{{ Time Stamp (head of file)
+(require 'multiple-cursors)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
+
+;; rebind C-x o
+(require 'switch-window)
+
 
 ;; ``Time-stamp: <>'' in first 8 lines
 (add-hook 'write-file-hooks 'time-stamp)
 ;; (setq time-stamp-format "%:u %02m/%02d/%04y %02H:%02M:%02S")
 (setq time-stamp-format "%04y-%02m-%02d %02H:%02M:%02S (%u)") ; date format
 
-;;}}}
-;;{{{ Header2 (file information)
 
-;; M-x package-install RET header2
-;; User Commands:
-;;   M-x make-header
-;;   M-x make-revision
-;;   M-x make-divider
-;;   M-x make-box-comment
+;;; ---- Header2 (file information) ----
+;;  make-{header,revision,divider,box-comment}
 
 (setq
  header-copyright-notice (concat "Copyright (C) 2012 "
@@ -65,70 +53,60 @@
                                  " <" user-mail-address ">\n")
  )
 
-(defun header-author-email ()
-  (insert header-prefix-string "Mail: " user-mail-address "\n"))
+(defun my-header-email ()
+  (insert header-prefix-string "E-mail: " user-mail-address "\n"))
+
+(defun my-header-blank ()
+  (insert "\n"))
+
+(defun my-header-divider ()
+  (insert comment-start (if (= 0 (length comment-end))
+                            (make-string 10 (aref comment-start 0))
+                          (concat (make-string 8 ?\*) comment-end))
+          "\n"))
 
 (setq make-header-hook
-      '(header-mode-line
-        header-title
-        header-blank
+      '(;; header-mode-line
+        ;; header-title
+        ;; (lambda ()
+        ;;   (insert "hello World"))
+        header-file-name
+        my-header-blank
         header-author
-        header-author-email
-        header-blank
+        my-header-email
+        my-header-blank
         ;; header-copyright
         header-creation-date
         header-modification-date
-        header-blank
-        header-end-line
+        my-header-blank
+        my-header-divider
         ;; header-free-software
-        header-code header-eof))
-
-;; (add-hook 'write-file-hooks 'auto-update-file-header)
-
-;; (add-hook 'c-mode-common-hook 'auto-make-header)
-;; (add-hook 'emacs-lisp-mode-hook 'auto-make-header)
-
-;;}}}
+        ;; header-code
+        header-eof))
 
 
-;;{{{ Folding
+;;; Folding
 
-;; http://www.emacswiki.org/emacs/FoldingMode
+(require 'fold-dwim)
+(global-set-key (kbd "C-c =") 'fold-dwim-toggle)
+(global-set-key (kbd "C-c -") 'fold-dwim-hide-all)
+(global-set-key (kbd "C-c +") 'fold-dwim-show-all)
 
-(autoload 'folding-mode          "folding" "Folding mode" t)
-(autoload 'turn-off-folding-mode "folding" "Folding mode" t)
-(autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
+;; (global-set-key (kbd "C-#") 'hs-toggle-hiding)
 
-(if (load "folding" 'nomessage 'noerror)
-    (folding-mode-add-find-file-hook))
+(dolist (hook '(emacs-lisp-mode-hook
+                c-mode-common-hook
+                python-mode))
+  (add-hook hook
+            '(lambda ()
+              (hs-minor-mode 1)
+              (hideshowvis-enable)
+              (hs-hide-all))))
 
-(folding-add-to-marks-list
- 'lua-mode "-- {{{" "-- }}}" nil t)
-(add-hook 'lua-mode-hook 'folding-mode)
+(hideshowvis-symbols)
 
-;; (folding-mode t)
 
-;; (add-hook 'find-file-hook
-;;           '(lambda ()
-;;              (folding-mode)))
-
-(add-hook 'c-mode-common-hook 'folding-mode)
-(add-hook 'emacs-lisp-mode-hook 'folding-mode)
-
-;;}}}
-
-;;{{{ Auto Highlight Symbol
-
-;; cd /your-emacs-load-path/
-;; wget http://github.com/mitsuo-saito/auto-highlight-symbol-mode/raw/master/auto-highlight-symbol.el
-;; emacs -batch -f batch-byte-compile auto-highlight-symbol.el
-(require 'auto-highlight-symbol)
-(global-auto-highlight-symbol-mode t)
-(setq ahs-case-fold-search nil)
-(ahs-set-idle-interval 0.5)
-
-;;}}}
-;;{{{ Volatile Highlights (visual feedback to some operations)
+;;; ---- Volatile Highlights (visual feedback to some operations) ----
 
 ;; M-x package-install RET volatile-highlights
 (require 'volatile-highlights)
@@ -143,49 +121,27 @@
 
 (volatile-highlights-mode t)
 
-;;}}}
 
-;;{{{ Ido (select-base menu)
+(require 'diminish)
+(diminish 'undo-tree-mode)
+(diminish 'volatile-highlights-mode)
+
 
 ;; `ido' (C-x C-f/C-x b)
 (require 'ido)
 (ido-mode t)
-(global-set-key (kbd "C-x C-d") 'ido-dired)
+;; (global-set-key (kbd "C-x C-d") 'ido-dired)
 
-;;}}}
-;;{{{ Helm (anything)
+(require 'ido-ubiquitous)
+(ido-ubiquitous-mode t)
 
-;; M-x package-install RET helm
-(require 'helm-config)
-(helm-mode 1)
-(setq helm-ff-transformer-show-only-basename t)
-(setq helm-idle-delay 0.2)
-(setq helm-input-idle-delay 0.2)
+(smex-initialize)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
 
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-y") 'helm-show-kill-ring)
-;; (global-set-key (kbd "M-y") 'helm-show-kill-ring) ;`M-y' is hard to type for `Dovark'-typist.
-
-(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
-
-(require 'helm-files)
-(helm-dired-bindings 1)
-
-;;}}}
-
-;;{{{ Quickrun
-
-;; M-x package-install RET quickrun
-;; https://github.com/syohex/emacs-quickrun
-(require 'quickrun)
-(global-set-key (kbd "C-<f5>") 'quickrun)
-
-;;}}}
-;;{{{ Popwin (C-g to hide temp buffer)
-
-;; M-x package-install RET popwin
+;;; Popwin (C-g to hide temp buffer)
 ;; https://github.com/m2ym/popwin-el
 (require 'popwin)
 (setq display-buffer-function 'popwin:display-buffer)
@@ -193,19 +149,38 @@
 ;;       (append '(("*Apropos*") ("*sdic*") ("*Faces*") ("*Colors*"))
 ;;               popwin:special-display-config))
 (push '("*quickrun*") popwin:special-display-config)
-;; (push '("*helm M-x*") popwin:special-display-config)
 (push '("*Backtrace*") popwin:special-display-config)
 (push '("*Compile-Log*") popwin:special-display-config)
 (push '("*TeX Help*") popwin:special-display-config)
-(push '("*Shell Command Output*") popwin:special-display-config)
 (push '("*Async Shell Command*") popwin:special-display-config)
-
-;;}}}
-
-;;}}}
+;; (push '("*Buffer List*") popwin:special-display-config)
 
 
-;;{{{ General Behaviors
+
+;; M-x package-install RET helm
+;; (require 'helm-config)
+;; (helm-mode 1)
+;; (setq helm-ff-transformer-show-only-basename t)
+;; (setq helm-idle-delay 0.2)
+;; (setq helm-input-idle-delay 0.2)
+
+;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
+
+(setq helm-M-x-always-save-history t)
+
+;; (global-set-key (kbd "M-x") 'helm-M-x)
+;; (global-set-key (kbd "C-y") 'helm-show-kill-ring)
+;; ;; (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+
+
+;; (global-set-key (kbd "C-x C-b") 'helm-buffers-list)
+(global-set-key (kbd "C-c h") 'helm-mini)
+
+;; (require 'helm-files)
+;; (helm-dired-bindings 1)
+
+
+;;; ---- General Behaviors ----
 
 ;; always use y/n instead of yes/no
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -218,9 +193,20 @@
 ;; History
 (setq auto-save-list-file-prefix nil
       make-backup-files nil)
+;; (setq auto-save-default nil) ; stop creating those #autosave# files
+
+
+(recentf-mode 1) ; keep a list of recently opened files
 
 
 (setq-default major-mode 'text-mode)
+
+
+;; Alarm bell
+;; http://emacsblog.org/2007/02/06/quick-tip-visible-bell/
+;; (setq visible-bell t)
+(setq ring-bell-function 'ignore)
+;; (setq ring-bell-function (lambda () (message "*beep*")))
 
 
 ;; Ediff
@@ -234,37 +220,16 @@
 ;; Cursor
 (setq-default cursor-in-non-selected-windows nil)
 (blink-cursor-mode t)
-(setq-default cursor-type 'bar)
-(add-to-list 'default-frame-alist '(cursor-color . "wheat2"))
-;; (setq blink-cursor-delay 0.5)
-
-;; ;; http://stackoverflow.com/questions/4642835/how-to-change-the-cursor-color-on-emacs
-;; (defvar blink-cursor-colors (list  "#92c48f" "#6785c5" "#be369c" "#d9ca65")
-;;   "On each blink the cursor will cycle to the next color in this list.")
-
-;; (setq blink-cursor-count 0)
-;; (defun blink-cursor-timer-function ()
-;;   "Zarza wrote this cyberpunk variant of timer `blink-cursor-timer'. 
-;; Warning: overwrites original version in `frame.el'.
-
-;; This one changes the cursor color on each blink. Define colors in `blink-cursor-colors'."
-;;   (when (not (internal-show-cursor-p))
-;;     (when (>= blink-cursor-count (length blink-cursor-colors))
-;;       (setq blink-cursor-count 0))
-;;     (set-cursor-color (nth blink-cursor-count blink-cursor-colors))
-;;     (setq blink-cursor-count (+ 1 blink-cursor-count))
-;;     )
-;;   (internal-show-cursor nil (not (internal-show-cursor-p)))
-;;   )
+(setq-default cursor-type 'box)
 
 
 ;; Mouse
 (setq mouse-wheel-progressive-speed nil)
-(add-to-list 'default-frame-alist '(mouse-color . "white"))
+;; (add-to-list 'default-frame-alist '(mouse-color . "white"))
 
 
 ;; Misc
-(setq scroll-margin 3
+(setq scroll-margin 0
       echo-keystrokes 0.1)
 
 
@@ -284,7 +249,7 @@
 
 ;; Tab
 (setq-default indent-tabs-mode nil)
-(setq-default tab-width 2)
+(setq-default tab-width 4)
 
 ;; <backspace> after selection
 (delete-selection-mode t)
@@ -313,7 +278,17 @@
                   (indent-region (region-beginning) (region-end) nil))))))
 
 
-;;{{{ Coding System
+;; useful shortcuts C-x r j <reg_name>
+(set-register ?h '(file . "~/"))
+(set-register ?d '(file . "~/dotFiles/"))
+(set-register ?e '(file . "~/.emacs"))
+(set-register ?s '(file . "~/dotEmacs/site-lisp/"))
+
+
+(midnight-delay-set 'midnight-delay "4:30am")
+
+
+;;; ---- Coding System ----
 
 ;; M-x describe-coding-system
 ;; M-x revert-buffer-with-coding-system
@@ -339,9 +314,8 @@
 (if (eq system-type 'windows-nt)
     (set-language-environment 'Chinese-GB))
 
-;;}}}
 
-;;{{{ Words Behaviors
+;;; ---- Words Behaviors ----
 
 ;; `AbcAbc' as two words `Abc' and `Abc'
 (global-subword-mode t)
@@ -373,27 +347,16 @@
 ;; (define-key (current-global-map) [remap backward-kill-word]
 ;;   'my-backward-kill-word)
 
-;;}}}
 
-;;{{{ Window Settings
-
-;; usage:
-;;   M-x windmove-up	/ C-up
-;;   M-x windmove-down	/ C-down
-;;   M-x windmove-left	/ C-left
-;;   M-x windmove-right / C-right
 (require 'windmove)
 (windmove-default-keybindings 'ctrl)
 
-
 ;; usage:
-;;   M-x winner-undo / C-c <left>
-;;   M-x winner-redo / c-c <right>
+;;   M-x winner-undo  C-c <left>
+;;   M-x winner-redo  c-c <right>
 (winner-mode t)
 
-;;}}}
-;;{{{ Highlight TODO: FIXME: BUG:
-
+;;; ---- Highlight TODO: FIXME: BUG: ----
 ;; http://emacs-fu.blogspot.com/2008/12/highlighting-todo-fixme-and-friends.html
 ;; Warning if a `TODO:', `FIXME:', `BUG:'.
 (defun highlight-fixme-todo-bug ()
@@ -403,30 +366,24 @@
 (add-hook 'prog-mode-hook
           'highlight-fixme-todo-bug)
 
-;;}}}
 
-;;}}}
+;;; ---- Programming ----
 
-;;{{{ Programming
+(add-hook 'prog-mode-hook '(lambda() (rainbow-mode)))
 
-(add-hook 'prog-mode-hook
+(add-hook 'sgml-mode-hook
           '(lambda()
-             (highlight-parentheses-mode)
-             ;; (highlight-symbol-mode)
-             (rainbow-mode)
-             ;; ;; this indent guides is `NOT-IN-PACKAGES', is copied from
-             ;; ;; https://github.com/ran9er/init.emacs/blob/master/20_aux-line.el
-             ;; (require 'aux-line)
-             ;; (indent-hint-mode t)
-             ))
+             (zencoding-mode)
+             (local-set-key (kbd "C-c C-j") 'zencoding-expand-line)))
 
 
-(setq-default c-basic-offset 2)
+(setq-default c-basic-offset 4)
 (c-set-offset 'substatement-open 0)
 (add-hook 'c++-mode-hook
           '(lambda()
              (setq c-default-style "linux"
-                   c-basic-offset 2)
+                   c-basic-offset 4
+                   )
              
              ;; (c-set-style "stroustrup")    ;c++ style
              (c-toggle-hungry-state)
@@ -437,44 +394,37 @@
              ))
 
 
-(add-hook 'emacs-lisp-mode-hook
-          '(lambda()
-             (rainbow-delimiters-mode)))
+;; (add-hook 'emacs-lisp-mode-hook
+;;           '(lambda()
+;;              (rainbow-delimiters-mode)))
 
 ;; (define-derived-mode lua-mode prog-mode "lua-mode")
 
-;;}}}
 
-;;{{{ Input Chinese
+;;; ---- Input Chinese ----
 
 ;; There's some problems.
-(when nil
-;; input-method [eim] (C-\)
-;; `https://github.com/viogus/eim.git'
-(add-to-list 'load-path (concat personal-lisp-directory "plugins/eim"))
-(autoload 'eim-use-package "eim" "Another emacs input method")
+(when t
+  ;; input-method [eim] (C-\)
+  ;; `https://github.com/viogus/eim.git'
+  (add-to-list 'load-path (concat personal-lisp-directory "plugins/eim"))
+  (autoload 'eim-use-package "eim" "Another emacs input method")
 
-;; (setq eim-punc-translate-p nil)
-(setq eim-use-tooltip t)
-(register-input-method
- "eim-py" "euc-cn" 'eim-use-package
- "拼音" "汉字拼音输入法" (concat user-emacs-directory "/py.txt"))
-(set-input-method "eim-py")
-;; (activate-input-method t)
-(activate-input-method "eim-py")
-(toggle-input-method nil)
+  ;; (setq eim-punc-translate-p nil)
+  (setq eim-use-tooltip t)
+  (register-input-method
+   "eim-py" "euc-cn" 'eim-use-package
+   "拼音" "汉字拼音输入法" (concat user-emacs-directory "/py.txt"))
+  (set-input-method "eim-py")
+  ;; (activate-input-method t)
+  (activate-input-method "eim-py")
+  (toggle-input-method nil)
 
-;; ;; 用 ; 暂时输入英文
-;; (require 'eim-extra)
-;; (global-set-key ";" 'eim-insert-ascii)
-
-)
-
-;;}}}
-
+  ;; 用 ; 暂时输入英文
+  (require 'eim-extra)
+  (global-set-key ";" 'eim-insert-ascii)
+  
+  )
 
 
 (provide 'personal-config)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; personal-config.el ends here

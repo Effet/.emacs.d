@@ -34,8 +34,9 @@
  ((eq system-type 'gnu/linux)
   (add-hook 'LaTeX-mode-hook
             (lambda ()
-              (setq TeX-view-program-selection '((output-pdf "Evince")
-                                                 (output-dvi "Evince"))))))
+              (setq TeX-view-program-selection
+                    '((output-pdf "Okular")
+                      (output-dvi "Okular"))))))
  
  ((eq system-type 'windows-nt)
   (add-hook 'LaTeX-mode-hook

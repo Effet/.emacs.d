@@ -26,46 +26,31 @@
 
 (defvar my-packages
   '(
-    ;; language-modes
+    ace-jump-mode
+    auctex
+    autopair
+    diminish
+    expand-region
+    fill-column-indicator
+    header2
+    helm
+    hideshowvis
+    ido-ubiquitous
+    iy-go-to-char
     lua-mode
     markdown-mode
-    graphviz-dot-mode                   ;`C-cc' compile, `C-cp' show pictrue.
-
-    ;; effective tools
-    undo-tree
-    ace-jump-mode
-    autopair
-    highlight-parentheses
-    ;; highlight-symbol
-    volatile-highlights
-    header2
-    quickrun
-    helm                                ;`anything'
-
-    ;; misc
-    popwin
-    ;; sunrise-commander              ;`midnight-commander'-like files manager
-
-    rainbow-delimiters                  ;`rainbow-parentheses'-like mode
-    rainbow-mode
-
-    solarized-theme
-
-    ;; eye-candy
-    cursor-chg
-    fill-column-indicator
-
-    ;; Completions
-    auto-complete
-    auto-complete-clang
-    yasnippet
-
-    ;; TeX
-    auctex
-
+    multi-term
+    multiple-cursors
     org
-
-    keyfreq
+    popwin
+    rainbow-mode
+    smex
+    solarized-theme
+    switch-window
+    undo-tree
+    volatile-highlights
+    yasnippet
+    zencoding-mode
     ))
 
 
