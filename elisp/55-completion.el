@@ -30,5 +30,3 @@
 ;;                         )
 ;;                       ac-sources))))
 
-
-(provide 'personal-completion)

@@ -1,19 +1,6 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;; -*- Mode: Emacs-Lisp -*- ;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; personal-eshell.el --- Configs and functions for `eshell'.
-;; 
-;; Author: Catl Sing
-;; Mail: nesuadark@gmail.com
-;; 
-;; Created: Tue Aug 14 20:21:23 2012 (+0800)
-;; Last-Updated: Sat Aug 18 16:50:17 2012 (+0800)
-;; 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
-;;; Code:
-
+;;; ---- Eshell Settings ----
 
 ;; http://www.emacswiki.org/emacs/EshellFunctions
-
 
 (require 'eshell)
 (require 'pcomplete)
@@ -196,9 +183,3 @@
          (t
           (eshell-send-input))))
       )))
-
-
-(provide 'personal-eshell)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; personal-eshell.el ends here

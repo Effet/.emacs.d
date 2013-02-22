@@ -1,16 +1,4 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;; -*- Mode: Emacs-Lisp -*- ;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; personal-package-sync.el --- Prepair packages.
-;; 
-;; Author: Catl Sing
-;; Mail: nesuadark@gmail.com
-;; 
-;; Created: Tue Aug 14 20:19:51 2012 (+0800)
-;; Last-Updated: Thu Sep  6 14:37:36 2012 (+0800)
-;; 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
-;;; Code:
-
+;;; ---- Sync Packages ----
 
 ;; Use `elpa'(offical) package manager.
 (require 'package)
@@ -57,9 +45,3 @@
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
-
-
-(provide 'personal-package-sync)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; personal-package-sync.el ends here

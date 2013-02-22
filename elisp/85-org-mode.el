@@ -1,16 +1,4 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;; -*- Mode: Emacs-Lisp -*- ;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; personal-org-mode.el --- org-mode configuration.
-;; 
-;; Author: Catl Sing
-;; Mail: nesuadark@gmail.com
-;; 
-;; Created: Tue Aug 14 20:23:31 2012 (+0800)
-;; Last-Updated: Thu Sep 20 14:22:20 2012 (+0800)
-;; 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
-;;; Code:
-
+;;; ---- org-mode ----
 
 ;; (require 'htmlize)
 
@@ -48,8 +36,3 @@
 ;; (setq org-export-html-preamble nil)
 
 ;; (setq org-export-html-use-infojs t)
-
-(provide 'personal-org-mode)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; personal-org-mode.el ends here
