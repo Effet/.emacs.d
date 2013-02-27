@@ -1,9 +1,0 @@
-# -*- mode: snippet -*-
-# name : while (...) { ... }
-# contributor : n4k0master
-# key : while
-# --
-while (${1:condition})
-{
-    $0
-}

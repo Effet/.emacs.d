@@ -1,9 +1,0 @@
-# -*- mode: snippet -*-
-# name : else { ... }
-# contributor : n4k0master
-# key : else
-# --
-else
-{
-     $0
-}

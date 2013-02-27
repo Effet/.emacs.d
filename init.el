@@ -1,18 +1,72 @@
-;; Personal Information
-(setq user-full-name "Catl Sing"
-      user-mail-address "nesuadark@gmail.com")
+(add-to-list 'load-path user-emacs-directory)
+(add-to-list 'load-path (concat user-emacs-directory "plugins/"))
+
+(setq custom-file (concat user-emacs-directory "custom.el"))
 
 
-(setq user-lisp-directory
-      (concat user-emacs-directory
-              (convert-standard-filename "elisp/")))
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(package-initialize)
 
-(add-to-list 'load-path user-lisp-directory)
-(add-to-list 'load-path (concat user-lisp-directory "plugins/"))
+;; https://github.com/technomancy/emacs-starter-kit
+(when (not package-archive-contents)
+  (package-refresh-contents))
 
-(setq custom-file (concat user-lisp-directory "custom.el"))
+(defvar my-packages
+  '(
+    ace-jump-mode
+    auctex
+    autopair
+    browse-kill-ring
+    change-inner
+    diminish
+    expand-region
+    fill-column-indicator
+    google-c-style
+    header2
+    helm
+    smart-forward
+    hideshowvis
+    ido-ubiquitous
+    iy-go-to-char
+    lua-mode
+    markdown-mode
+    multi-term
+    multiple-cursors
+    org
+    popwin
+    quickrun
+    rainbow-mode
+    smex
+    solarized-theme
+    switch-window
+    undo-tree
+    volatile-highlights
+    yasnippet
+    zenburn-theme
+    zencoding-mode
+    )
+  )
+
+(dolist (p my-packages)
+  (when (not (package-installed-p p))
+    (package-install p)))
 
 
-;; Load Stuffs
-(when (file-exists-p user-lisp-directory)
-  (mapc 'load (directory-files user-lisp-directory nil "^[^#].*el$")))
+(require 'init-general)
+(require 'init-general-2)
+(require 'init-tools)
+(require 'init-prog)
+(require 'init-yas)
+;; (require 'init-ac)
+
+(eval-after-load 'org '(require 'init-org))
+(eval-after-load 'auctex '(require 'init-auctex))
+(eval-after-load 'eshell '(require 'init-eshell))
+
+(require 'init-shortcut)
+(require 'init-gui)
+
+;; (when (file-exists-p user-lisp-directory)
+;;   (mapc 'load (directory-files user-lisp-directory nil "^[^#].*\\.el$")))

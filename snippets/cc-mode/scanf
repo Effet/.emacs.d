@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name : scanf
-# contributor : n4k0master
-# key : scanf
-# --
-scanf("${1:%s}", $2);$0
