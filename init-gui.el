@@ -1,34 +1,43 @@
-;; Refer:
-;;   https://github.com/baohaojun/windows-config/blob/master/.emacs_d/lisp/bhj-fonts.el
-(require 'cl)
-;;;###autoload
-(defun get-1-font (fonts)
-  (find-if
-   #'(lambda (font)
-       (not (null (x-list-fonts font)))) fonts))
+(when (fboundp 'tool-bar-mode)
+  (tool-bar-mode -1))
 
-;;;###autoload
-(defun load-font-list (en zh)
-  (set-default-font (get-1-font en))
-  (dolist (charset '(kana han symbol cjk-misc bopomofo))
-    (set-fontset-font t charset (font-spec :name (get-1-font zh)))))
+(menu-bar-mode -1)
+;; (scroll-bar-mode -1)
+
+
+(defun get-foreground-of-face (face)
+  (if (or (null face)
+          (equal face 'unspecified))
+      (setq face 'default))
+  (let ((color (face-attribute face :foreground)))
+    (if (equal color 'unspecified)
+        (get-foreground-of-face (face-attribute face :inherit))
+      color)))
+
+(defun auto-change-cursor ()
+  "Auto change the cursor color adjust to under text.
+Like the way of KDE's KWrite/Kate."
+  (interactive "d")
+  (let ((face (or (get-char-property (point) 'face)
+                  'default)))
+    (let ((color (get-foreground-of-face face)))
+      (set-cursor-color color))))
+
 
 (if window-system
     (progn
-      (load-font-list
-       '("DejaVu Sans Mono-10.5" "Monospace-10")
-       '("Hiragino Sans GB-12" "WenQuanYi Micro Hei-12" "Microsoft Yahei-12"))
+      (load-font-alist
+       '("DejaVu Sans Mono-9" "Monospace-10")
+       '("Hiragino Sans GB-10.5" "WenQuanYi Micro Hei-12" "Microsoft Yahei-12"))
       ;; (setq face-font-rescale-alist
       ;;       '(("Hiragino Sans GB"  . 1.3)
       ;;         ("WenQuanYi Zen Hei" . 1.2)))
 
       ;; (load-theme 'solarized-dark t)
       (load-theme 'zenburn t)
-      ;; (add-to-list 'default-frame-alist (cons 'width 95))
-      ;; (add-to-list 'default-frame-alist (cons 'height 50))
-      (set-frame-size (selected-frame) 111 39)
-      )
-  )
+      (set-frame-size (selected-frame) 111 41)
+      ;; (add-hook 'post-command-hook 'auto-change-cursor)
+      ))
 
 
 (provide 'init-gui)

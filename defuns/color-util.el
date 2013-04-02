@@ -1,32 +1,3 @@
-;; http://stackoverflow.com/questions/1242352/get-font-face-under-cursor-in-emacs
-(defun what-face (pos)
-  (interactive "d")
-  (let ((face (or (get-char-property (point) 'read-face-name)
-                  (get-char-property (point) 'face))))
-    (if face (message "Face: %s" face) (message "No face at %d" pos))))
-
-(defun auto-change-cursor ()
-  (interactive "d")
-  (let ((face (or (get-char-property (point) 'read-face-name)
-                  (get-char-property (point) 'face))))
-    (if face (message "Face: %s" (face-attribute face :foreground)))
-    (if face (set-cursor-color (face-attribute face :foreground)))
-    ))
-
-;; (set-cursor-color
-;;  (face-attribute face :foreground))
-
-(add-hook 'post-command-hook 'auto-change-cursor)
-
-;; (set-cursor-color "#dddddd")
-
-;; (defun auto-change-cursor ()
-;;   "change cursor color according to font-lock."
-;;   (set-cursor-color (what-face)))
-
-;; (add-hook 'post-command-hook 'auto-change-cursor)
-
-
 ;; http://www.masteringemacs.org/articles/2011/12/15/find-nearest-colors-emacs-24/
 (defun find-nearest-color (color &optional use-hsv)
   "Finds the nearest color by RGB distance to `color'.
@@ -50,4 +21,11 @@ If called interactively, `pt' is the value immediately under `point'."
                         (modify-syntax-entry ?# "w")
                         (thing-at-point 'word))))
 
-(provide 'test)
+
+;; http://stackoverflow.com/questions/1242352/get-font-face-under-cursor-in-emacs
+(defun what-face (pos)
+  (interactive "d")
+  (message "%s"
+           (or (get-char-property (point) 'read-face-name)
+               (get-char-property (point) 'face)
+               'default)))

@@ -1,44 +1,56 @@
-;;; ---- Eshell Settings ----
-
-;; http://www.emacswiki.org/emacs/EshellFunctions
-
-;; (require 'eshell)
-;; (require 'pcomplete)
+(setq eshell-history-size 512)
+(setq eshell-prompt-regexp "^[^#$\n]* [#$] ")
 
 (setq
- eshell-save-history-on-exit   t
- eshell-history-size           512
- )
-
-(setq
- eshell-cp-interactive-query   t
- eshell-ln-interactive-query   t
- eshell-mv-interactive-query   t
- eshell-rm-interactive-query   t
+ eshell-cp-interactive-query t
+ eshell-ln-interactive-query t
+ eshell-mv-interactive-query t
+ eshell-rm-interactive-query t
  
- eshell-mv-overwrite-files     nil
+ eshell-mv-overwrite-files nil
  )
 
 (setq
  eshell-cmpl-ignore-case 	   t
- eshell-cmpl-cycle-completions t
+ eshell-cmpl-cycle-completions nil
  )
 
+;; (setq eshell-prompt-function
+;;       (lambda ()
+;;         (concat
+;;          (abbreviate-file-name (eshell/pwd))
+;;          (if (= (user-uid) 0) " # " " $ "))))
+
+
+;; https://github.com/jimm/elisp/blob/master/eshell-customize.el#L56
+(defun short-pwd (p-lst)
+  (if (> (length p-lst) 3)
+      (concat
+       (mapconcat (lambda (elm) (if (zerop (length elm)) ""
+                                  (substring elm 0 1)))
+                  (butlast p-lst 3)
+                  "/")
+       "/"
+       (mapconcat (lambda (elm) elm)
+                  (last p-lst 3)
+                  "/"))
+    (mapconcat (lambda (elm) elm)
+               p-lst
+               "/")))
 
 (setq eshell-prompt-function
       (lambda ()
         (concat
-         "[" (eshell/pwd) "]\n"
-         ;; (if (= (user-uid) 0) "# " "$ "))
-         (if (= (user-uid) 0) "Δ " "λ "))
-        ))
+         (short-pwd
+          (split-string (abbreviate-file-name (eshell/pwd)) "/"))
+         (if (= (user-uid) 0) " # " " $ "))))
 
-;; (setq eshell-prompt-regexp "^[^#$]*[$#] ")
-(setq eshell-prompt-regexp "^[^Δλ\n]*[Δλ] ")
 
 
 (add-hook 'eshell-mode-hook
           (lambda()
+            (setq scroll-margin 0)
+            
             ;; `Usage'
             ;;    "C-c @ C-t" hide-body
             ;;    "C-C @ C-a" show-all
@@ -46,31 +58,11 @@
             ;;    "C-c @ C-e" show-entry
             ;;    "C-c @ C-o" hide-other (hide other into single)
             (outline-minor-mode t)
-            (setq outline-regexp "^[^Δλ\n]*[Δλ] "
-                  scroll-margin 0
-                  )
+            (setq outline-regexp "^[^#$\n]* [#$] ")
+            ;; (setq outline-regexp "^[^Δλ\n]*[Δλ] ")
             (local-set-key (kbd "<return>") 'user-ret)
-
-            ;; ;; https://github.com/emacs-helm/helm/wiki#wiki-helmeshellcompletion
-            ;; (require 'helm-files)
-            ;; (define-key eshell-mode-map [remap pcomplete] 'helm-esh-pcomplete)
-            ;; (define-key eshell-mode-map (kbd "M-p") 'helm-eshell-history)
+            (define-key eshell-mode-map "\C-a" 'eshell-maybe-bol)
             ))
-
-
-;; Command path environment
-;; http://ergoemacs.org/emacs/eshell.html
-(setenv "PATH"
-        (let ((home-dir (getenv "HOME")))
-          (concat
-           home-dir "/Scripts" ":"
-           home-dir "/Scripts/acm" ":"
-           (getenv "PATH"))))
-
-;; (add-hook 'emacs-startup-hook #'(lambda ()
-;;                                   (let ((default-directory (getenv "HOME")))
-;;                                     (command-execute 'eshell)
-;;                                     (bury-buffer))))
 
 
 ;; Use `emacs <filename1,[filename2,...]>' command in eshell.
@@ -96,8 +88,6 @@
     (eshell-bol)
     (if (= p (point))
         (beginning-of-line))))
-(add-hook 'eshell-mode-hook
-          '(lambda () (define-key eshell-mode-map "\C-a" 'eshell-maybe-bol)))
 
 
 ;; Delete backup files(*~).

@@ -1,16 +1,5 @@
-(when (fboundp 'tool-bar-mode)
-  (tool-bar-mode -1))
-
-(menu-bar-mode -1)
-;; (scroll-bar-mode -1)
-
-
 ;; always use y/n instead of yes/no
 (fset 'yes-or-no-p 'y-or-n-p)
-
-
-;; `dired' in single buffer by type `a'
-(put 'dired-find-alternate-file 'disabled nil)
 
 
 (setq
@@ -21,10 +10,9 @@
  track-eol                      t
  scroll-margin                  0
  echo-keystrokes                0.1
- kill-whole-line                t
+ ;; kill-whole-line                t
  ring-bell-function             'ignore
  mouse-wheel-progressive-speed  nil
- ediff-window-setup-function    'ediff-setup-windows-plain
  frame-title-format             '(buffer-file-name "%f" ("%b"))
  uniquify-buffer-name-style     'forward
  uniquify-separator             "/"
@@ -42,15 +30,15 @@
  )
 
 
+(global-auto-revert-mode)
+(setq global-auto-revert-non-file-buffers t
+      auto-revert-verbose nil)
+
+
 ;; (recentf-mode 1)
 (delete-selection-mode t)
 (global-subword-mode t)
 (show-paren-mode t)
-
-
-(setq linum-format "%4d ")
-;; (global-linum-mode t)
-;; (global-hl-line-mode t)
 
 
 ;; Modeline Settings
@@ -59,27 +47,82 @@
 (size-indication-mode t) ;show file size
 
 
+;; Ediff
+(setq ediff-diff-options "-w")
+(setq ediff-split-window-function 'split-window-horizontally)
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+
+(require 'switch-window)
 (require 'windmove)
-(windmove-default-keybindings 'ctrl)
+(windmove-default-keybindings)
 
 ;; C-c <left>, c-c <right>
 (winner-mode t)
 
 
-;; http://emacswiki.org/emacs/AutoIndentation
-;; `yank-and-indent'
-(dolist (command '(yank yank-pop helm-c-kill-ring-action))
-  (eval `(defadvice ,command (after indent-region activate)
-           (and (not current-prefix-arg)
-                (member major-mode '(emacs-lisp-mode lisp-mode
-                                                     clojure-mode    scheme-mode
-                                                     haskell-mode    ruby-mode
-                                                     rspec-mode      python-mode
-                                                     c-mode          c++-mode
-                                                     objc-mode       latex-mode
-                                                     plain-tex-mode))
-                (let ((mark-even-if-inactive transient-mark-mode))
-                  (indent-region (region-beginning) (region-end) nil))))))
+;; useful shortcuts C-x r j <reg_name>
+(set-register ?h '(file . "~/"))
+(set-register ?e '(file . "~/.emacs"))
+(set-register ?d '(file . "~/dotEmacs"))
+(set-register ?p '(file . "~/Projects"))
+
+
+(autopair-global-mode)
+(setq autopair-blink nil)
+
+(global-undo-tree-mode)
+
+(require 'browse-kill-ring)
+(require 'fold-dwim)
+
+;; (midnight-delay-set 'midnight-delay "4:30am")
+
+
+(require 'volatile-highlights)
+(volatile-highlights-mode t)
+
+
+;; (require 'diminish)
+(dolist (mode '(undo-tree-mode
+                volatile-highlights-mode
+                autopair-mode))
+  (when (fboundp mode)
+    (diminish mode)))
+
+
+;; ;; https://bitbucket.org/pitkali/emacs-config/src/28ed0d4b4654f696969f23c0bb1084275852026a/init.el?at=default#cl-209
+;; (defun auto-fci-mode (&optional unused)
+;;   "Attempts to automatically enable fci mode for text and file
+;; buffers, but only if window width is larger than
+;; fci-fill-column."
+;;   (if (or (equalp 'major-mode 'text-mode)
+;;           (buffer-file-name))
+;;       (let ((rule-column (or fci-rule-column fill-column)))
+;;         (fci-mode (if (> (window-width) rule-column) 1 0)))
+;;     (fci-mode 0)))
+
+;; (add-hook 'after-change-major-mode-hook #'auto-fci-mode)
+;; (add-hook 'window-configuration-change-hook #'auto-fci-mode)
+
+
+;;; Popwin (C-g to hide temp buffer)
+;; https://github.com/m2ym/popwin-el
+(require 'popwin)
+(setq display-buffer-function 'popwin:display-buffer)
+;; (dolist (buffer '(("*Apropos*")
+;;                   ("*quickrun*")
+;;                   ("*Backtrace*")
+;;                   ("*Compile-Log*")
+;;                   ("*TeX Help*")
+;;                   ("*Async Shell Command*")
+;;                   ;; ("*quickrun*")
+;;                   ;; ("*Buffer List*")
+;;                   ))
+;;   (push buffer popwin:special-display-config))
+
+
+(require 'quickrun)
 
 
 (provide 'init-general)

@@ -1,5 +1,4 @@
 ;;; ---- YASnippet Setting ----
-
 (require 'yasnippet)
 
 ;; https://github.com/redguardtoo/emacs.d/blob/master/init-yasnippet.el
@@ -26,4 +25,4 @@
 (add-to-list 'auto-mode-alist '("yasnippet/snippets" . snippet-mode))
 (add-to-list 'auto-mode-alist '("\\.yasnippet$" . snippet-mode))
 
-(provide 'init-yas)
+(provide 'init-yasnippet)

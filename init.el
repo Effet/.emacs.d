@@ -2,71 +2,41 @@
 (add-to-list 'load-path (concat user-emacs-directory "plugins/"))
 
 (setq custom-file (concat user-emacs-directory "custom.el"))
+(when (file-exists-p custom-file)
+  (load custom-file))
 
 
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(package-initialize)
-
-;; https://github.com/technomancy/emacs-starter-kit
-(when (not package-archive-contents)
-  (package-refresh-contents))
-
-(defvar my-packages
-  '(
-    ace-jump-mode
-    auctex
-    autopair
-    browse-kill-ring
-    change-inner
-    diminish
-    expand-region
-    fill-column-indicator
-    google-c-style
-    header2
-    helm
-    smart-forward
-    hideshowvis
-    ido-ubiquitous
-    iy-go-to-char
-    lua-mode
-    markdown-mode
-    multi-term
-    multiple-cursors
-    org
-    popwin
-    quickrun
-    rainbow-mode
-    smex
-    solarized-theme
-    switch-window
-    undo-tree
-    volatile-highlights
-    yasnippet
-    zenburn-theme
-    zencoding-mode
-    )
-  )
-
-(dolist (p my-packages)
-  (when (not (package-installed-p p))
-    (package-install p)))
+(require 'init-package)
 
 
+;; Functions (load all files in defuns-dir)
+(setq defuns-dir (expand-file-name "defuns" user-emacs-directory))
+(dolist (file (directory-files defuns-dir t "\\w+"))
+  (when (file-regular-p file)
+    (load file)))
+
+
+(require 'init-ido)
 (require 'init-general)
-(require 'init-general-2)
-(require 'init-tools)
 (require 'init-prog)
-(require 'init-yas)
-;; (require 'init-ac)
+(require 'init-web)
+(require 'init-yasnippet)
+(require 'init-hippie)
+
+(eval-after-load 'dired '(require 'init-dired))
 
 (eval-after-load 'org '(require 'init-org))
-(eval-after-load 'auctex '(require 'init-auctex))
 (eval-after-load 'eshell '(require 'init-eshell))
+(eval-after-load 'auctex '(require 'init-auctex))
 
 (require 'init-shortcut)
 (require 'init-gui)
+(require 'init-sessions)
+
+(require 'init-plugins)
+
+;; UTF-8 Staff
+(require 'init-locales)
 
 ;; (when (file-exists-p user-lisp-directory)
 ;;   (mapc 'load (directory-files user-lisp-directory nil "^[^#].*\\.el$")))
