@@ -29,3 +29,24 @@ If called interactively, `pt' is the value immediately under `point'."
            (or (get-char-property (point) 'read-face-name)
                (get-char-property (point) 'face)
                'default)))
+
+
+
+
+(defun get-foreground-of-face (face)
+  (if (or (null face)
+          (equal face 'unspecified))
+      (setq face 'default))
+  (let ((color (face-attribute face :foreground)))
+    (if (equal color 'unspecified)
+        (get-foreground-of-face (face-attribute face :inherit))
+      color)))
+
+(defun auto-change-cursor ()
+  "Auto change the cursor color adjust to under text.
+Like the way of KDE's KWrite/Kate."
+  (interactive "d")
+  (let ((face (or (get-char-property (point) 'face)
+                  'default)))
+    (let ((color (get-foreground-of-face face)))
+      (set-cursor-color color))))

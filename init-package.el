@@ -40,11 +40,13 @@
    iy-go-to-char
    js2-mode
    lua-mode
+   magit
    markdown-mode
    mmm-mode
    move-text
    multi-term
    multiple-cursors
+   popup
    popwin
    quickrun
    rainbow-mode

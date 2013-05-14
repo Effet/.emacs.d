@@ -16,10 +16,11 @@
     (load file)))
 
 
+(require 'init-gui)
+
 (require 'init-ido)
 (require 'init-general)
-(require 'init-prog)
-(require 'init-web)
+(require 'init-programmings)
 (require 'init-yasnippet)
 (require 'init-hippie)
 
@@ -29,8 +30,7 @@
 (eval-after-load 'eshell '(require 'init-eshell))
 (eval-after-load 'auctex '(require 'init-auctex))
 
-(require 'init-shortcut)
-(require 'init-gui)
+(require 'init-keybindings)
 (require 'init-sessions)
 
 (require 'init-plugins)

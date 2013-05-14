@@ -1,4 +1,4 @@
-;; Refer:
+;; Refer to ->
 ;;   https://github.com/baohaojun/windows-config/blob/master/.emacs_d/lisp/bhj-fonts.el
 (eval-when-compile (require 'cl))
 (defun get-1-font (fonts)

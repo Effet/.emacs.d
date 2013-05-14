@@ -42,9 +42,8 @@
       (async-shell-command cmd buf)
       (run-with-timer sec nil (lambda (buf) (kill-process buf)) buf))))
 
-(when (fboundp 'popwin)
-  (push '("*Quick Run for ACM*") popwin:special-display-config))
-(push '("*Quick Run for ACM*") popwin:special-display-config)
+(eval-after-load 'popwin
+  '(push '("*Quick Run for ACM*") popwin:special-display-config))
 
 ;; (require 'google-c-style)
 ;; (add-hook 'c-mode-common-hook 'google-set-c-style)
@@ -65,4 +64,39 @@
              ))
 
 
-(provide 'init-prog)
+(dolist (hook '(css-mode-hook html-mode-hook sass-mode-hook))
+  (add-hook hook 'rainbow-mode))
+
+
+(add-hook 'sgml-mode-hook
+          '(lambda()
+             (zencoding-mode)
+             (local-set-key (kbd "C-c C-j") 'zencoding-expand-line)
+             (local-set-key (kbd "C-c C-r") 'mc/mark-sgml-tag-pair)))
+
+
+(defun my-web-settings()
+  ;; mmm-mode
+  (require 'mmm-auto)
+
+  (setq mmm-global-mode 'auto)
+
+  (setq mmm-submode-decoration-level 0)
+  (setq mmm-parse-when-idle t)
+
+  (mmm-add-mode-ext-class 'html-erb-mode "\\.html\\.erb\\'" 'erb)
+  (mmm-add-mode-ext-class 'html-erb-mode "\\.jst\\.ejs\\'" 'ejs)
+  (mmm-add-mode-ext-class 'html-erb-mode nil 'html-js)
+  (mmm-add-mode-ext-class 'html-erb-mode nil 'html-css)
+
+  (add-to-list 'auto-mode-alist '("\\.html\\'" . html-erb-mode))
+  ;; (add-to-list 'auto-mode-alist '("\\.html\\.erb\\'" . html-erb-mode))
+  ;; (add-to-list 'auto-mode-alist '("\\.jst\\.ejs\\'"  . html-erb-mode))
+)
+
+
+(eval-after-load "html"
+  'my-web-settings)
+
+
+(provide 'init-programmings)

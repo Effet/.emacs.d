@@ -20,7 +20,9 @@
 (global-set-key [M-S-up] 'move-text-up)
 (global-set-key [M-S-down] 'move-text-down)
 
+
 (global-set-key (kbd "C-c n") 'cleanup-buffer)
+
 
 (global-set-key (kbd "s-SPC") 'set-rectangular-region-anchor)
 
@@ -48,6 +50,10 @@
 (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
 
 
+;; (require 'fold-dwim)
+(autoload 'fold-dwim-toggle "fold-dwim")
+(autoload 'fold-dwim-hide-all "fold-dwim")
+(autoload 'fold-dwim-show-all "fold-dwim")
 (global-set-key (kbd "C-c =") 'fold-dwim-toggle)
 (global-set-key (kbd "C-c -") 'fold-dwim-hide-all)
 (global-set-key (kbd "C-c +") 'fold-dwim-show-all)
@@ -81,9 +87,11 @@
 
 
 (global-set-key (kbd "C-S-y") 'yank-unindented)
+
+;; (require 'browse-kill-ring)
 (global-set-key (kbd "C-x C-y") 'browse-kill-ring)
 
 
 (global-set-key [f11] 'fullscreen)
 
-(provide 'init-shortcut)
+(provide 'init-keybindings)

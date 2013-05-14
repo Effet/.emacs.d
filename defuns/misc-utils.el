@@ -22,6 +22,7 @@
                       'face 'linum)))
 
 
+
 ;; https://github.com/magnars/.emacs.d/blob/master/defuns/misc-defuns.el#L95
 (defun sudo-edit (&optional arg)
   (interactive "p")
@@ -35,3 +36,15 @@
   (interactive)
   (set-frame-parameter nil 'fullscreen
                        (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
+
+
+(defun init-time ()
+  "Modifier for emacs-init-time."
+  (interactive)
+  (let ((str
+         (format "%.10f seconds"
+                 (float-time
+                  (time-subtract after-init-time before-init-time)))))
+    (if (called-interactively-p 'interactive)
+        (message "%s" str)
+      str)))

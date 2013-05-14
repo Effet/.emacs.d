@@ -5,25 +5,6 @@
 ;; (scroll-bar-mode -1)
 
 
-(defun get-foreground-of-face (face)
-  (if (or (null face)
-          (equal face 'unspecified))
-      (setq face 'default))
-  (let ((color (face-attribute face :foreground)))
-    (if (equal color 'unspecified)
-        (get-foreground-of-face (face-attribute face :inherit))
-      color)))
-
-(defun auto-change-cursor ()
-  "Auto change the cursor color adjust to under text.
-Like the way of KDE's KWrite/Kate."
-  (interactive "d")
-  (let ((face (or (get-char-property (point) 'face)
-                  'default)))
-    (let ((color (get-foreground-of-face face)))
-      (set-cursor-color color))))
-
-
 (if window-system
     (progn
       (load-font-alist
@@ -36,7 +17,6 @@ Like the way of KDE's KWrite/Kate."
       ;; (load-theme 'solarized-dark t)
       (load-theme 'zenburn t)
       (set-frame-size (selected-frame) 111 41)
-      ;; (add-hook 'post-command-hook 'auto-change-cursor)
       ))
 
 
