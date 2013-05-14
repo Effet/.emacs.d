@@ -22,9 +22,9 @@
  )
 
 
-;; (global-auto-revert-mode)
-;; (setq global-auto-revert-non-file-buffers t
-;;       auto-revert-verbose nil)
+(global-auto-revert-mode)
+(setq global-auto-revert-non-file-buffers t
+      auto-revert-verbose nil)
 
 
 ;; (recentf-mode 1)
@@ -57,7 +57,7 @@
 ;; useful shortcuts C-x r j <reg_name>
 (set-register ?h '(file . "~/"))
 (set-register ?e '(file . "~/.emacs"))
-(set-register ?d '(file . "~/dotEmacs"))
+(set-register ?d '(file . "~/.emacs.d"))
 (set-register ?p '(file . "~/Projects"))
 (set-register ?o '(file . "~/Projects/org"))
 

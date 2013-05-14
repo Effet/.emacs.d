@@ -1,6 +1,10 @@
-# dotEmacs
+.emacs.d
+========
 
 ## Installation
-    git clone git@github.com:hienke/dotEmacs.git ~/dotEmacs
-    [[ -f ~/.emacs ]] && mv ~/.emacs{,.bak}
-    cp ~/dotEmacs/.emacs ~/.emacs
+
+```bash
+cd ~
+git clone git@github.com:hienke/.emacs.d.git
+[[ -f ~/.emacs ]] && mv ~/.emacs{,.bak}
+```
