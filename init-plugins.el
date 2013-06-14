@@ -1,3 +1,7 @@
+(add-to-list 'load-path (concat user-emacs-directory "plugins/"))
+
+(require-package 'popup)
+
 ;; input-method [eim] (C-\)
 ;; `https://github.com/viogus/eim.git'
 (add-to-list 'load-path (concat user-emacs-directory "plugins/eim"))

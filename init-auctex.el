@@ -1,4 +1,4 @@
-;;; ---- auctex ----
+(require-package 'auctex)
 
 (add-hook 'LaTeX-mode-hook
           (lambda ()

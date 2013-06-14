@@ -10,21 +10,30 @@
  line-move-visual               nil
  track-eol                      t
  ;; kill-whole-line                t
+ echo-keystrokes                0.1
  mouse-wheel-progressive-speed  nil
- frame-title-format             '(buffer-file-name "%f" ("%b"))
  )
+
+(when window-system
+  (setq frame-title-format
+        '("Emacs :: "
+          (:eval (if buffer-file-name
+                     (abbreviate-file-name buffer-file-name)
+                   (buffer-name)))))
+  (tooltip-mode -1)
+  )
 
 (setq-default
- indent-tabs-mode               nil
- tab-width                      4
- fill-column                    80
- require-final-newline          t
+ indent-tabs-mode nil
+ tab-width 4
+ fill-column 80
+ require-final-newline t
  )
 
 
-(global-auto-revert-mode)
-(setq global-auto-revert-non-file-buffers t
-      auto-revert-verbose nil)
+(global-auto-revert-mode 1)
+(setq global-auto-revert-non-file-buffers t)
+(setq auto-revert-verbose nil)
 
 
 ;; (recentf-mode 1)
@@ -33,12 +42,17 @@
 (show-paren-mode t)
 
 
-;; Modeline Settings
+;;;; Modeline Settings
 (column-number-mode t)
 (size-indication-mode t) ;show file size
 
 
-;; Ediff
+;;;; uniquify buffer name
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'forward)
+
+
+;;;; Ediff
 (eval-after-load 'ediff
   '(progn
      (setq ediff-diff-options "-w")
@@ -46,38 +60,56 @@
      (setq ediff-window-setup-function 'ediff-setup-windows-plain)))
 
 
-(autoload 'switch-window "switch-window")
-(global-set-key (kbd "C-x o") 'switch-window)
-;; (require 'switch-window)
+;;;; C-x o rebind
+(require-package 'switch-window)
+(require 'switch-window)
+;; (autoload 'switch-window "switch-window")
+;; (global-set-key (kbd "C-x o") 'switch-window)
 
-;; C-c <left>, c-c <right>
+;;;; C-c <left>, c-c <right>
 (winner-mode t)
 
 
-;; useful shortcuts C-x r j <reg_name>
+;;;; useful shortcuts C-x r j <reg_name>
 (set-register ?h '(file . "~/"))
 (set-register ?e '(file . "~/.emacs"))
 (set-register ?d '(file . "~/.emacs.d"))
 (set-register ?p '(file . "~/Projects"))
 (set-register ?o '(file . "~/Projects/org"))
-
-
-(autopair-global-mode)
-(setq autopair-blink nil)
-
-(global-undo-tree-mode)
+(set-register ?s '(file . "~/Dropbox/study_recipe.org"))
 
 ;; (midnight-delay-set 'midnight-delay "4:30am")
 
 
-(require 'volatile-highlights)
-(volatile-highlights-mode t)
+;;;; Indent after yank
+;; http://www.emacswiki.org/emacs/AutoIndentation
+(dolist (command '(yank yank-pop))
+  (eval `(defadvice ,command (after indent-region activate)
+           (and (not current-prefix-arg)
+                (member major-mode '(emacs-lisp-mode lisp-mode
+                                                     clojure-mode    scheme-mode
+                                                     haskell-mode    ruby-mode
+                                                     rspec-mode      python-mode
+                                                     c-mode          c++-mode
+                                                     objc-mode       latex-mode
+                                                     plain-tex-mode))
+                (let ((mark-even-if-inactive transient-mark-mode))
+                  (indent-region (region-beginning) (region-end) nil))))))
 
 
-;; (require 'diminish)
-(eval-after-load 'undo-tree '(diminish 'undo-tree-mode))
-(eval-after-load 'autopair '(diminish 'autopair-mode))
-(eval-after-load 'volatile-highlights '(diminish 'volatile-highlights-mode))
+
+(with-package* undo-tree
+  (global-undo-tree-mode))
+
+
+(with-package* volatile-highlights
+  (volatile-highlights-mode t))
+
+
+(with-package* diminish
+  (with-package undo-tree (diminish 'undo-tree-mode))
+  (with-package autopair (diminish 'autopair-mode))
+  (with-package volatile-highlights (diminish 'volatile-highlights-mode)))
 
 
 ;; ;; https://bitbucket.org/pitkali/emacs-config/src/28ed0d4b4654f696969f23c0bb1084275852026a/init.el?at=default#cl-209
@@ -95,24 +127,29 @@
 ;; (add-hook 'window-configuration-change-hook #'auto-fci-mode)
 
 
-;;; Popwin (C-g to hide temp buffer)
-;; https://github.com/m2ym/popwin-el
-;; (require 'popwin)
-(autoload 'popwin:special-display-config "popwin")
-(setq display-buffer-function 'popwin:display-buffer)
-;; (dolist (buffer '(("*Apropos*")
-;;                   ("*quickrun*")
-;;                   ("*Backtrace*")
-;;                   ("*Compile-Log*")
-;;                   ("*TeX Help*")
-;;                   ("*Async Shell Command*")
-;;                   ;; ("*quickrun*")
-;;                   ;; ("*Buffer List*")
-;;                   ))
-;;   (push buffer popwin:special-display-config))
+;;;; Popwin (C-g to hide temp buffer)
+(with-package* popwin
+  (setq display-buffer-function 'popwin:display-buffer)
+
+  ;; Conflict between `popwin' and `Icicles', because of `completion-list-mode'.
+  (setq popwin:special-display-config
+        '(help-mode
+          (compilation-mode :noselect t)
+          "*Apropos*"
+          "*Shell Command Output*" "*Async Shell Command*"
+          "*Compile-Log*" "*TeX Help*"
+          (" *undo-tree*" :position bottom)))
+  )
 
 
-;; (require 'quickrun)
+
+;;;; Deft
+(with-package deft-autoloads
+  (setq deft-directory "~/Dropbox/notes"
+        deft-extension "org"
+        deft-text-mode 'org-mode
+        deft-use-filename-as-title t)
+  (global-set-key [f8] 'deft))
 
 
 (provide 'init-general)

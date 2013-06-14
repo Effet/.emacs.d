@@ -1,69 +1,27 @@
+;;; init-package.el --- setup package.el
+
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-;; (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/"))
+;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
 
-;; https://github.com/technomancy/emacs-starter-kit
-(when (not package-archive-contents)
-  (package-refresh-contents))
 
+;;;; On-demand installation of packages
+;; Steal from -> https://github.com/purcell/emacs.d/blob/master/init-elpa.el#L62
 
-;; (dolist (p my-packages)
-;;   (when (not (package-installed-p p))
-;;     (package-install p)))
-
-(defun packages-install (packages)
-  (dolist (p packages)
-    (when (not (package-installed-p p))
-      (package-install p))))
-
-
-(packages-install
- '(
-   ace-jump-mode
-   auctex
-   autopair
-   browse-kill-ring
-   dash
-   diminish
-   dired+
-   evil
-   expand-region
-   fill-column-indicator
-   fold-dwim
-   google-c-style
-   header2
-   helm
-   hideshowvis
-   ido-ubiquitous
-   iy-go-to-char
-   js2-mode
-   lua-mode
-   magit
-   markdown-mode
-   mmm-mode
-   move-text
-   multi-term
-   multiple-cursors
-   popup
-   popwin
-   quickrun
-   rainbow-mode
-   session
-   smex
-   solarized-theme
-   switch-window
-   undo-tree
-   volatile-highlights
-   yasnippet
-   zenburn-theme
-   zencoding-mode
-   slime
-   slime-fuzzy
-   slime-repl
-   )
- )
-
+(defun require-package (package &optional min-version no-refresh)
+  "Install given PACKAGE, optionally requiring MIN-VERSION.
+If NO-REFRESH is non-nil, the available package lists will not be
+re-downloaded in order to locate PACKAGE."
+  (if (package-installed-p package min-version)
+      t
+    (if (or (assoc package package-archive-contents) no-refresh)
+        (package-install package)
+      (progn
+        (package-refresh-contents)
+        (require-package package min-version t)))))
 
 (provide 'init-package)
+
+;;; init-package.el ends here

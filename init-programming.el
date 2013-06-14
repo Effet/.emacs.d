@@ -1,4 +1,4 @@
-;;; ---- Highlight TODO: FIXME: BUG: ----
+;;;; Highlight TODO: FIXME: BUG:
 ;; http://emacs-fu.blogspot.com/2008/12/highlighting-todo-fixme-and-friends.html
 ;; Warning if a `TODO:', `FIXME:', `BUG:'.
 (defun highlight-fixme-todo-bug ()
@@ -7,23 +7,10 @@
                              1 font-lock-warning-face t))))
 
 (add-hook 'prog-mode-hook
-          '(lambda()
-             (rainbow-mode)
-             (highlight-fixme-todo-bug)))
+          'highlight-fixme-todo-bug)
 
 
-(dolist (hook '(emacs-lisp-mode-hook
-                c-mode-common-hook
-                python-mode))
-  (add-hook hook
-            '(lambda ()
-               (hs-minor-mode 1)
-               (hideshowvis-enable)
-               (hideshowvis-symbols))))
-
-
-
-;; C++ specials
+;;;; C++ specials
 (defun my-c++-quick-compile()
   "A quick compile funciton for C++"
   (interactive)
@@ -43,7 +30,7 @@
       (run-with-timer sec nil (lambda (buf) (kill-process buf)) buf))))
 
 (eval-after-load 'popwin
-  '(push '("*Quick Run for ACM*") popwin:special-display-config))
+  '(push "*Quick Run for ACM*" popwin:special-display-config))
 
 ;; (require 'google-c-style)
 ;; (add-hook 'c-mode-common-hook 'google-set-c-style)
@@ -64,39 +51,40 @@
              ))
 
 
+(require-package 'rainbow-mode)
 (dolist (hook '(css-mode-hook html-mode-hook sass-mode-hook))
   (add-hook hook 'rainbow-mode))
 
 
-(add-hook 'sgml-mode-hook
-          '(lambda()
-             (zencoding-mode)
-             (local-set-key (kbd "C-c C-j") 'zencoding-expand-line)
-             (local-set-key (kbd "C-c C-r") 'mc/mark-sgml-tag-pair)))
+;;;; mmm-mode
+(require-package 'mmm-mode)
+(require 'mmm-auto)
+(setq mmm-global-mode 'buffers-with-submode-classes)
+(setq mmm-submode-decoration-level 0)
+(setq mmm-parse-when-idle t)
+
+(mmm-add-mode-ext-class 'html-mode nil 'html-js)
+(mmm-add-mode-ext-class 'html-mode nil 'html-css)
 
 
-(defun my-web-settings()
-  ;; mmm-mode
-  (require 'mmm-auto)
 
-  (setq mmm-global-mode 'auto)
-
-  (setq mmm-submode-decoration-level 0)
-  (setq mmm-parse-when-idle t)
-
-  (mmm-add-mode-ext-class 'html-erb-mode "\\.html\\.erb\\'" 'erb)
-  (mmm-add-mode-ext-class 'html-erb-mode "\\.jst\\.ejs\\'" 'ejs)
-  (mmm-add-mode-ext-class 'html-erb-mode nil 'html-js)
-  (mmm-add-mode-ext-class 'html-erb-mode nil 'html-css)
-
-  (add-to-list 'auto-mode-alist '("\\.html\\'" . html-erb-mode))
-  ;; (add-to-list 'auto-mode-alist '("\\.html\\.erb\\'" . html-erb-mode))
-  ;; (add-to-list 'auto-mode-alist '("\\.jst\\.ejs\\'"  . html-erb-mode))
-)
+(eval-after-load 'sgml-mode
+  '(define-key sgml-mode-map (kbd "C-c C-r") 'mc/mark-sgml-tag-pair))
 
 
-(eval-after-load "html"
-  'my-web-settings)
+;; (require-package 'skewer-mode)
+;; (skewer-setup)
 
 
-(provide 'init-programmings)
+;;;; emacs lisp
+
+;; https://github.com/milkypostman/dotemacs/blob/master/init.el#L869
+(defun imenu-elisp-sections ()
+  (setq imenu-prev-index-position-function nil)
+  (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t))
+
+(add-hook 'emacs-lisp-mode-hook 'imenu-elisp-sections)
+
+
+
+(provide 'init-programming)

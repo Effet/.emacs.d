@@ -7,7 +7,7 @@
  eshell-mv-interactive-query t
  eshell-rm-interactive-query t
  
- eshell-mv-overwrite-files nil
+ ;; eshell-mv-overwrite-files nil
  )
 
 (setq
@@ -48,21 +48,45 @@
 
 
 (add-hook 'eshell-mode-hook
-          (lambda()
+          (lambda ()
             (setq scroll-margin 0)
-            
-            ;; `Usage'
-            ;;    "C-c @ C-t" hide-body
-            ;;    "C-C @ C-a" show-all
-            ;;    "C-c @ C-c" hide-entry
-            ;;    "C-c @ C-e" show-entry
-            ;;    "C-c @ C-o" hide-other (hide other into single)
-            (outline-minor-mode t)
             (setq outline-regexp "^[^#$\n]* [#$] ")
-            ;; (setq outline-regexp "^[^Δλ\n]*[Δλ] ")
-            (local-set-key (kbd "<return>") 'user-ret)
-            (define-key eshell-mode-map "\C-a" 'eshell-maybe-bol)
-            ))
+            (outline-minor-mode t)
+            
+            (define-key eshell-mode-map (kbd "C-a") 'eshell-maybe-bol)
+            (define-key eshell-mode-map (kbd "<return>") 'user-ret)))
+
+
+;; `C-a' to beginning of line, and `C-a C-a' to beginning of command line.
+;; http://www.emacswiki.org/emacs/EshellFunctions#toc6
+(defun eshell-maybe-bol ()
+  (interactive)
+  (let ((p (point)))
+    (eshell-bol)
+    (if (= p (point))
+        (beginning-of-line))))
+
+;; ...
+(defun user-ret ()
+  (interactive)
+  (let ((input (eshell-get-old-input)))
+    (if (string-equal input "")
+        (progn
+          (insert "ls")
+          (eshell-send-input))
+      (progn
+        (cond
+         ((string-match "^\\.+$" input)
+          (let ((len (length input))(n 2)(p ".."))
+            (while (> len n )
+              (setq n (1+ n))(setq p (concat p "/..")))
+            (eshell-bol)(kill-line)
+            (insert p)
+            (eshell-send-input)))
+         (t
+          (eshell-send-input))))
+      )))
+
 
 
 ;; Use `emacs <filename1,[filename2,...]>' command in eshell.
@@ -78,16 +102,6 @@
     ;; argument causes later arguments to be looked for in that directory,
     ;; not the starting directory
     (mapc #'find-file (mapcar #'expand-file-name (eshell-flatten-list (reverse args))))))
-
-
-;; `C-a' to beginning of line, and `C-a C-a' to beginning of command line.
-;; http://www.emacswiki.org/emacs/EshellFunctions#toc6
-(defun eshell-maybe-bol ()
-  (interactive)
-  (let ((p (point)))
-    (eshell-bol)
-    (if (= p (point))
-        (beginning-of-line))))
 
 
 ;; Delete backup files(*~).
@@ -146,28 +160,6 @@
 (defun eshell/img(img)
   (propertize "Image" (quote display) (create-image (expand-file-name img))))
 
-
-;; tests
-
-(defun user-ret ()
-  (interactive)
-  (let ((input (eshell-get-old-input)))
-    (if (string-equal input "")
-        (progn
-          (insert "ls")
-          (eshell-send-input))
-      (progn
-        (cond
-         ((string-match "^\\.+$" input)
-          (let ((len (length input))(n 2)(p ".."))
-            (while (> len n )
-              (setq n (1+ n))(setq p (concat p "/..")))
-            (eshell-bol)(kill-line)
-            (insert p)
-            (eshell-send-input)))
-         (t
-          (eshell-send-input))))
-      )))
 
 
 (provide 'init-eshell)

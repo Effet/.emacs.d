@@ -1,5 +1,6 @@
-;;; ---- YASnippet Setting ----
-;; (require 'yasnippet)
+(require-package 'yasnippet)
+
+(require 'yasnippet)
 
 ;; https://github.com/redguardtoo/emacs.d/blob/master/init-yasnippet.el
 ;; default TAB key is occupied by auto-complete

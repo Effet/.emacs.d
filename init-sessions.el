@@ -1,3 +1,5 @@
+(require-package 'session)
+
 ;; (desktop-save-mode 1)
 
 (add-hook 'after-init-hook 'session-initialize)

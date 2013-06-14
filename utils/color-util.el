@@ -32,7 +32,6 @@ If called interactively, `pt' is the value immediately under `point'."
 
 
 
-
 (defun get-foreground-of-face (face)
   (if (or (null face)
           (equal face 'unspecified))

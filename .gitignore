@@ -20,3 +20,5 @@ abbrev_defs
 tutorial/
 .session
 image-dired
+
+custom.el
