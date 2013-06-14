@@ -18,4 +18,4 @@
     (set-language-environment 'Chinese-GB))
 
 
-(provide 'init-locales)
+(provide 'locales)

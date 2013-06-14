@@ -1,14 +1,5 @@
-;;; init-package.el --- setup package.el
-
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/"))
-;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(package-initialize)
-
-
 ;;;; On-demand installation of packages
-;; Steal from -> https://github.com/purcell/emacs.d/blob/master/init-elpa.el#L62
+;; Stealed from -> https://github.com/purcell/emacs.d/blob/master/init-elpa.el#L62
 
 (defun require-package (package &optional min-version no-refresh)
   "Install given PACKAGE, optionally requiring MIN-VERSION.
@@ -21,7 +12,3 @@ re-downloaded in order to locate PACKAGE."
       (progn
         (package-refresh-contents)
         (require-package package min-version t)))))
-
-(provide 'init-package)
-
-;;; init-package.el ends here
