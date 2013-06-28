@@ -3,14 +3,20 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        autopair-insert-or-skip-quote
+        c-electric-delete-forward
+        c-indent-line-or-region
+        copy-region-or-whole-line
         icicle-goto-marker-or-set-mark-command
         icicle-yank-maybe-completing
+        indent-for-tab-command
         kill-region-or-to-beginning-of-line
         read-only-mode
         smart-beginning-of-line
         wdired-finish-edit
         wdired-next-line
         wdired-previous-line
+        yas-expand
         ))
 
 (setq mc/cmds-to-run-once

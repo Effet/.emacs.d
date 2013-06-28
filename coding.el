@@ -1,6 +1,32 @@
-
+;;;; Common
 (add-hook 'prog-mode-hook
           'highlight-fixme-todo-bug)
+
+
+;;;; Python
+(with-package jedi-autoloads
+  (add-hook 'python-mode-hook 'jedi:setup)
+  (setq jedi:setup-keys t)
+  (setq jedi:complete-on-dot t))
+
+
+;;;; Java
+;; ;; (custom-set-variables
+;; ;;  '(eclim-eclipse-dirs '("~/opt/eclipse-sdk-bin-4.2")))
+;; (with-package emacs-eclim-autoloads
+;;   (require 'eclim)
+;;   (global-eclim-mode)
+
+;;   (setq eclim-eclipse-dirs '("~/Develops/eclipse/eclipse"))
+;;   (setq eclim-executable "~/Develops/eclipse/eclipse/eclim")
+
+;;   (require 'eclimd)
+
+;;   (with-package auto-complete-config
+;;     ;; (message "----> ac-emacs-eclim <----")
+;;     (require 'ac-emacs-eclim-source)
+;;     (ac-emacs-eclim-config))
+;;   )
 
 
 ;;;; C++ specials
@@ -44,6 +70,7 @@
              ))
 
 
+;;;; if interactive enable `rainbow-mode', M-o M-o to refontify.
 (require-package 'rainbow-mode)
 (dolist (hook '(css-mode-hook html-mode-hook sass-mode-hook))
   (add-hook hook 'rainbow-mode))
@@ -59,10 +86,9 @@
 (mmm-add-mode-ext-class 'html-mode nil 'html-js)
 (mmm-add-mode-ext-class 'html-mode nil 'html-css)
 
-
-
-(eval-after-load 'sgml-mode
-  '(define-key sgml-mode-map (kbd "C-c C-r") 'mc/mark-sgml-tag-pair))
+;; jsp
+(add-to-list 'auto-mode-alist '("\\.jsp\\'" . html-mode))
+(mmm-add-mode-ext-class 'html-mode "\\.jsp\\'" 'jsp)
 
 
 ;; (require-package 'skewer-mode)
@@ -75,12 +101,12 @@
 ;;             (lambda ()
 ;;               (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t))
 ;;               (setq TeX-command-default "XeLaTeX")
-              
+
 ;;               (setq TeX-auto-untabify t     ; remove all tabs before saving
 ;;                     TeX-engine 'xetex       ; use xelatex default
 ;;                     ;; TeX-show-compilation t ; display compilation windows
 ;;                     )
-              
+
 ;;               (TeX-global-PDF-mode t)       ; PDF mode enable, not plain
 ;;               (setq TeX-save-query nil)
 ;;               (imenu-add-menubar-index)
@@ -96,7 +122,7 @@
 ;;                 (setq TeX-view-program-selection
 ;;                       '((output-pdf "Okular")
 ;;                         (output-dvi "Okular"))))))
-   
+
 ;;    ((eq system-type 'windows-nt)
 ;;     (add-hook 'LaTeX-mode-hook
 ;;               (lambda ()

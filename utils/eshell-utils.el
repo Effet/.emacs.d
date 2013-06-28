@@ -117,3 +117,8 @@
 ;; https://github.com/ran9er/init.emacs/blob/master/_extensions/%2Beshell.el
 (defun eshell/img(img)
   (propertize "Image" (quote display) (create-image (expand-file-name img))))
+
+
+(defun eshell/exit ()
+  (bury-buffer))
+

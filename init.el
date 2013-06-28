@@ -52,7 +52,6 @@
 
 
 (setq
- inhibit-startup-screen         t
  make-backup-files              nil
  delete-by-moving-to-trash      t
  ;; auto-save-list-file-prefix     nil
@@ -84,14 +83,15 @@
 (show-paren-mode t)
 
 
-;;;; Modeline Settings
-(column-number-mode t)
-(size-indication-mode t) ;show file size
-
-
 ;;;; uniquify buffer name
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
+
+
+;;;; saner regex syntax
+;; Quit: C-c C-q, Copy C-c C-c
+(require 're-builder)
+(setq reb-re-syntax 'string)
 
 
 ;;;; Indent after yank
@@ -111,15 +111,13 @@
 
 
 ;;;; Dired/Dired+
-(with-package dired
-  ;; `dired' in single buffer by type `a'
-  (put 'dired-find-alternate-file 'disabled nil)
-  ;; (setq dired-listing-switches "-AlXh --group-directories-first")
-  (setq dired-listing-switches "-Alh")
-  (setq dired-dwim-target t)
+;; `dired' in single buffer by type `a'
+(put 'dired-find-alternate-file 'disabled nil)
+;; (setq dired-listing-switches "-AlXh --group-directories-first")
+(setq dired-listing-switches "-Alh")
+(setq dired-dwim-target t)
 
-  (with-package dired+)
-  )
+(with-package* dired+)
 
 
 ;;;; Ediff
@@ -134,9 +132,9 @@
 
 
 ;;;; Session
-(with-package session-autoloads
+(with-package* session
   (add-hook 'after-init-hook 'session-initialize)
-
+  ;; C-x C-/, C-x <undo>
   ;; http://www.emacswiki.org/emacs/EmacsSession
   ;; expanded folded secitons as required
   (defun le::maybe-reveal ()
@@ -160,7 +158,7 @@
   (setq scroll-margin 0)
   (setq outline-regexp "^[^#$\n]* [#$] ")
   (outline-minor-mode t)
-  
+
   (setq eshell-history-size 512)
   (setq eshell-prompt-regexp "^[^#$\n]* [#$] ")
 
@@ -171,7 +169,7 @@
 
   (setq eshell-cmpl-ignore-case t
         eshell-cmpl-cycle-completions nil)
-  
+
   (setq eshell-prompt-function
         (lambda ()
           (concat
@@ -226,24 +224,52 @@
   (autopair-global-mode))
 
 
-;; (with-package ido
-;;   (ido-mode t)
-;;   (ido-ubiquitous-mode t))
+;;;; Ido
+;; sea more -> http://www.masteringemacs.org/articles/2010/10/10/introduction-to-ido-mode/
+(setq ido-everywhere t
+      ido-enable-flex-matching t
+      ido-create-new-buffer 'always
+      ido-use-filename-at-point 'guess
+      ido-use-virtual-buffers t)
+
+(ido-mode t)
+
+(with-package* (ido-ubiquitous)
+  (ido-ubiquitous-mode t))
+
+;; (with-package* ido-vertical-mode
+;;   (ido-vertical-mode t))
+
+(global-set-key [remap list-buffers] 'ibuffer)
 
 
-;;;; icicles
-(with-package icicles-autoloads
-  (icy-mode 1))
+(with-package smex-autoloads
+  (smex-initialize)
+  (global-set-key (kbd "M-x") 'smex)
+  (global-set-key (kbd "M-X") 'smex-major-mode-commands))
 
 
 ;;;; helm
-(with-package helm
+(with-package helm-autoloads
   ;; (helm-mode t)
   ;; (setq helm-idle-delay 0.1)
   ;; (setq helm-input-idle-delay 0.1)
   ;; (setq helm-split-window-in-side-p t)
 
   ;; (setq helm-M-x-always-save-history t)
+  (setq helm-command-prefix-key "M-s")
+  (require 'helm-config)
+
+  (define-key helm-command-map (kbd "i") 'helm-imenu)
+  (define-key helm-command-map (kbd "h") 'helm-mini)
+  (define-key helm-command-map (kbd "g") 'helm-do-grep)
+  (define-key helm-command-map (kbd "o") 'helm-occur)
+  (define-key helm-command-map (kbd "r") 'helm-register)
+  (define-key helm-command-map (kbd "R") 'helm-regexp)
+  (define-key helm-command-map (kbd "b") 'helm-c-pp-bookmarks)
+  (define-key helm-command-map (kbd "p") 'helm-eproject-projects)
+  (define-key helm-command-map (kbd "f") 'helm-eproject-files-in-project)
+  (define-key helm-command-map (kbd "<SPC>") 'helm-all-mark-rings)
   )
 
 
@@ -264,11 +290,24 @@
   (setq yas-key-syntaxes '("w_" "w_." "w_.()" "^ "))
 
   (yas-global-mode 1)
-
-  ;; Snippets
-  (add-to-list 'auto-mode-alist '("yasnippet/snippets" . snippet-mode))
-  (add-to-list 'auto-mode-alist '("\\.yasnippet$" . snippet-mode))
   )
+
+
+;;;; Auto-Complete
+(with-package auto-complete-autoloads
+  (require 'auto-complete-config)
+  (ac-config-default)
+  ;; (setq ac-dwim nil)
+  ;; (setq ac-auto-show-menu 0.3)
+  (setq ac-auto-show-menu t)
+
+  (setq ac-use-menu-map t)
+  (define-key ac-menu-map (kbd "C-n") 'ac-next)
+  (define-key ac-menu-map (kbd "C-p") 'ac-previous)
+
+  (setq popup-isearch-cursor-color (face-foreground 'warning)) ;... is there a better way?
+  )
+
 
 
 ;;;; Popwin (C-g to hide temp buffer)

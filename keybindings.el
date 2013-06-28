@@ -41,7 +41,8 @@
 
 ;;;; Eshell
 (global-set-key (kbd "C-x m") 'eshell)
-(with-package eshell
+(add-hook 'eshell-mode-hook 'my-eshell-keys) ;; why?
+(defun my-eshell-keys ()
   (define-key eshell-mode-map (kbd "C-a") 'eshell-maybe-bol)
   (define-key eshell-mode-map (kbd "<return>") 'user-ret))
 
@@ -68,30 +69,32 @@
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
   (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
-  (global-set-key (kbd "s-SPC") 'set-rectangular-region-anchor))
-
-
-;;;; helm keybinding
-(with-package helm-autoloads
-  (setq helm-command-prefix-key "M-s")
-  (require 'helm-config)
+  (global-set-key (kbd "s-SPC") 'set-rectangular-region-anchor)
   
-  (define-key helm-command-map (kbd "i") 'helm-imenu)
-  (define-key helm-command-map (kbd "h") 'helm-mini)
-  (define-key helm-command-map (kbd "g") 'helm-do-grep)
-  (define-key helm-command-map (kbd "o") 'helm-occur)
-  (define-key helm-command-map (kbd "r") 'helm-register)
-  (define-key helm-command-map (kbd "R") 'helm-regexp)
-  (define-key helm-command-map (kbd "b") 'helm-c-pp-bookmarks)
-  (define-key helm-command-map (kbd "p") 'helm-eproject-projects)
-  (define-key helm-command-map (kbd "f") 'helm-eproject-files-in-project)
-  (define-key helm-command-map (kbd "<SPC>") 'helm-all-mark-rings)
+  (eval-after-load 'sgml-mode
+    '(define-key sgml-mode-map (kbd "C-c C-r") 'mc/mark-sgml-tag-pair))
   )
 
 
 ;;;; browse-kill-ring C-x C-y
 (with-package* browse-kill-ring
   (global-set-key (kbd "C-x C-y") 'browse-kill-ring))
+
+
+;;;; View-mode Vi-binding
+(setq view-read-only t)                 ;bind `read-only-mode' to `view-mode'
+
+(defun view-mode-vi-binding ()
+  (progn
+    (define-key view-mode-map (kbd "j") 'next-line)
+    (define-key view-mode-map (kbd "k") 'previous-line)
+    (define-key view-mode-map (kbd "h") 'backward-char)
+    (define-key view-mode-map (kbd "l") 'forward-char)
+    (define-key view-mode-map (kbd "b") 'backward-word)
+    (define-key view-mode-map (kbd "w") 'forward-word)))
+
+(add-hook 'view-mode-hook
+          'view-mode-vi-binding)
 
 
 ;;;; fullscreen f11

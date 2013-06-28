@@ -102,7 +102,7 @@
    `(mmm-code-submode-face ((t (:background ,base03))))
    `(mmm-comment-submode-face ((t (:inherit font-lock-comment-face))))
    `(mmm-output-submode-face ((t (:background ,base03))))
-
+   `(mmm-default-submode-face ((t (:background ,base02))))
 
 
    ;; org-mode
@@ -159,6 +159,17 @@
    ;; `(helm-candidate-number ((t (:foreground ,zenburn-green+4 :background ,zenburn-bg-1))))
    `(helm-ff-directory ((t (:foreground ,base0C :background nil))))
    `(helm-ff-file ((t (:foreground ,base0A))))
+
+
+   ;; Auto-Complete
+   `(ac-gtags-candidate)
+   `(ac-completion-face ((t (:foreground nil :inherit font-lock-comment-face))))
+   `(ac-candidate-face ((t (:background ,base03 :foreground ,base00))))
+   `(ac-selection-face ((t (:background ,base02 :foreground ,base05))))
+   `(popup-tip-face ((t (:background ,base04 :foreground ,base00))))
+   `(popup-scroll-bar-background-face ((t (:background ,base04))))
+   `(popup-scroll-bar-foreground-face ((t (:background ,base01))))
+   `(popup-isearch-match ((t (:foreground nil :background nil :inherit isearch-lazy-highlight-face))))
 
    ;; which-function
    `(which-func ((t (:foreground ,base0D :background nil :weight bold))))

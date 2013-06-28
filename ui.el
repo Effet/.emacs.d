@@ -1,8 +1,25 @@
+;;; ui.el --- what emacs look like
+
+(setq inhibit-startup-screen t)
+
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
 
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
+
+
+;; Modeline Settings
+(column-number-mode t)
+(size-indication-mode t) ;show file size
+
+
+(global-hl-line-mode t)
+
+
+;; cursor
+(setq-default cursor-type 'bar)
+(setq-default cursor-in-non-selected-windows 'hollow)
 
 
 (setq custom-theme-directory
@@ -39,3 +56,5 @@
 
 
 (provide 'ui)
+
+;;; ui.el ends here
