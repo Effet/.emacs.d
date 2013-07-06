@@ -249,6 +249,11 @@
   (global-set-key (kbd "M-X") 'smex-major-mode-commands))
 
 
+(with-package* projectile
+  (projectile-global-mode)
+  )
+
+
 ;;;; helm
 (with-package helm-autoloads
   ;; (helm-mode t)

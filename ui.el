@@ -47,7 +47,7 @@
   ;; (load-theme 'atomtic t)
   (load-theme 'base16-monokai t)
   ;; (load-theme 'cofi-dark t)
-  (set-frame-size (selected-frame) 111 41)
+  (set-frame-size (selected-frame) 111 65)
   )
 
 

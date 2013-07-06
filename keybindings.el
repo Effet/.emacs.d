@@ -77,9 +77,8 @@
 
 
 ;;;; browse-kill-ring C-x C-y
-(with-package* browse-kill-ring
-  (global-set-key (kbd "C-x C-y") 'browse-kill-ring))
-
+;; (with-package* browse-kill-ring
+;;   (global-set-key (kbd "C-x C-y") 'browse-kill-ring))
 
 ;;;; View-mode Vi-binding
 (setq view-read-only t)                 ;bind `read-only-mode' to `view-mode'
