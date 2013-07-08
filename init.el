@@ -80,7 +80,7 @@
 ;; (recentf-mode 1)
 (delete-selection-mode t)
 (global-subword-mode t)
-(show-paren-mode t)
+;; (show-paren-mode t)
 
 
 ;;;; uniquify buffer name
