@@ -274,6 +274,12 @@
 ;; (with-package* ido-vertical-mode
 ;;   (ido-vertical-mode t))
 
+(with-package flx-autoloads
+  ;; (require 'flx-ido)
+  ;; (setq ido-use-faces nil)
+  (flx-ido-mode t)
+  )
+
 (global-set-key [remap list-buffers] 'ibuffer)
 (setq ibuffer-saved-filter-groups
       '(("default"
