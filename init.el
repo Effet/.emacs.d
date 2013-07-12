@@ -219,8 +219,8 @@
 
 
 ;;;; flycheck
-(require 'flycheck)
-(add-hook 'after-init-hook #'global-flycheck-mode)
+(with-package flycheck
+  (add-hook 'after-init-hook #'global-flycheck-mode))
 
 
 ;;;; autopair
@@ -385,7 +385,7 @@
 
 
 ;;;; Some used plugins
-(require 'init-plugins)
+;; (require 'init-plugins)
 
 
 ;;; init.el ends here
