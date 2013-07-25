@@ -390,4 +390,7 @@
 ;; (require 'init-plugins)
 
 
+(require 'test)
+
+
 ;;; init.el ends here
