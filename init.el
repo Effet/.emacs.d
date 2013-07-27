@@ -260,7 +260,7 @@
 
 
 ;;;; Ido
-;; sea more -> http://www.masteringemacs.org/articles/2010/10/10/introduction-to-ido-mode/
+;; see more -> http://www.masteringemacs.org/articles/2010/10/10/introduction-to-ido-mode/
 (setq ido-everywhere t
       ido-enable-flex-matching t
       ido-create-new-buffer 'always

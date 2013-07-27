@@ -5,6 +5,6 @@
 
 ```bash
 cd ~
-git clone git@github.com:hienke/.emacs.d.git
+git clone https://github.com/ironyKuU/.emacs.d.git
 [[ -f ~/.emacs ]] && mv ~/.emacs{,.bak}
 ```
