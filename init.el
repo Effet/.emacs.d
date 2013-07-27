@@ -219,7 +219,7 @@
 
 
 ;;;; flycheck
-(with-package flycheck
+(with-package flycheck-autoloads
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 
