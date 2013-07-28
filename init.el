@@ -184,6 +184,12 @@
 ;;;; term-mode
 (add-hook 'term-mode-hook (lambda() (yas-minor-mode -1)))
 
+(with-package multi-term-autoloads
+  (setq multi-term-program "/bin/zsh")
+  (global-set-key (kbd "C-c m") 'multi-term-next)
+  (global-set-key (kbd "C-c M") 'multi-term)
+  )
+
 
 ;;;; Org-mode
 (with-package org
