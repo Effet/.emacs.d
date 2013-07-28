@@ -181,6 +181,10 @@
   )
 
 
+;;;; term-mode
+(add-hook 'term-mode-hook (lambda() (yas-minor-mode -1)))
+
+
 ;;;; Org-mode
 (with-package org
   (setq org-replace-disputed-keys t)
@@ -288,12 +292,23 @@
   (setq flx-ido-threshhold 3000)
   (flx-ido-mode t))
 
+
 (global-set-key [remap list-buffers] 'ibuffer)
-(setq ibuffer-saved-filter-groups
-      '(("default"
-         "dired" (or
-                  (mode . dired-mode)
-                  (mode . wdired-mode)))))
+
+;; -> https://github.com/filsinger/emacs-config/blob/master/custom/ibuffer-ido-find-file.el#L5
+(defun ibuffer-ido-find-file (file &optional wildcards)
+  "Like `find-file', but default to the directory of the buffer at point."
+  (interactive
+   (let ((default-directory (let ((buf (ibuffer-current-buffer)))
+                              (if (buffer-live-p buf)
+                                  (with-current-buffer buf
+                                    default-directory)
+                                default-directory))))
+     (list (ido-read-file-name "Find file: " default-directory)
+           t)))
+  (find-file file wildcards))
+
+(global-set-key [remap ibuffer-find-file] 'ibuffer-ido-find-file)
 
 
 (with-package smex-autoloads
