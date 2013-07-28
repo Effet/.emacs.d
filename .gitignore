@@ -1,16 +1,12 @@
 *.elc
 *~
 
-#.*
-.smex-items
-bookmarks
 places
 ac-comphist.dat
 backups/
 elpa/
 el-get/
 auto-save-list/
-.recentf
 tramp
 url/
 py.txt
