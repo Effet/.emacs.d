@@ -176,6 +176,8 @@
            (short-pwd
             (split-string (abbreviate-file-name (eshell/pwd)) "/"))
            (if (= (user-uid) 0) " # " " $ "))))
+
+  (with-package (pcmpl-args pcmpl-git))
   )
 
 
@@ -260,14 +262,15 @@
 
 
 ;;;; Ido
-;; see more -> http://www.masteringemacs.org/articles/2010/10/10/introduction-to-ido-mode/
-(setq ido-everywhere t
-      ido-enable-flex-matching t
-      ido-create-new-buffer 'always
-      ido-use-filename-at-point 'guess
-      ido-use-virtual-buffers t)
+(setq
+ ;; ido-enable-flex-matching t
+ ido-create-new-buffer 'always
+ ;; ido-use-filename-at-point 'guess
+ ido-auto-merge-work-directories-length -1
+ )
 
 (ido-mode t)
+;; (ido-everywhere t)
 
 (with-package* (ido-ubiquitous)
   (ido-ubiquitous-mode t))
@@ -281,6 +284,8 @@
 ;;   (flx-ido-mode t)
 ;;   )
 (with-package* flx-ido
+  (setq ido-use-faces nil)
+  (setq flx-ido-threshhold 3000)
   (flx-ido-mode t))
 
 (global-set-key [remap list-buffers] 'ibuffer)
