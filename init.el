@@ -195,6 +195,7 @@
 
 ;;;; Org-mode
 (with-package org
+  (setq org-startup-indented t)
   (setq org-replace-disputed-keys t)
   (setq org-src-fontify-natively t))
 
