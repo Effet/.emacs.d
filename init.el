@@ -318,6 +318,14 @@
 
 (global-set-key [remap ibuffer-find-file] 'ibuffer-ido-find-file)
 
+(with-package ibuffer-vc-autoloads
+  (add-hook 'ibuffer-hook
+            (lambda ()
+              (ibuffer-vc-set-filter-groups-by-vc-root)
+              (unless (eq ibuffer-sorting-mode 'alphabetic)
+                (ibuffer-do-sort-by-alphabetic))))
+  )
+
 
 (with-package smex-autoloads
   (smex-initialize)
