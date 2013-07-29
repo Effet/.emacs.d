@@ -1,14 +1,6 @@
 (global-set-key [remap goto-line] 'goto-line-with-feedback)
 
 
-;; Completion that uses many different methods to find options.
-(global-set-key (kbd "C-.") 'hippie-expand-no-case-fold)
-(global-set-key (kbd "C-:") 'hippie-expand-lines)
-
-;; (global-set-key (kbd "M-x") 'smex)
-;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;; (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
-
 ;;;; Smart C-a
 (global-set-key (kbd "C-a") 'smart-beginning-of-line)
 
@@ -45,9 +37,6 @@
 (defun my-eshell-keys ()
   (define-key eshell-mode-map (kbd "C-a") 'eshell-maybe-bol)
   (define-key eshell-mode-map (kbd "<return>") 'user-ret))
-
-
-;; (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 
 ;;;; ace-jump-mode
