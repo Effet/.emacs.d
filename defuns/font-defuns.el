@@ -6,6 +6,7 @@
    #'(lambda (font)
        (not (null (x-list-fonts font)))) fonts))
 
+;;;###autoload
 (defun load-font-alist (en zh)
   (set-default-font (get-1-font en))
   (dolist (charset '(kana han symbol cjk-misc bopomofo))

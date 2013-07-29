@@ -41,6 +41,7 @@
   "PACKAGE may be the name of an autoloads; return the actual package name."
   (intern (replace-regexp-in-string "-autoloads$" "" (symbol-name package))))
 
+;;;###autoload
 (defmacro with-package (packages &rest body)
   "Like `eval-after-load', but also automatically register
 PACKAGES for installation by `package-install'. PACKAGES can be
@@ -74,6 +75,7 @@ literal future `eval', so it appears as data to the compiler."
        ,@(loop for package in packages collect
                `(eval-after-load ',package '(,f-sym))))))
 
+;;;###autoload
 (defmacro with-package* (packages &rest body)
   "Like `with-package*' but also `require' all of the packages.
 This is mostly for code organization purposes."

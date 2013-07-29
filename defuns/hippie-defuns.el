@@ -3,6 +3,7 @@
 (defvar he-search-loc-backward (make-marker))
 (defvar he-search-loc-forward (make-marker))
 
+;;;###autoload
 (defun try-expand-dabbrev-closest-first (old)
   "Try to expand word \"dynamically\", searching the current buffer.
 The argument OLD has to be nil the first call of this function, and t

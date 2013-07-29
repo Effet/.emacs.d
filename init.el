@@ -16,11 +16,13 @@
 (package-initialize)
 
 
-;;;; Functions (load all files in utils-dir)
-(setq utils-dir (expand-file-name "utils" user-emacs-directory))
-(dolist (file (directory-files utils-dir t "\\w+"))
-  (when (file-regular-p file)
-    (load file)))
+;; ;;;; Functions (load all files in utils-dir)
+;; (setq utils-dir (expand-file-name "utils" user-emacs-directory))
+;; (dolist (file (directory-files utils-dir t "\\w+"))
+;;   (when (file-regular-p file)
+;;     (load file)))
+
+(require 'init-autoloads)
 
 
 ;; https://github.com/milkypostman/dotemacs/blob/master/init.el#L869

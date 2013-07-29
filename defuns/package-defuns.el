@@ -1,6 +1,7 @@
 ;;;; On-demand installation of packages
 ;; Stealed from -> https://github.com/purcell/emacs.d/blob/master/init-elpa.el#L62
 
+;;;###autoload
 (defun require-package (package &optional min-version no-refresh)
   "Install given PACKAGE, optionally requiring MIN-VERSION.
 If NO-REFRESH is non-nil, the available package lists will not be
@@ -15,6 +16,7 @@ re-downloaded in order to locate PACKAGE."
 
 
 ;; http://milkbox.net/note/single-file-master-emacs-configuration/
+;;;###autoload
 (defmacro after (mode &rest body)
   "`eval-after-load' MODE evaluate BODY."
   (declare (indent defun))

@@ -11,6 +11,7 @@ Runs \\[list-colors-display] after setting `list-colors-sort'"
         (list-colors-display)
       (error "The color \"%s\" does not exist." color))))
 
+;;;###autoload
 (defun find-nearest-color-at-point (pt)
   "Finds the nearest color at point `pt'.
 If called interactively, `pt' is the value immediately under `point'."
@@ -23,6 +24,7 @@ If called interactively, `pt' is the value immediately under `point'."
 
 
 ;; http://stackoverflow.com/questions/1242352/get-font-face-under-cursor-in-emacs
+;;;###autoload
 (defun what-face (pos)
   (interactive "d")
   (message "%s"
