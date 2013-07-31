@@ -137,24 +137,27 @@
 (global-set-key [(meta f12)] 'recentf-open-files)
 
 
-;;;; Session
-(with-package* session
-  (add-hook 'after-init-hook 'session-initialize)
-  ;; C-x C-/, C-x <undo>
-  ;; http://www.emacswiki.org/emacs/EmacsSession
-  ;; expanded folded secitons as required
-  (defun le::maybe-reveal ()
-    (when (and (or (memq major-mode  '(org-mode outline-mode))
-                   (and (boundp 'outline-minor-mode)
-                        outline-minor-mode))
-               (outline-invisible-p))
-      (if (eq major-mode 'org-mode)
-          (org-reveal)
-        (show-subtree))))
+(require 'saveplace)
+(setq-default save-place t)
 
-  (add-hook 'session-after-jump-to-last-change-hook
-            'le::maybe-reveal)
-  )
+;;;; Session
+;; (with-package* session
+;;   (add-hook 'after-init-hook 'session-initialize)
+;;   ;; C-x C-/, C-x <undo>
+;;   ;; http://www.emacswiki.org/emacs/EmacsSession
+;;   ;; expanded folded secitons as required
+;;   (defun le::maybe-reveal ()
+;;     (when (and (or (memq major-mode  '(org-mode outline-mode))
+;;                    (and (boundp 'outline-minor-mode)
+;;                         outline-minor-mode))
+;;                (outline-invisible-p))
+;;       (if (eq major-mode 'org-mode)
+;;           (org-reveal)
+;;         (show-subtree))))
+
+;;   (add-hook 'session-after-jump-to-last-change-hook
+;;             'le::maybe-reveal)
+;;   )
 
 
 ;;;; Eshell
