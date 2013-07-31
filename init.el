@@ -79,7 +79,6 @@
 (setq auto-revert-verbose nil)
 
 
-;; (recentf-mode 1)
 (delete-selection-mode t)
 (global-subword-mode t)
 (show-paren-mode t)
@@ -131,6 +130,11 @@
 
 
 ;; (midnight-delay-set 'midnight-delay "4:30am")
+
+
+;;;; recentf
+(recentf-mode 1)
+(global-set-key [(meta f12)] 'recentf-open-files)
 
 
 ;;;; Session
