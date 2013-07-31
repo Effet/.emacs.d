@@ -17,3 +17,6 @@ tutorial/
 image-dired
 
 custom.el
+my-autoloads.el
+projectile-bookmarks.eld
+test.el
