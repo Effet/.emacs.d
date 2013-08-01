@@ -118,6 +118,8 @@
 (setq dired-listing-switches "-Alh")
 (setq dired-dwim-target t)
 
+(require 'dired-x)
+
 ;; (with-package* dired+)
 
 
@@ -288,7 +290,7 @@
 
 ;;;; Ido
 (setq
- ;; ido-enable-flex-matching t
+ ido-enable-flex-matching t
  ido-create-new-buffer 'always
  ;; ido-use-filename-at-point 'guess
  ido-auto-merge-work-directories-length -1
@@ -303,15 +305,10 @@
 ;; (with-package* ido-vertical-mode
 ;;   (ido-vertical-mode t))
 
-;; (with-package flx-autoloads
-;;   ;; (require 'flx-ido)
-;;   ;; (setq ido-use-faces nil)
-;;   (flx-ido-mode t)
-;;   )
-(with-package* flx-ido
-  (setq ido-use-faces nil)
-  (setq flx-ido-threshhold 3000)
-  (flx-ido-mode t))
+;; (with-package* flx-ido
+;;   (setq ido-use-faces nil)
+;;   (setq flx-ido-threshhold 3000)
+;;   (flx-ido-mode t))
 
 
 (global-set-key [remap list-buffers] 'ibuffer)

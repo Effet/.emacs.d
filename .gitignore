@@ -15,6 +15,7 @@ abbrev_defs
 tutorial/
 .session
 image-dired
+bookmarks
 
 custom.el
 my-autoloads.el
