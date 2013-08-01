@@ -103,11 +103,6 @@
 (winner-mode t)
 
 
-;;;; deft
-(with-package deft-autoloads
-  (global-set-key [f8] 'deft))
-
-
 ;;;; useful shortcuts C-x r j <reg_name>
 (set-register ?h '(file . "~/"))
 (set-register ?e '(file . "~/.emacs"))

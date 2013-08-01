@@ -16,12 +16,6 @@
 (package-initialize)
 
 
-;; ;;;; Functions (load all files in utils-dir)
-;; (setq utils-dir (expand-file-name "utils" user-emacs-directory))
-;; (dolist (file (directory-files utils-dir t "\\w+"))
-;;   (when (file-regular-p file)
-;;     (load file)))
-
 (require 'init-autoloads)
 
 
@@ -31,7 +25,6 @@
   (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t))
 
 (add-hook 'emacs-lisp-mode-hook 'imenu-elisp-sections)
-
 
 
 ;;;; UTF-8 Stuff
@@ -74,6 +67,7 @@
 (set-default 'imenu-auto-rescan t)
 
 
+(require 'autorevert)
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
@@ -112,13 +106,15 @@
 
 
 ;;;; Dired/Dired+
+(require 'dired)
+(require 'dired-x)
+
 ;; `dired' in single buffer by type `a'
 (put 'dired-find-alternate-file 'disabled nil)
 ;; (setq dired-listing-switches "-AlXh --group-directories-first")
 (setq dired-listing-switches "-Alh")
 (setq dired-dwim-target t)
 
-(require 'dired-x)
 
 ;; (with-package* dired+)
 
@@ -195,7 +191,7 @@
 ;;;; term-mode
 (add-hook 'term-mode-hook (lambda() (yas-minor-mode -1)))
 
-(with-package multi-term-autoloads
+(after 'multi-term-autoloads
   (setq multi-term-program "/bin/zsh")
   (global-set-key (kbd "C-c m") 'multi-term-next)
   (global-set-key (kbd "C-c M") 'multi-term)
@@ -215,7 +211,8 @@
 
 
 ;;;; ack-and-a-half
-(with-package* ack-and-a-half
+(after 'ack-and-a-half
+  (require 'ack-and-a-half)
   (defalias 'ack 'ack-and-a-half)
   (defalias 'ack-same 'ack-and-a-half-same)
   (defalias 'ack-find-file 'ack-and-a-half-find-file)
@@ -223,24 +220,29 @@
 
 
 ;;;; undo-tree
-(with-package* undo-tree
+(after 'undo-tree-autoloads
   (global-undo-tree-mode))
 
 
 ;;;; volatile-highlights
-(with-package* volatile-highlights
+(after 'volatile-highlights
+  (require 'volatile-highlights)
   (volatile-highlights-mode t))
 
 
 ;;;; diminish
-(with-package* diminish
-  (with-package undo-tree (diminish 'undo-tree-mode))
-  (with-package autopair (diminish 'autopair-mode))
-  (with-package volatile-highlights (diminish 'volatile-highlights-mode)))
+(after 'diminish-autoloads
+  (require 'diminish)
+  (after 'undo-tree (diminish 'undo-tree-mode))
+  (after 'autopair (diminish 'autopair-mode))
+  (after 'volatile-highlights (diminish 'volatile-highlights-mode)))
 
 
 ;;;; Deft
-(with-package deft
+(after 'deft-autoloads
+  (global-set-key [f8] 'deft))
+
+(after 'deft
   (setq deft-directory "~/Dropbox/notes")
   (setq deft-extension "org")
   (setq deft-text-mode 'org-mode)
@@ -248,7 +250,7 @@
 
 
 ;;;; flycheck
-(with-package flycheck-autoloads
+(after 'flycheck-autoloads
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 
@@ -259,7 +261,7 @@
 
 
 ;;;; smartparens
-(with-package smartparens-autoloads
+(after 'smartparens-autoloads
   (require 'smartparens-config)
   (smartparens-global-mode t)
 
@@ -289,17 +291,16 @@
 
 
 ;;;; Ido
-(setq
- ido-enable-flex-matching t
- ido-create-new-buffer 'always
- ;; ido-use-filename-at-point 'guess
- ido-auto-merge-work-directories-length -1
- )
+(require 'ido)
 
 (ido-mode t)
-;; (ido-everywhere t)
+(setq ido-enable-flex-matching t)
+(setq ido-create-new-buffer 'always)
+;; (setq ido-use-filename-at-point 'guess)
+(setq ido-auto-merge-work-directories-length -1)
 
-(with-package* (ido-ubiquitous)
+(after 'ido-ubiquitous-autoloads
+  (require 'ido-ubiquitous)
   (ido-ubiquitous-mode t))
 
 ;; (with-package* ido-vertical-mode
@@ -313,7 +314,7 @@
 
 (global-set-key [remap list-buffers] 'ibuffer)
 
-;; -> https://github.com/filsinger/emacs-config/blob/master/custom/ibuffer-ido-find-file.el#L5
+;; -> https://github.com/filsinger/emacs-config/blob/master/custom/ibuffer-ido-find-file.el#L4-L15
 (defun ibuffer-ido-find-file (file &optional wildcards)
   "Like `find-file', but default to the directory of the buffer at point."
   (interactive
@@ -328,7 +329,7 @@
 
 (global-set-key [remap ibuffer-find-file] 'ibuffer-ido-find-file)
 
-(with-package ibuffer-vc-autoloads
+(after 'ibuffer-vc-autoloads
   (add-hook 'ibuffer-hook
             (lambda ()
               (ibuffer-vc-set-filter-groups-by-vc-root)
@@ -337,19 +338,20 @@
   )
 
 
-(with-package smex-autoloads
+(after 'smex-autoloads
   (smex-initialize)
   (global-set-key (kbd "M-x") 'smex)
   (global-set-key (kbd "M-X") 'smex-major-mode-commands))
 
 
-(with-package* projectile
+(after 'projectile-autoloads
+  (require 'projectile)
   (projectile-global-mode)
   )
 
 
 ;;;; helm
-(with-package helm-autoloads
+(after 'helm-autoloads
   ;; (helm-mode t)
   ;; (setq helm-idle-delay 0.1)
   ;; (setq helm-input-idle-delay 0.1)
@@ -372,7 +374,9 @@
   )
 
 
-(with-package* yasnippet
+(after 'yasnippet-autoloads
+  (require 'yasnippet)
+
   ;; https://github.com/redguardtoo/emacs.d/blob/master/init-yasnippet.el
   ;; default TAB key is occupied by auto-complete
   (global-set-key (kbd "C-c k") 'yas-expand)
@@ -393,7 +397,7 @@
 
 
 ;;;; Auto-Complete
-(with-package auto-complete-autoloads
+(after 'auto-complete-autoloads
   (require 'auto-complete-config)
   (ac-config-default)
   ;; (setq ac-dwim nil)
@@ -410,7 +414,9 @@
 
 
 ;;;; Popwin (C-g to hide temp buffer)
-(with-package* popwin
+(after 'popwin-autoloads
+  (require 'popwin)
+
   (setq display-buffer-function 'popwin:display-buffer)
 
   ;; Conflict between `popwin' and `Icicles', because of `completion-list-mode'.
