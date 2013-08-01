@@ -76,7 +76,7 @@
 
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t)
-;; (setq auto-revert-verbose nil)
+(setq auto-revert-verbose nil)
 
 
 (delete-selection-mode t)
@@ -90,7 +90,7 @@
 
 
 ;;;; saner regex syntax
-;; Quit: C-c C-q, Copy C-c C-c
+;; Quit: C-c C-q, Copy: C-c C-w, ToggleCase: C-c C-c
 (require 're-builder)
 (setq reb-re-syntax 'string)
 
@@ -118,7 +118,7 @@
 (setq dired-listing-switches "-Alh")
 (setq dired-dwim-target t)
 
-(with-package* dired+)
+;; (with-package* dired+)
 
 
 ;;;; Ediff
@@ -201,10 +201,15 @@
 
 
 ;;;; Org-mode
-(with-package org
-  (setq org-startup-indented t)
+(defun my-org-mode-settings ()
   (setq org-replace-disputed-keys t)
-  (setq org-src-fontify-natively t))
+  (setq org-startup-indented t)
+  (setq org-src-fontify-natively t)
+
+  ;; I bind it to `expand-region'
+  (local-unset-key (kbd "C-'"))
+  )
+(add-hook 'org-mode-hook 'my-org-mode-settings)
 
 
 ;;;; ack-and-a-half

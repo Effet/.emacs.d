@@ -47,9 +47,7 @@
 ;;;; expand-region -- Killing extension for using GNU/Emacs
 (with-package expand-region-autoloads
   (global-set-key (kbd "C-'") 'er/expand-region)
-  (global-set-key (kbd "C-M-'") 'er/contract-region)
-  (eval-after-load "org"
-    '(define-key org-mode-map (kbd "C-'") 'er/expand-region)))
+  (global-set-key (kbd "C-M-'") 'er/contract-region))
 
 
 ;;;; multiple-cursors
