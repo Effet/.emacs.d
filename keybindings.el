@@ -46,8 +46,7 @@
 
 ;;;; expand-region -- Killing extension for using GNU/Emacs
 (use-package expand-region
-  :bind (("C-'"   . er/expand-region)
-         ("C-M-'" . er/contract-region)))
+  :bind ("C-=" . er/expand-region))
 
 
 ;;;; multiple-cursors
