@@ -4,10 +4,12 @@
 
 
 ;;;; Python
-(with-package jedi-autoloads
-  (add-hook 'python-mode-hook 'jedi:setup)
-  (setq jedi:setup-keys t)
-  (setq jedi:complete-on-dot t))
+(use-package jedi
+  :init
+  (progn
+    (add-hook 'python-mode-hook 'jedi:setup)
+    (setq jedi:setup-keys t)
+    (setq jedi:complete-on-dot t)))
 
 
 ;;;; Java

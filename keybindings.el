@@ -40,24 +40,25 @@
 
 
 ;;;; ace-jump-mode
-(with-package ace-jump-mode-autoloads
-  (global-set-key (kbd "C-c SPC") 'ace-jump-mode))
+(use-package ace-jump-mode
+  :bind ("C-c SPC" . ace-jump-mode))
 
 
 ;;;; expand-region -- Killing extension for using GNU/Emacs
-(with-package expand-region-autoloads
-  (global-set-key (kbd "C-'") 'er/expand-region)
-  (global-set-key (kbd "C-M-'") 'er/contract-region))
+(use-package expand-region
+  :bind (("C-'"   . er/expand-region)
+         ("C-M-'" . er/contract-region)))
 
 
 ;;;; multiple-cursors
-(with-package multiple-cursors-autoloads
-  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-  (global-set-key (kbd "C-S-<mouse-1>") 'mc/add-cursor-on-click)
-  (global-set-key (kbd "s-SPC") 'set-rectangular-region-anchor)
+(use-package multiple-cursors
+  :bind (("C->"           . mc/mark-next-like-this)
+         ("C-<"           . mc/mark-previous-like-this)
+         ("C-*"           . mc/mark-all-like-this)
+         ("C-S-<mouse-1>" . mc/add-cursor-on-click)
+         ("S-SPC"         . set-rectangular-region-anchor))
   
+  :init
   (eval-after-load 'sgml-mode
     '(define-key sgml-mode-map (kbd "C-c C-r") 'mc/mark-sgml-tag-pair))
   )
@@ -88,13 +89,15 @@
 
 
 ;;;; move-text M-S-up, M-S-dowm
-(with-package* move-text
-  (global-set-key [M-S-up] 'move-text-up)
-  (global-set-key [M-S-down] 'move-text-down))
+(use-package move-text
+  :init
+  (progn
+    (global-set-key [M-S-up] 'move-text-up)
+    (global-set-key [M-S-down] 'move-text-down)))
 
 
 ;;;; C-x o rebind
-(with-package* switch-window
+(use-package switch-window
   ;; (global-set-key (kbd "C-x o") 'switch-window)
   )
 
@@ -113,9 +116,9 @@
 
 
 ;;;; dired
-(with-package dired
+(after 'dired
   (define-key dired-mode-map (kbd "C-a") 'dired-maybe-bol))
-(with-package wdired
+(after 'wdired
   (define-key wdired-mode-map (kbd "C-a") 'dired-maybe-bol))
 
 

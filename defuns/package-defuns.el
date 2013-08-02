@@ -1,5 +1,5 @@
-;;;; On-demand installation of packages
-;; Stealed from -> https://github.com/purcell/emacs.d/blob/master/init-elpa.el#L62
+;;; On-demand installation of packagesx
+;; -> https://github.com/purcell/emacs.d/blob/master/init-elpa.el#L61-L73
 ;;;###autoload
 (defun require-package (package &optional min-version no-refresh)
   "Install given PACKAGE, optionally requiring MIN-VERSION.
@@ -38,4 +38,3 @@ re-downloaded in order to locate PACKAGE."
 
 
 ;;; package-util.el ends here
-

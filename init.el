@@ -3,10 +3,6 @@
 
 (add-to-list 'load-path user-emacs-directory)
 
-(setq custom-file (concat user-emacs-directory "custom.el"))
-(when (file-exists-p custom-file)
-  (load custom-file))
-
 
 ;;;; Package Stuff
 (require 'package)
@@ -15,11 +11,68 @@
 ;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
 
+(defvar my-packages
+  '(
+    ace-jump-mode
+    ack-and-a-half
+    auto-complete
+    bind-key
+    company
+    deft
+    expand-region
+    flx
+    flx-ido
+    flycheck
+    helm
+    ibuffer-vc
+    ido-ubiquitous
+    jedi
+    mmm-mode
+    move-text
+    multi-term
+    multiple-cursors
+    pcmpl-args
+    pcmpl-git
+    popup
+    popwin
+    projectile
+    rainbow-mode
+    smartparens
+    smex
+    sr-speedbar
+    switch-window
+    tabbar
+    tabbar-ruler
+    undo-tree
+    use-package
+    volatile-highlights
+    yasnippet
+    ))
 
-(require 'init-autoloads)
+(defun my-package-install (package)
+  (unless (package-installed-p package)
+    (package-install package)))
+
+(condition-case nil
+    (mapc 'my-package-install my-packages)
+  (error
+   (package-refresh-contents)
+   (mapc 'my-package-install my-packages)))
 
 
-;; https://github.com/milkypostman/dotemacs/blob/master/init.el#L869
+;;;; ...
+(require 'use-package)
+
+
+;; -> https://github.com/magnars/.emacs.d/blob/master/init.el#L149-L153
+;; Functions (load all files in defuns-dir)
+(setq defuns-dir (expand-file-name "defuns" user-emacs-directory))
+(dolist (file (directory-files defuns-dir t "\\w+"))
+  (when (file-regular-p file)
+    (load file)))
+
+
+;; https://github.com/milkypostman/dotemacs/blob/master/init.el#L919-L924x
 (defun imenu-elisp-sections ()
   (setq imenu-prev-index-position-function nil)
   (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t))
@@ -38,6 +91,7 @@
 ;;;; Settings For Editing Stuff
 
 ;; Narrow (C-x n n, C-x n p, C-x n d)
+;;  (C-x n w) -> widen
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 (put 'narrow-to-defun 'disabled nil)
@@ -51,7 +105,7 @@
  delete-by-moving-to-trash      t
  ;; auto-save-list-file-prefix     nil
  line-move-visual               nil
- track-eol                      t
+ ;; track-eol                      t
  ;; kill-whole-line                t
  echo-keystrokes                0.1
  mouse-wheel-progressive-speed  nil
@@ -75,7 +129,7 @@
 
 (delete-selection-mode t)
 (global-subword-mode t)
-(show-paren-mode t)
+;; (show-paren-mode t)
 
 
 ;;;; uniquify buffer name
@@ -184,58 +238,58 @@
             (split-string (abbreviate-file-name (eshell/pwd)) "/"))
            (if (= (user-uid) 0) " # " " $ "))))
 
-  (with-package (pcmpl-args pcmpl-git))
+  (require 'pcmpl-args)
+  (require 'pcmpl-git)
   )
 
 
 ;;;; term-mode
 (add-hook 'term-mode-hook (lambda() (yas-minor-mode -1)))
 
-(after 'multi-term-autoloads
-  (setq multi-term-program "/bin/zsh")
-  (global-set-key (kbd "C-c m") 'multi-term-next)
-  (global-set-key (kbd "C-c M") 'multi-term)
+(use-package multi-term
+  :bind (("C-c m" . multi-term-next)
+         ("C-c M" . multi-term))
+  :init (setq multi-term-program "/bin/zsh")
   )
 
 
 ;;;; Org-mode
-(defun my-org-mode-settings ()
-  (setq org-replace-disputed-keys t)
+(after 'org
+  ;; (setq org-replace-disputed-keys t)
   (setq org-startup-indented t)
-  (setq org-src-fontify-natively t)
+  (setq org-src-fontify-natively t))
 
+(defun my-org-mode-key-settings ()
   ;; I bind it to `expand-region'
   (local-unset-key (kbd "C-'"))
   )
-(add-hook 'org-mode-hook 'my-org-mode-settings)
+(add-hook 'org-mode-hook 'my-org-mode-key-settings)
 
 
 ;;;; ack-and-a-half
-(after 'ack-and-a-half
-  (require 'ack-and-a-half)
-  (defalias 'ack 'ack-and-a-half)
-  (defalias 'ack-same 'ack-and-a-half-same)
-  (defalias 'ack-find-file 'ack-and-a-half-find-file)
-  (defalias 'ack-find-file-same 'ack-and-a-half-find-file-same))
+(use-package ack-and-a-half
+  :init
+  (progn
+    (defalias 'ack 'ack-and-a-half)
+    (defalias 'ack-same 'ack-and-a-half-same)
+    (defalias 'ack-find-file 'ack-and-a-half-find-file)
+    (defalias 'ack-find-file-same 'ack-and-a-half-find-file-same)))
 
 
 ;;;; undo-tree
-(after 'undo-tree-autoloads
-  (global-undo-tree-mode))
+(use-package undo-tree-autoloads
+  :diminish undo-tree-mode
+  :init (global-undo-tree-mode))
 
 
 ;;;; volatile-highlights
-(after 'volatile-highlights
-  (require 'volatile-highlights)
-  (volatile-highlights-mode t))
+(use-package volatile-highlights
+  :diminish volatile-highlights-mode
+  :init (volatile-highlights-mode t))
 
 
-;;;; diminish
-(after 'diminish-autoloads
-  (require 'diminish)
-  (after 'undo-tree (diminish 'undo-tree-mode))
-  (after 'autopair (diminish 'autopair-mode))
-  (after 'volatile-highlights (diminish 'volatile-highlights-mode)))
+;; ;;;; diminish
+;; (use-package diminish)
 
 
 ;;;; Deft
@@ -250,8 +304,8 @@
 
 
 ;;;; flycheck
-(after 'flycheck-autoloads
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+;; (after 'flycheck-autoloads
+;;   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 
 ;;;; autopair
@@ -261,33 +315,34 @@
 
 
 ;;;; smartparens
-(after 'smartparens-autoloads
-  (require 'smartparens-config)
-  (smartparens-global-mode t)
+(use-package smartparens
+  :init
+  (progn
+    (require 'smartparens-config)
+    (smartparens-global-mode t)
 
-  (show-smartparens-global-mode t)
+    (show-smartparens-global-mode t)
 
-  (define-key sp-keymap (kbd "C-M-f") 'sp-forward-sexp)
-  (define-key sp-keymap (kbd "C-M-b") 'sp-backward-sexp)
+    (define-key sp-keymap (kbd "C-M-f") 'sp-forward-sexp)
+    (define-key sp-keymap (kbd "C-M-b") 'sp-backward-sexp)
 
-  (define-key sp-keymap (kbd "C-M-d") 'sp-down-sexp)
-  (define-key sp-keymap (kbd "C-M-a") 'sp-backward-down-sexp)
-  (define-key sp-keymap (kbd "C-S-a") 'sp-beginning-of-sexp)
-  (define-key sp-keymap (kbd "C-S-d") 'sp-end-of-sexp)
+    (define-key sp-keymap (kbd "C-M-d") 'sp-down-sexp)
+    (define-key sp-keymap (kbd "C-M-a") 'sp-backward-down-sexp)
+    (define-key sp-keymap (kbd "C-S-a") 'sp-beginning-of-sexp)
+    (define-key sp-keymap (kbd "C-S-d") 'sp-end-of-sexp)
 
-  (define-key sp-keymap (kbd "C-M-e") 'sp-up-sexp)
-  (define-key sp-keymap (kbd "C-M-u") 'sp-backward-up-sexp)
-  (define-key sp-keymap (kbd "C-M-t") 'sp-transpose-sexp)
+    (define-key sp-keymap (kbd "C-M-e") 'sp-up-sexp)
+    (define-key sp-keymap (kbd "C-M-u") 'sp-backward-up-sexp)
+    (define-key sp-keymap (kbd "C-M-t") 'sp-transpose-sexp)
 
-  (define-key sp-keymap (kbd "C-M-n") 'sp-next-sexp)
-  (define-key sp-keymap (kbd "C-M-p") 'sp-previous-sexp)
+    (define-key sp-keymap (kbd "C-M-n") 'sp-next-sexp)
+    (define-key sp-keymap (kbd "C-M-p") 'sp-previous-sexp)
 
-  (define-key sp-keymap (kbd "M-D") 'sp-splice-sexp)
+    (define-key sp-keymap (kbd "M-D") 'sp-splice-sexp)
 
-  (define-key sp-keymap (kbd "C-]") 'sp-select-next-thing-exchange)
-  (define-key sp-keymap (kbd "C-<left_bracket>") 'sp-select-previous-thing)
-  (define-key sp-keymap (kbd "C-M-]") 'sp-select-next-thing))
-
+    (define-key sp-keymap (kbd "C-]") 'sp-select-next-thing-exchange)
+    (define-key sp-keymap (kbd "C-<left_bracket>") 'sp-select-previous-thing)
+    (define-key sp-keymap (kbd "C-M-]") 'sp-select-next-thing)))
 
 
 ;;;; Ido
@@ -299,9 +354,8 @@
 ;; (setq ido-use-filename-at-point 'guess)
 (setq ido-auto-merge-work-directories-length -1)
 
-(after 'ido-ubiquitous-autoloads
-  (require 'ido-ubiquitous)
-  (ido-ubiquitous-mode t))
+(use-package ido-ubiquitous
+  :init (ido-ubiquitous-mode t))
 
 ;; (with-package* ido-vertical-mode
 ;;   (ido-vertical-mode t))
@@ -338,96 +392,100 @@
   )
 
 
-(after 'smex-autoloads
-  (smex-initialize)
-  (global-set-key (kbd "M-x") 'smex)
-  (global-set-key (kbd "M-X") 'smex-major-mode-commands))
+(use-package smex
+  :init
+  (progn
+    (smex-initialize)
+    (global-set-key (kbd "M-x") 'smex)
+    (global-set-key (kbd "M-X") 'smex-major-mode-commands)))
 
 
-(after 'projectile-autoloads
-  (require 'projectile)
-  (projectile-global-mode)
-  )
+(use-package projectile
+  :init (projectile-global-mode))
 
 
 ;;;; helm
-(after 'helm-autoloads
-  ;; (helm-mode t)
-  ;; (setq helm-idle-delay 0.1)
-  ;; (setq helm-input-idle-delay 0.1)
-  ;; (setq helm-split-window-in-side-p t)
+(use-package helm
+  :init
+  (progn
+    ;; (helm-mode t)
+    ;; (setq helm-idle-delay 0.1)
+    ;; (setq helm-input-idle-delay 0.1)
+    ;; (setq helm-split-window-in-side-p t)
 
-  ;; (setq helm-M-x-always-save-history t)
-  (setq helm-command-prefix-key "M-s")
-  (require 'helm-config)
+    ;; (setq helm-M-x-always-save-history t)
+    (setq helm-command-prefix-key "M-s")
+    (require 'helm-config)
 
-  (define-key helm-command-map (kbd "i") 'helm-imenu)
-  (define-key helm-command-map (kbd "h") 'helm-mini)
-  (define-key helm-command-map (kbd "g") 'helm-do-grep)
-  (define-key helm-command-map (kbd "o") 'helm-occur)
-  (define-key helm-command-map (kbd "r") 'helm-register)
-  (define-key helm-command-map (kbd "R") 'helm-regexp)
-  (define-key helm-command-map (kbd "b") 'helm-c-pp-bookmarks)
-  (define-key helm-command-map (kbd "p") 'helm-eproject-projects)
-  (define-key helm-command-map (kbd "f") 'helm-eproject-files-in-project)
-  (define-key helm-command-map (kbd "<SPC>") 'helm-all-mark-rings)
-  )
+    (define-key helm-command-map (kbd "i") 'helm-imenu)
+    (define-key helm-command-map (kbd "h") 'helm-mini)
+    (define-key helm-command-map (kbd "g") 'helm-do-grep)
+    (define-key helm-command-map (kbd "o") 'helm-occur)
+    (define-key helm-command-map (kbd "r") 'helm-register)
+    (define-key helm-command-map (kbd "R") 'helm-regexp)
+    (define-key helm-command-map (kbd "b") 'helm-c-pp-bookmarks)
+    (define-key helm-command-map (kbd "p") 'helm-eproject-projects)
+    (define-key helm-command-map (kbd "f") 'helm-eproject-files-in-project)
+    (define-key helm-command-map (kbd "<SPC>") 'helm-all-mark-rings)
+    ))
 
 
-(after 'yasnippet-autoloads
-  (require 'yasnippet)
+(use-package yasnippet
+  :init
+  (progn
+    ;; https://github.com/redguardtoo/emacs.d/blob/master/init-yasnippet.el
+    ;; default TAB key is occupied by auto-complete
+    (global-set-key (kbd "C-c k") 'yas-expand)
+    ;; default hotkey `C-c C-s` is still valid
+    (global-set-key (kbd "C-c l") 'yas-insert-snippet)
 
-  ;; https://github.com/redguardtoo/emacs.d/blob/master/init-yasnippet.el
-  ;; default TAB key is occupied by auto-complete
-  (global-set-key (kbd "C-c k") 'yas-expand)
-  ;; default hotkey `C-c C-s` is still valid
-  (global-set-key (kbd "C-c l") 'yas-insert-snippet)
+    (setq yas-snippet-dirs (list (concat user-emacs-directory "snippets")))
+    (setq yas-prompt-functions '(yas-ido-prompt))
 
-  (setq yas-snippet-dirs (list (concat user-emacs-directory "snippets")))
-  (setq yas-prompt-functions '(yas-ido-prompt))
+    ;; When I typed `(global-set`, and press [tab] to use `competion-at-point` to
+    ;; complete `global-set-key`, in default YASnippet setting, it will expand `set`
+    ;; first if define a snippet `set`.
+    ;;   Refer to -> http://ergoemacs.org/emacs/emacs_tip_yasnippet_expand_whole_hyphenated_word.html
+    (setq yas-key-syntaxes '("w_" "w_." "w_.()" "^ "))
 
-  ;; When I typed `(global-set`, and press [tab] to use `competion-at-point` to
-  ;; complete `global-set-key`, in default YASnippet setting, it will expand `set`
-  ;; first if define a snippet `set`.
-  ;;   Refer to -> http://ergoemacs.org/emacs/emacs_tip_yasnippet_expand_whole_hyphenated_word.html
-  (setq yas-key-syntaxes '("w_" "w_." "w_.()" "^ "))
-
-  (yas-global-mode 1)
-  )
+    (yas-global-mode 1)
+    ))
 
 
 ;;;; Auto-Complete
-(after 'auto-complete-autoloads
-  (require 'auto-complete-config)
-  (ac-config-default)
-  ;; (setq ac-dwim nil)
-  ;; (setq ac-auto-show-menu 0.3)
-  (setq ac-auto-show-menu t)
+(use-package auto-complete
+  :init
+  (progn
+    (require 'auto-complete-config)
+    (ac-config-default)
+    ;; (setq ac-dwim nil)
+    ;; (setq ac-auto-show-menu 0.3)
+    (setq ac-auto-show-menu t)
 
-  (setq ac-use-menu-map t)
-  (define-key ac-menu-map (kbd "C-n") 'ac-next)
-  (define-key ac-menu-map (kbd "C-p") 'ac-previous)
+    (setq ac-use-menu-map t)
+    (define-key ac-menu-map (kbd "C-n") 'ac-next)
+    (define-key ac-menu-map (kbd "C-p") 'ac-previous)
 
-  (setq popup-isearch-cursor-color (face-foreground 'warning)) ;... is there a better way?
-  )
+    (setq popup-isearch-cursor-color (face-foreground 'warning)) ;... is there a better way?
+    ))
 
 
 
 ;;;; Popwin (C-g to hide temp buffer)
-(after 'popwin-autoloads
-  (require 'popwin)
+(use-package popwin
+  :init
+  (progn
+    (setq display-buffer-function 'popwin:display-buffer)
 
-  (setq display-buffer-function 'popwin:display-buffer)
-
-  ;; Conflict between `popwin' and `Icicles', because of `completion-list-mode'.
-  (setq popwin:special-display-config
-        '(help-mode
-          (compilation-mode :noselect t)
-          "*Apropos*"
-          "*Shell Command Output*" "*Async Shell Command*"
-          "*Compile-Log*" "*TeX Help*"
-          (" *undo-tree*" :position bottom)))
-  )
+    ;; Conflict between `popwin' and `Icicles', because of `completion-list-mode'.
+    (setq popwin:special-display-config
+          '(help-mode
+            (compilation-mode :noselect t)
+            "*Apropos*"
+            "*Shell Command Output*" "*Async Shell Command*"
+            "*Compile-Log*" "*TeX Help*"
+            (" *undo-tree*" :position bottom)))
+    ))
 
 
 ;;;; Coding Stuff
