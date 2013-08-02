@@ -29,7 +29,8 @@
 (size-indication-mode t) ;show file size
 
 
-(global-hl-line-mode t)
+(when window-system
+  (global-hl-line-mode t))
 
 
 ;; cursor
