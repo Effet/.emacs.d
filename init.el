@@ -2,7 +2,7 @@
 
 
 (add-to-list 'load-path user-emacs-directory)
-
+(add-to-list 'load-path (expand-file-name "vendor" user-emacs-directory))
 
 ;;;; Package Stuff
 (require 'package)
@@ -217,7 +217,7 @@
 (use-package guide-key
   :init
   (progn
-    (setq guide-key/guide-key-sequence '("C-x r" "C-x 4" "M-s" "M-g"))
+    (setq guide-key/guide-key-sequence '("C-x r" "C-x 4" "C-x RET" "M-s" "M-g"))
     (guide-key-mode 1)
     (setq guide-key/recursive-key-sequence-flag t)
     (setq guide-key/popup-window-position 'bottom)))
@@ -507,8 +507,17 @@
 (require 'keybindings)
 
 
-;;;; Some used plugins
-;; (require 'init-plugins)
+;;;; Chinese input
+(use-package eim
+  :load-path "~/.emacs.d/vendor/eim"
+  :commands eim-use-package
+  :init
+  (progn
+    (setq eim-use-tooltip nil)
+    (register-input-method
+     "eim-py" "Chinese-GB" 'eim-use-package
+     "拼音" "汉字拼音输入法" "py.txt")
+    ))
 
 
 (require 'test)
