@@ -1,6 +1,6 @@
 ;;;; Common
-(add-hook 'prog-mode-hook
-          'highlight-fixme-todo-bug)
+;; (add-hook 'prog-mode-hook
+;;           'highlight-fixme-todo-bug)
 
 
 ;;;; Python
