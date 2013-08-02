@@ -2,7 +2,16 @@
 
 
 (add-to-list 'load-path user-emacs-directory)
-(add-to-list 'load-path (expand-file-name "vendor" user-emacs-directory))
+
+(defvar vendor-dir
+  (expand-file-name "vendor" user-emacs-directory))
+
+;; -> https://github.com/magnars/.emacs.d/blob/master/init.el#L29-L32
+;; Add external projects to load path
+(dolist (project (directory-files vendor-dir t "\\w+"))
+  (when (file-directory-p project)
+    (add-to-list 'load-path project)))
+
 
 ;;;; Package Stuff
 (require 'package)
@@ -65,15 +74,23 @@
 (require 'use-package)
 
 
-;; -> https://github.com/magnars/.emacs.d/blob/master/init.el#L149-L153
-;; Functions (load all files in defuns-dir)
-(setq defuns-dir (expand-file-name "defuns" user-emacs-directory))
-(dolist (file (directory-files defuns-dir t "\\w+"))
-  (when (file-regular-p file)
-    (load file)))
+;;;; Autoload defuns
+(defvar defuns-dir (expand-file-name "defuns" user-emacs-directory))
+(defvar defuns-autoload-file (expand-file-name "loaddefs.el" defuns-dir))
+(add-hook 'load-path defuns-dir)
+
+(defun update-defuns-autoload-file ()
+  (interactive)
+  (let ((generated-autoload-file defuns-autoload-file))
+    (update-directory-autoloads defuns-dir)))
+(add-hook 'kill-emacs-hook 'update-defuns-autoload-file)
+
+(unless (file-exists-p defuns-autoload-file)
+  (update-defuns-autoload-file))
+(load-file defuns-autoload-file)
 
 
-;; https://github.com/milkypostman/dotemacs/blob/master/init.el#L919-L924x
+;; https://github.com/milkypostman/dotemacs/blob/master/init.el#L919-L924
 (defun imenu-elisp-sections ()
   (setq imenu-prev-index-position-function nil)
   (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t))
@@ -193,25 +210,6 @@
 (require 'saveplace)
 (setq-default save-place t)
 
-;;;; Session
-;; (with-package* session
-;;   (add-hook 'after-init-hook 'session-initialize)
-;;   ;; C-x C-/, C-x <undo>
-;;   ;; http://www.emacswiki.org/emacs/EmacsSession
-;;   ;; expanded folded secitons as required
-;;   (defun le::maybe-reveal ()
-;;     (when (and (or (memq major-mode  '(org-mode outline-mode))
-;;                    (and (boundp 'outline-minor-mode)
-;;                         outline-minor-mode))
-;;                (outline-invisible-p))
-;;       (if (eq major-mode 'org-mode)
-;;           (org-reveal)
-;;         (show-subtree))))
-
-;;   (add-hook 'session-after-jump-to-last-change-hook
-;;             'le::maybe-reveal)
-;;   )
-
 
 ;;;; guide-key
 (use-package guide-key
@@ -288,7 +286,7 @@
 
 
 ;;;; undo-tree
-(use-package undo-tree-autoloads
+(use-package undo-tree
   :diminish undo-tree-mode
   :init (global-undo-tree-mode))
 
@@ -299,30 +297,9 @@
   :init (volatile-highlights-mode t))
 
 
-;; ;;;; diminish
-;; (use-package diminish)
-
-
-;;;; Deft
-(after 'deft-autoloads
-  (global-set-key [f8] 'deft))
-
-(after 'deft
-  (setq deft-directory "~/Dropbox/notes")
-  (setq deft-extension "org")
-  (setq deft-text-mode 'org-mode)
-  (setq deft-use-filename-as-title t))
-
-
 ;;;; flycheck
 ;; (after 'flycheck-autoloads
 ;;   (add-hook 'after-init-hook #'global-flycheck-mode))
-
-
-;;;; autopair
-;; (with-package autopair-autoloads
-;;   (setq autopair-blink nil)
-;;   (autopair-global-mode))
 
 
 ;;;; smartparens
@@ -391,11 +368,9 @@
 
 
 (use-package smex
-  :init
-  (progn
-    (smex-initialize)
-    (global-set-key (kbd "M-x") 'smex)
-    (global-set-key (kbd "M-X") 'smex-major-mode-commands)))
+  :init (smex-initialize)
+  :bind (("M-x" . smex)
+         ("M-X" . smex-major-mode-commands)))
 
 
 (use-package projectile
@@ -496,7 +471,6 @@
 
 ;;;; Chinese input
 (use-package eim
-  :load-path "~/.emacs.d/vendor/eim"
   :commands eim-use-package
   :init
   (progn
