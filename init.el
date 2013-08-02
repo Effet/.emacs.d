@@ -213,6 +213,7 @@
 
 ;;;; guide-key
 (use-package guide-key
+  :diminish guide-key-mode
   :init
   (progn
     (setq guide-key/guide-key-sequence '("C-x r" "C-x 4" "C-x RET" "M-s" "M-g"))
@@ -277,6 +278,10 @@
 
 ;;;; ack-and-a-half
 (use-package ack-and-a-half
+  :commands (ack-and-a-half
+             ack-and-a-half-same
+             ack-and-a-half-find-file
+             ack-and-a-half-file-file-same)
   :init
   (progn
     (defalias 'ack 'ack-and-a-half)
@@ -304,6 +309,7 @@
 
 ;;;; smartparens
 (use-package smartparens
+  :diminish smartparens-mode
   :init
   (progn
     (require 'smartparens-config)
@@ -358,6 +364,8 @@
 (global-set-key [remap ibuffer-find-file] 'ibuffer-ido-find-file)
 
 (use-package ibuffer-vc
+  :commands (ibuffer-vc-set-filter-groups-by-vc-root
+             ibuffer-do-sort-by-alphabetic)
   :init
   (add-hook 'ibuffer-hook
             (lambda ()
@@ -374,6 +382,7 @@
 
 
 (use-package projectile
+  :disabled t
   :init (projectile-global-mode))
 
 

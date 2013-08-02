@@ -5,6 +5,7 @@
 
 ;;;; Python
 (use-package jedi
+  :commands jedi:setup
   :init
   (progn
     (add-hook 'python-mode-hook 'jedi:setup)
