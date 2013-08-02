@@ -26,7 +26,6 @@
     auto-complete
     bind-key
     company
-    deft
     expand-region
     flx
     flx-ido
@@ -55,6 +54,7 @@
     undo-tree
     use-package
     volatile-highlights
+    web-mode
     yasnippet))
 
 (defun install-my-packages ()
@@ -70,23 +70,28 @@
    (install-my-packages)))
 
 
-;;;; ...
+;;;; `use-package' to maintain packages
 (require 'use-package)
 
 
 ;;;; Autoload defuns
 (defvar defuns-dir (expand-file-name "defuns" user-emacs-directory))
-(defvar defuns-autoload-file (expand-file-name "loaddefs.el" defuns-dir))
 (add-hook 'load-path defuns-dir)
+
+(defvar defuns-autoload-file
+  (expand-file-name "loaddefs.el" defuns-dir))
 
 (defun update-defuns-autoload-file ()
   (interactive)
   (let ((generated-autoload-file defuns-autoload-file))
     (update-directory-autoloads defuns-dir)))
+
 (add-hook 'kill-emacs-hook 'update-defuns-autoload-file)
 
 (unless (file-exists-p defuns-autoload-file)
   (update-defuns-autoload-file))
+
+;; loaddefs.el
 (load-file defuns-autoload-file)
 
 
@@ -178,17 +183,13 @@
 
 
 ;;;; Dired/Dired+
-(require 'dired)
-(require 'dired-x)
-
 ;; `dired' in single buffer by type `a'
 (put 'dired-find-alternate-file 'disabled nil)
 ;; (setq dired-listing-switches "-AlXh --group-directories-first")
 (setq dired-listing-switches "-Alh")
 (setq dired-dwim-target t)
 
-
-;; (with-package* dired+)
+(require 'dired-x)
 
 
 ;;;; Ediff
@@ -248,8 +249,8 @@
             (split-string (abbreviate-file-name (eshell/pwd)) "/"))
            (if (= (user-uid) 0) " # " " $ "))))
 
-  (require 'pcmpl-args)
-  (require 'pcmpl-git)
+  (use-package pcmpl-args)
+  (use-package pcmpl-git)
   )
 
 

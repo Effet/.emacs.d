@@ -74,24 +74,43 @@
 
 
 ;;;; if interactive enable `rainbow-mode', M-o M-o to refontify.
-(require-package 'rainbow-mode)
-(dolist (hook '(css-mode-hook html-mode-hook sass-mode-hook))
-  (add-hook hook 'rainbow-mode))
+(use-package rainbow-mode
+  :commands rainbow-mode
+  :init
+  (progn
+    (dolist (hook '(css-mode-hook html-mode-hook sass-mode-hook))
+      (add-hook hook 'rainbow-mode))))
 
+
+;;;; web-mode
+(use-package web-mode
+  :init
+  (progn
+    (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+    ))
 
 ;;;; mmm-mode
-(require-package 'mmm-mode)
-(require 'mmm-auto)
-(setq mmm-global-mode 'buffers-with-submode-classes)
-(setq mmm-submode-decoration-level 0)
-(setq mmm-parse-when-idle t)
+(use-package mmm-mode
+  :disabled t
+  :init
+  (progn
+    (require 'mmm-auto)
+    (setq mmm-global-mode 'buffers-with-submode-classes)
+    (setq mmm-submode-decoration-level 0)
+    (setq mmm-parse-when-idle t)
 
-(mmm-add-mode-ext-class 'html-mode nil 'html-js)
-(mmm-add-mode-ext-class 'html-mode nil 'html-css)
+    (mmm-add-mode-ext-class 'html-mode nil 'html-js)
+    (mmm-add-mode-ext-class 'html-mode nil 'html-css)
 
-;; jsp
-(add-to-list 'auto-mode-alist '("\\.jsp\\'" . html-mode))
-(mmm-add-mode-ext-class 'html-mode "\\.jsp\\'" 'jsp)
+    ;; jsp
+    (add-to-list 'auto-mode-alist '("\\.jsp\\'" . html-mode))
+    (mmm-add-mode-ext-class 'html-mode "\\.jsp\\'" 'jsp)))
 
 
 ;; (require-package 'skewer-mode)
