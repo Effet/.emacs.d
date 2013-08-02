@@ -12,8 +12,7 @@
 (package-initialize)
 
 (defvar my-packages
-  '(
-    ace-jump-mode
+  '(ace-jump-mode
     ack-and-a-half
     auto-complete
     bind-key
@@ -46,18 +45,19 @@
     undo-tree
     use-package
     volatile-highlights
-    yasnippet
-    ))
+    yasnippet))
 
-(defun my-package-install (package)
-  (unless (package-installed-p package)
-    (package-install package)))
+(defun install-my-packages ()
+  (mapc #'(lambda (package)
+            (unless (package-installed-p package)
+              (package-install package)))
+        my-packages))
 
 (condition-case nil
-    (mapc 'my-package-install my-packages)
+    (install-my-packages)
   (error
    (package-refresh-contents)
-   (mapc 'my-package-install my-packages)))
+   (install-my-packages)))
 
 
 ;;;; ...
