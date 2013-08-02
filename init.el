@@ -22,6 +22,7 @@
     flx
     flx-ido
     flycheck
+    guide-key
     helm
     ibuffer-vc
     ido-ubiquitous
@@ -210,6 +211,16 @@
 ;;   (add-hook 'session-after-jump-to-last-change-hook
 ;;             'le::maybe-reveal)
 ;;   )
+
+
+;;;; guide-key
+(use-package guide-key
+  :init
+  (progn
+    (setq guide-key/guide-key-sequence '("C-x r" "C-x 4" "M-s" "M-g"))
+    (guide-key-mode 1)
+    (setq guide-key/recursive-key-sequence-flag t)
+    (setq guide-key/popup-window-position 'bottom)))
 
 
 ;;;; Eshell
