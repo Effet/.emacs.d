@@ -217,7 +217,7 @@
   :diminish guide-key-mode
   :init
   (progn
-    (setq guide-key/guide-key-sequence '("C-x r" "C-x 4" "C-x RET" "M-s" "M-g"))
+    (setq guide-key/guide-key-sequence '("C-x r" "C-x 4" "C-x c" "C-x RET"))
     (guide-key-mode 1)
     (setq guide-key/recursive-key-sequence-flag t)
     (setq guide-key/popup-window-position 'bottom)))
@@ -392,6 +392,7 @@
 
 ;;;; helm
 (use-package helm
+  :bind ("C-c h" . helm-mini)
   :init
   (progn
     ;; (helm-mode t)
@@ -400,19 +401,8 @@
     ;; (setq helm-split-window-in-side-p t)
 
     ;; (setq helm-M-x-always-save-history t)
-    (setq helm-command-prefix-key "M-s")
+    ;; (setq helm-command-prefix-key "M-s")
     (require 'helm-config)
-
-    (define-key helm-command-map (kbd "i") 'helm-imenu)
-    (define-key helm-command-map (kbd "h") 'helm-mini)
-    (define-key helm-command-map (kbd "g") 'helm-do-grep)
-    (define-key helm-command-map (kbd "o") 'helm-occur)
-    (define-key helm-command-map (kbd "r") 'helm-register)
-    (define-key helm-command-map (kbd "R") 'helm-regexp)
-    (define-key helm-command-map (kbd "b") 'helm-c-pp-bookmarks)
-    (define-key helm-command-map (kbd "p") 'helm-eproject-projects)
-    (define-key helm-command-map (kbd "f") 'helm-eproject-files-in-project)
-    (define-key helm-command-map (kbd "<SPC>") 'helm-all-mark-rings)
     ))
 
 
