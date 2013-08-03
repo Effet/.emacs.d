@@ -21,3 +21,5 @@ custom.el
 my-autoloads.el
 projectile-bookmarks.eld
 test.el
+
+/defuns/loaddefs.el

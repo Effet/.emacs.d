@@ -84,6 +84,7 @@
 
 ;;;; web-mode
 (use-package web-mode
+  :commands web-mode
   :init
   (progn
     (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
