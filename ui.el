@@ -44,25 +44,51 @@
 
 (defun my-x-settings ()
   (tooltip-mode -1)
-  
+
   (setq frame-title-format
         '("Emacs :: "
           (:eval (if buffer-file-name
                      (abbreviate-file-name buffer-file-name)
                    (buffer-name)))))
-  
-  (load-font-alist
-   '("DejaVu Sans Mono-9" "Monospace-10")
-   '("Hiragino Sans GB-10.5" "WenQuanYi Micro Hei-12" "Microsoft Yahei-12"))
-  ;; (setq face-font-rescale-alist
-  ;;       '(("Hiragino Sans GB"  . 1.3)
-  ;;         ("WenQuanYi Zen Hei" . 1.2)))
 
-  ;; (require-package 'zenburn-theme)
-  ;; (load-theme 'zenburn t)
-  ;; (load-theme 'atomtic t)
+  ;;;; Font settings
+
+  ;; -> http://www.emacswiki.org/emacs/SetFonts#toc9
+  ;; Assign an available font
+  (require 'dash)
+  (defun font-candidate (&rest fonts)
+    "Return the first available font."
+    (--first (find-font (font-spec :name it)) fonts))
+
+;;;----------
+;;; http://en.wikipedia.org/wiki/I_Can_Eat_Glass
+;;; http://www.columbia.edu/~kermit/utf8.html
+;;;--------------------------------------------------
+;;; I can eat glass and it doesn't hurt me. 
+;;; 我能吞下玻璃而不伤身体。
+;;; 我能吞下玻璃而不傷身體。
+;;; 私はガラスを食べられます。それは私を傷つけません。
+  
+  ;; default font
+  (set-face-attribute 'default nil
+                      :font (font-candidate "ABC"
+                                            "DejaVu Sans Mono-9"))
+
+  ;; simplified-chinese font
+  (set-fontset-font t 'chinese-gb2312
+                    (font-spec
+                     :family (font-candidate "Hiragino Sans GB"
+                                             "WenQuanYi Micro Hei"
+                                             "Microsoft Yahei")))
+
+  ;; rescale some double-wide font to fit width
+  (setq face-font-rescale-alist
+        '(("Hiragino Sans GB"    . 1.2)
+          ("WenQuanYi Micro Hei" . 1.2)
+          ("Microsoft Yahei"     . 1.2)))
+
+
   (load-theme 'base16-monokai t)
-  ;; (load-theme 'cofi-dark t)
   (set-frame-size (selected-frame) 111 65)
   )
 
@@ -72,5 +98,6 @@
 
 
 (provide 'ui)
+
 
 ;;; ui.el ends here
