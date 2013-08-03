@@ -362,7 +362,10 @@
 
 
 (global-set-key [remap list-buffers] 'ibuffer)
-(global-set-key [remap ibuffer-find-file] 'ibuffer-ido-find-file)
+(add-hook 'ibuffer-mode-hook
+          (lambda ()
+            (define-key ibuffer-mode-map [remap ibuffer-find-file]
+              'ibuffer-ido-find-file)))
 
 (use-package ibuffer-vc
   :commands (ibuffer-vc-set-filter-groups-by-vc-root
