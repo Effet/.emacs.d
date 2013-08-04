@@ -270,12 +270,6 @@
   (setq org-startup-indented t)
   (setq org-src-fontify-natively t))
 
-(defun my-org-mode-key-settings ()
-  ;; I bind it to `expand-region'
-  (local-unset-key (kbd "C-'"))
-  )
-(add-hook 'org-mode-hook 'my-org-mode-key-settings)
-
 
 ;;;; ack-and-a-half
 (use-package ack-and-a-half
@@ -444,7 +438,6 @@
 
     (setq popup-isearch-cursor-color (face-foreground 'warning)) ;... is there a better way?
     ))
-
 
 
 ;;;; Popwin (C-g to hide temp buffer)
