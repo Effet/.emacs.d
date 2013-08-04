@@ -108,6 +108,7 @@
 
 
 ;;;; Loading Appearance Stuff
+(require 'setup-font)
 (require 'ui)
 
 
@@ -487,3 +488,4 @@
 
 
 ;;; init.el ends here
+(put 'upcase-region 'disabled nil)
