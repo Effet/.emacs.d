@@ -8,27 +8,30 @@
   (--first (find-font (font-spec :name it)) fonts))
 
 
-(defun setup-my-font (ascii-font &optional gbk-font)
+(defun setup-my-font (size ascii-font &optional gbk-font)
   "Assign font for ascii and (if specified) hanzi"
   ;; default font
-  (set-face-attribute 'default nil :font ascii-font)
+  (set-face-attribute 'default nil :family ascii-font :height (* size 10))
   ;; hanzi
   (if gbk-font
       (set-fontset-font t 'chinese-gbk (font-spec :family gbk-font))))
 
 
-
-(defun setup-my-font-dejavusansmono-wqymicrohei ()
+(defun setup-my-font-dejavusansmono-wqymicrohei (&optional size)
   "Mix `DejaVu Sans Mono' and `WenQunYi Micro Hei'"
-  (setup-my-font "DejaVu Sans Mono-9" "WenQuanYi Micro Hei")
+  (interactive)
+  (setup-my-font (or size 9)
+                 "DejaVu Sans Mono" "WenQuanYi Micro Hei")
   (setq face-font-rescale-alist
         '(("WenQuanYi Micro Hei" . 1.2)))
   )
 
 
-(defun setup-my-font-terminus-wqybitmapsong ()
+(defun setup-my-font-terminus-wqybitmapsong (&optional size)
   "Mix `Terminus' and `WenQuanYi Bitmap Song'"
-  (setup-my-font "Terminus-9" "WenQuanYi Bitmap Song"))
+  (interactive)
+  (setup-my-font (or size 9)
+                 "Terminus" "WenQuanYi Bitmap Song"))
 
 
 (if (eq window-system 'x)
