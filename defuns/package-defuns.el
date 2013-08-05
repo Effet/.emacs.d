@@ -1,4 +1,4 @@
-;;; On-demand installation of packagesx
+;;; On-demand installation of packages
 ;; -> https://github.com/purcell/emacs.d/blob/master/init-elpa.el#L61-L73
 ;;;###autoload
 (defun require-package (package &optional min-version no-refresh)
