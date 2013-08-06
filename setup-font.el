@@ -1,4 +1,5 @@
-;;;; Font settings
+;;; setup-editing.el --- font selection
+
 
 ;; -> http://www.emacswiki.org/emacs/SetFonts#toc9
 ;; Assign an available font
@@ -51,3 +52,6 @@
 ;;; 私はガラスを食べられます。それは私を傷つけません。|
 ;; --------------------
 ;; check if font is ok.
+
+
+;;; setup-font.el ends here
