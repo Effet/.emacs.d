@@ -20,7 +20,7 @@
 
 (defun setup-my-font-dejavusansmono-wqymicrohei (&optional size)
   "Mix `DejaVu Sans Mono' and `WenQunYi Micro Hei'"
-  (interactive)
+  (interactive "P")
   (setup-my-font (or size 9)
                  "DejaVu Sans Mono" "WenQuanYi Micro Hei")
   (setq face-font-rescale-alist
@@ -30,7 +30,7 @@
 
 (defun setup-my-font-terminus-wqybitmapsong (&optional size)
   "Mix `Terminus' and `WenQuanYi Bitmap Song'"
-  (interactive)
+  (interactive "P")
   (setup-my-font (or size 9)
                  "Terminus" "WenQuanYi Bitmap Song"))
 
