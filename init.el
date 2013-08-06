@@ -120,6 +120,10 @@
 (put 'narrow-to-page 'disabled nil)
 (put 'narrow-to-defun 'disabled nil)
 
+;; C-x C-u
+(put 'upcase-region 'disabled nil)
+
+
 ;; always use y/n instead of yes/no
 (fset 'yes-or-no-p 'y-or-n-p)
 
@@ -489,4 +493,3 @@
 
 
 ;;; init.el ends here
-(put 'upcase-region 'disabled nil)
