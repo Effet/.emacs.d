@@ -1,7 +1,13 @@
 ;;; init.el --- Emacs configuration file
 
 (add-to-list 'load-path user-emacs-directory)
-(load (concat user-emacs-directory "vendor/init"))
+
+;; -> https://github.com/magnars/.emacs.d/blob/master/init.el#L29-L32
+;; Add external projects to load path
+(defvar vendor-dir (expand-file-name "vendor" user-emacs-directory))
+(dolist (project (directory-files vendor-dir t "\\w+"))
+  (when (file-directory-p project)
+    (add-to-list 'load-path project)))
 
 (require 'package)
 (add-to-list 'package-archives
