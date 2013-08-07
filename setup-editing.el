@@ -1,6 +1,5 @@
 ;;; setup-editing.el --- editing, basic behavior and so on
 
-
 (setq inhibit-startup-screen t)
 
 (setq make-backup-files nil)
@@ -10,26 +9,21 @@
 
 (set-default 'imenu-auto-rescan t)
 
-
 ;; tabs
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 
-
 ;; cursor
 (setq-default cursor-type 'bar)
 (setq-default cursor-in-non-selected-windows 'hollow)
-
 
 ;; C-x f to set local value
 (setq-default fill-column 78)
 
 (setq-default require-final-newline t)
 
-
 ;; always use y/n instead of yes/no
 (fset 'yes-or-no-p 'y-or-n-p)
-
 
 ;; narrow (C-x n n, C-x n p, C-x n d)
 ;;  (C-x n w) -> widen
@@ -41,37 +35,30 @@
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
-
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 (if window-system (tooltip-mode -1))
 
-
 (delete-selection-mode t)
 (global-subword-mode t)
 ;; (show-paren-mode t)
 
-
 ;; recentf
 (recentf-mode 1)
 (global-set-key [(meta f12)] 'recentf-open-files)
-
 
 (require 'autorevert)
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose nil)
 
-
 (require 'saveplace)
 (setq-default save-place t)
-
 
 ;; uniquify buffer name
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
-
 
 ;; https://github.com/magnars/.emacs.d/blob/master/defuns/misc-defuns.el#L20
 ;; Add spaces and proper formatting to linum-mode. It uses more room than
@@ -87,7 +74,6 @@
                               line)
                       'face 'linum)))
 
-
 (if window-system
     (setq frame-title-format
           '("Emacs :: "
@@ -95,19 +81,15 @@
                        (abbreviate-file-name buffer-file-name)
                      (buffer-name))))))
 
-
 (if window-system
     (set-frame-size (selected-frame) 111 65))
-
 
 ;; modeline
 (column-number-mode t)
 (size-indication-mode t)
 
-
 (when window-system
   (global-hl-line-mode t))
-
 
 ;; C-c <left>, c-c <right>
 (winner-mode t)
@@ -117,10 +99,12 @@
   :diminish undo-tree-mode
   :init (global-undo-tree-mode))
 
+;; Word: C-c SPC, Char: C-u C-c SPC, Line: C-u C-u C-c SPC
+(use-package ace-jump-mode
+  :bind ("C-c SPC" . ace-jump-mode))
 
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
-
 
 (use-package multiple-cursors
   :bind (("C->"           . mc/mark-next-like-this)
@@ -128,12 +112,23 @@
          ("C-*"           . mc/mark-all-like-this)
          ("C-S-<mouse-1>" . mc/add-cursor-on-click)
          ("S-SPC"         . set-rectangular-region-anchor))
-  
   :init
   (eval-after-load 'sgml-mode
     '(define-key sgml-mode-map (kbd "C-c C-r") 'mc/mark-sgml-tag-pair))
   )
 
+(use-package volatile-highlights
+  :diminish volatile-highlights-mode
+  :init (volatile-highlights-mode t))
+
+(use-package move-text
+  :bind (("M-S-<up>"   . move-text-up)
+         ("M-S-<down>" . move-text-down)))
+
+;; C-x o rebind
+(use-package switch-window
+  ;; (global-set-key (kbd "C-x o") 'switch-window)
+  )
 
 (global-set-key (kbd "C-a") 'smart-beginning-of-line)
 (global-set-key (kbd "RET") 'newline-and-indent)
@@ -153,7 +148,6 @@
 
 (global-set-key [remap goto-line] 'goto-line-with-feedback)
 
-
 ;; C-x r j <reg_name>
 (set-register ?h '(file . "~/"))
 (set-register ?e '(file . "~/.emacs"))
@@ -161,7 +155,6 @@
 (set-register ?p '(file . "~/Projects"))
 (set-register ?o '(file . "~/Projects/org"))
 (set-register ?s '(file . "~/Dropbox/study_recipe.org"))
-
 
 ;;;; Indent after yank
 ;; http://www.emacswiki.org/emacs/AutoIndentation
@@ -178,11 +171,9 @@
                 (let ((mark-even-if-inactive transient-mark-mode))
                   (indent-region (region-beginning) (region-end) nil))))))
 
-
 ;;;; View-mode Vi-binding
 ;; bind `read-only-mode' to `view-mode'
 (setq view-read-only t)
-
 (defun view-mode-vi-binding ()
   (progn
     (define-key view-mode-map (kbd "j") 'next-line)
@@ -191,12 +182,9 @@
     (define-key view-mode-map (kbd "l") 'forward-char)
     (define-key view-mode-map (kbd "b") 'backward-word)
     (define-key view-mode-map (kbd "w") 'forward-word)))
-
 (add-hook 'view-mode-hook
           'view-mode-vi-binding)
 
-
 (provide 'setup-editing)
-
 
 ;;; setup-editing.el ends here

@@ -1,9 +1,7 @@
 ;;; init.el --- Emacs configuration file
 
-
 (add-to-list 'load-path user-emacs-directory)
 (load (concat user-emacs-directory "vendor/init"))
-
 
 (require 'package)
 (add-to-list 'package-archives
@@ -25,29 +23,31 @@
 ;; `use-package' to maintain packages
 (require 'use-package)
 
-
 ;;; equip defuns
 (load (concat user-emacs-directory "defuns/init"))
 
-
-;; editing, basic behavior and so on
 (require 'setup-editing)
-
 (require 'setup-font)
-
 (require 'setup-theme)
+(require 'setup-ido)
+(require 'setup-dired)
+
+(require 'setup-magit)
+(require 'setup-org)
+
+(require 'setup-yasnippet)
+(require 'setup-auto-complete)
+(require 'setup-helm)
+(require 'setup-smartparens)
 
 ;; extras settings
 (require 'extras)
-
 (require 'coding)
-
 (require 'locales)
 
 ;; Emacs server
 (require 'server)
 (unless (server-running-p)
   (server-start))
-
 
 ;;; init.el ends here
