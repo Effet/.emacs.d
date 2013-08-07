@@ -22,4 +22,7 @@ my-autoloads.el
 projectile-bookmarks.eld
 test.el
 
+/eshell/history
+/eshell/lastdir
+
 /defuns/loaddefs.el
