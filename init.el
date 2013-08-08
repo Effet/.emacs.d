@@ -37,6 +37,7 @@
 (require 'setup-theme)
 (require 'setup-ido)
 (require 'setup-dired)
+(require 'setup-ibuffer)
 
 (require 'setup-magit)
 (require 'setup-org)
