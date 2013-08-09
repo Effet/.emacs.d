@@ -3,7 +3,7 @@
   :init
   (progn
     (require 'smartparens-config)
-    (smartparens-global-mode t)
+    (add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
 
     (show-smartparens-global-mode t)
 
