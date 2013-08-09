@@ -13,7 +13,7 @@
   (if gbk-font
       (set-fontset-font t 'chinese-gbk (font-spec :family gbk-font))))
 
-(defun setup-my-font-dejavusansmono-wqymicrohei (&optional size)
+(defun setup-my-font--dejavusansmono-wqymicrohei (&optional size)
   "Mix `DejaVu Sans Mono' and `WenQunYi Micro Hei'"
   (interactive "P")
   (setup-my-font (or size 9)
@@ -22,14 +22,14 @@
         '(("WenQuanYi Micro Hei" . 1.2)))
   )
 
-(defun setup-my-font-terminus-wqybitmapsong (&optional size)
+(defun setup-my-font--terminus-wqybitmapsong (&optional size)
   "Mix `Terminus' and `WenQuanYi Bitmap Song'"
   (interactive "P")
   (setup-my-font (or size 9)
                  "Terminus" "WenQuanYi Bitmap Song"))
 
 (if (eq window-system 'x)
-    (setup-my-font-terminus-wqybitmapsong))
+    (setup-my-font--terminus-wqybitmapsong))
 
 (provide 'setup-font)
 
@@ -42,4 +42,4 @@
 ;;; 我能吞下玻璃而不傷身體。                          |
 ;;; 私はガラスを食べられます。それは私を傷つけません。|
 ;; --------------------
-;; check if font is ok.
+;; check whether font setting is ok.
