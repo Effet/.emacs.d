@@ -13,16 +13,6 @@
 (add-hook 'emacs-lisp-mode-hook 'imenu-elisp-sections)
 
 
-;;;; Python
-(use-package jedi
-  :commands jedi:setup
-  :init
-  (progn
-    (add-hook 'python-mode-hook 'jedi:setup)
-    (setq jedi:setup-keys t)
-    (setq jedi:complete-on-dot t)))
-
-
 ;;;; Java
 ;; ;; (custom-set-variables
 ;; ;;  '(eclim-eclipse-dirs '("~/opt/eclipse-sdk-bin-4.2")))

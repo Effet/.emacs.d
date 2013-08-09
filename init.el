@@ -49,6 +49,7 @@
 
 ;; extras settings
 (require 'extras)
+(require 'setup-python)
 (require 'coding)
 (require 'locales)
 
