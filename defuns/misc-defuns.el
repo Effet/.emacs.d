@@ -1,4 +1,5 @@
 ;; https://github.com/magnars/.emacs.d/blob/master/defuns/misc-defuns.el#L20
+;;;###autoload
 (defun goto-line-with-feedback ()
   "Show line numbers temporarily, while prompting for the line number input"
   (interactive)
@@ -8,22 +9,9 @@
         (call-interactively 'goto-line))
     (linum-mode -1)))
 
-;; Add spaces and proper formatting to linum-mode. It uses more room than
-;; necessary, but that's not a problem since it's only in use when going to
-;; lines.
-(setq linum-format (lambda (line)
-                     (propertize
-                      (format (concat " %"
-                                      (number-to-string
-                                       (length (number-to-string
-                                                (line-number-at-pos (point-max)))))
-                                      "d ")
-                              line)
-                      'face 'linum)))
-
-
 
 ;; https://github.com/magnars/.emacs.d/blob/master/defuns/misc-defuns.el#L95
+;;;###autoload
 (defun sudo-edit (&optional arg)
   (interactive "p")
   (if (or arg (not buffer-file-name))
@@ -32,12 +20,14 @@
 
 
 ;; https://github.com/biern/.emacs.d/blob/master/conf-fullscreen.el#L1
+;;;###autoload
 (defun fullscreen ()
   (interactive)
   (set-frame-parameter nil 'fullscreen
                        (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
 
 
+;;;###autoload
 (defun init-time ()
   "Modifier for emacs-init-time."
   (interactive)

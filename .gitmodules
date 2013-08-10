@@ -1,0 +1,4 @@
+[submodule "vendor/eim"]
+	path = vendor/eim
+	url = https://github.com/ironyKuU/eim.git
+	ignore = dirty

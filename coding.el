@@ -1,13 +1,16 @@
 ;;;; Common
-(add-hook 'prog-mode-hook
-          'highlight-fixme-todo-bug)
+;; (add-hook 'prog-mode-hook
+;;           'highlight-fixme-todo-bug)
 
+;;;; Emacs Lisp
+(define-key emacs-lisp-mode-map (kbd "C-c .") 'find-function-at-point)
 
-;;;; Python
-(with-package jedi-autoloads
-  (add-hook 'python-mode-hook 'jedi:setup)
-  (setq jedi:setup-keys t)
-  (setq jedi:complete-on-dot t))
+;; https://github.com/milkypostman/dotemacs/blob/master/init.el#L919-L924
+(defun imenu-elisp-sections ()
+  (setq imenu-prev-index-position-function nil)
+  (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t))
+
+(add-hook 'emacs-lisp-mode-hook 'imenu-elisp-sections)
 
 
 ;;;; Java
@@ -71,24 +74,44 @@
 
 
 ;;;; if interactive enable `rainbow-mode', M-o M-o to refontify.
-(require-package 'rainbow-mode)
-(dolist (hook '(css-mode-hook html-mode-hook sass-mode-hook))
-  (add-hook hook 'rainbow-mode))
+(use-package rainbow-mode
+  :commands rainbow-mode
+  :init
+  (progn
+    (dolist (hook '(css-mode-hook html-mode-hook sass-mode-hook))
+      (add-hook hook 'rainbow-mode))))
 
+
+;;;; web-mode
+(use-package web-mode
+  :commands web-mode
+  :init
+  (progn
+    (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+    ))
 
 ;;;; mmm-mode
-(require-package 'mmm-mode)
-(require 'mmm-auto)
-(setq mmm-global-mode 'buffers-with-submode-classes)
-(setq mmm-submode-decoration-level 0)
-(setq mmm-parse-when-idle t)
+(use-package mmm-mode
+  :disabled t
+  :init
+  (progn
+    (require 'mmm-auto)
+    (setq mmm-global-mode 'buffers-with-submode-classes)
+    (setq mmm-submode-decoration-level 0)
+    (setq mmm-parse-when-idle t)
 
-(mmm-add-mode-ext-class 'html-mode nil 'html-js)
-(mmm-add-mode-ext-class 'html-mode nil 'html-css)
+    (mmm-add-mode-ext-class 'html-mode nil 'html-js)
+    (mmm-add-mode-ext-class 'html-mode nil 'html-css)
 
-;; jsp
-(add-to-list 'auto-mode-alist '("\\.jsp\\'" . html-mode))
-(mmm-add-mode-ext-class 'html-mode "\\.jsp\\'" 'jsp)
+    ;; jsp
+    (add-to-list 'auto-mode-alist '("\\.jsp\\'" . html-mode))
+    (mmm-add-mode-ext-class 'html-mode "\\.jsp\\'" 'jsp)))
 
 
 ;; (require-package 'skewer-mode)

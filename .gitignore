@@ -1,18 +1,13 @@
 *.elc
 *~
 
-#.*
-.smex-items
-bookmarks
 places
 ac-comphist.dat
 backups/
 elpa/
 el-get/
 auto-save-list/
-.recentf
 tramp
-eshell/
 url/
 py.txt
 semanticdb/
@@ -20,5 +15,14 @@ abbrev_defs
 tutorial/
 .session
 image-dired
+bookmarks
 
 custom.el
+my-autoloads.el
+projectile-bookmarks.eld
+test.el
+
+/eshell/history
+/eshell/lastdir
+
+/defuns/loaddefs.el

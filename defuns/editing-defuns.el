@@ -1,4 +1,5 @@
 ;;;; Smart C-a
+;;;###autoload
 (defun smart-beginning-of-line ()
   "Move point to first non-whitespace character or beginning-of-line."
   (interactive "^")
@@ -9,12 +10,14 @@
 
 
 ;;;; Vim-like open-line
+;;;###autoload
 (defun open-line-below ()
   (interactive)
   (end-of-line)
   (newline)
   (indent-for-tab-command))
 
+;;;###autoload
 (defun open-line-above ()
   (interactive)
   (beginning-of-line)
@@ -32,12 +35,14 @@
   (if (> arg 1)
       (message "%d lines copied" arg)))
 
+;;;###autoload
 (defun copy-region-or-whole-line (&optional arg)
   (interactive "p")
   (if (region-active-p)
       (kill-ring-save (region-beginning) (region-end))
     (copy-whole-line arg)))
 
+;;;###autoload
 (defun kill-region-or-to-beginning-of-line ()
   (interactive)
   (if (region-active-p)
@@ -47,6 +52,7 @@
 
 
 ;;;; Duplicate region
+;;;###autoload
 (defun duplicate-current-line-or-region (arg)
   "Duplicates the current line or region ARG times.
 If there's no region, the current line will be duplicated."
@@ -88,6 +94,7 @@ region-end is used."
   (interactive)
   (indent-region (point-min) (point-max)))
 
+;;;###autoload
 (defun cleanup-buffer ()
   (interactive)
   (untabify-buffer)
@@ -96,6 +103,7 @@ region-end is used."
 
 
 ;;;; dired C-a
+;;;###autoload
 (defun dired-maybe-bol ()
   (interactive)
   (let ((p (point)))
@@ -104,10 +112,23 @@ region-end is used."
         (dired-move-to-filename))))
 
 
+;; -> http://www.emacswiki.org/emacs/InteractivelyDoThings#toc17
+;;;###autoload
+(defun ibuffer-ido-find-file ()
+  "Like `ido-find-file', but default to the directory of the buffer at point."
+  (interactive
+   (let ((default-directory (let ((buf (ibuffer-current-buffer)))
+                              (if (buffer-live-p buf)
+                                  (with-current-buffer buf
+                                    default-directory)
+                                default-directory))))
+     (ido-find-file-in-dir default-directory))))
+
 
 ;;;; Highlight TODO: FIXME: BUG:
 ;; http://emacs-fu.blogspot.com/2008/12/highlighting-todo-fixme-and-friends.html
 ;; Warning if a `TODO:', `FIXME:', `BUG:'.
+;;;###autoload
 (defun highlight-fixme-todo-bug ()
   (font-lock-add-keywords nil
                           '(("\\<\\(FIXME\\|TODO\\|BUG\\):"
