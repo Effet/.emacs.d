@@ -31,7 +31,7 @@
 
 ;;; equip defuns
 (defvar defuns-dir (expand-file-name "defuns" user-emacs-directory))
-(dolist (file (directory-files utils-dir t "\\w+"))
+(dolist (file (directory-files defuns-dir t "\\w+"))
   (when (file-regular-p file)
     (load file)))
 
