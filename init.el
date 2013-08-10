@@ -95,33 +95,26 @@
 
 
 ;;;; Indent after yank
-;; http://www.emacswiki.org/emacs/AutoIndentation
-(dolist (command '(yank yank-pop))
-  (eval `(defadvice ,command (after indent-region activate)
-           (and (not current-prefix-arg)
-                (member major-mode '(emacs-lisp-mode lisp-mode
-                                                     clojure-mode    scheme-mode
-                                                     haskell-mode    ruby-mode
-                                                     rspec-mode      python-mode
-                                                     c-mode          c++-mode
-                                                     objc-mode       latex-mode
-                                                     plain-tex-mode))
-                (let ((mark-even-if-inactive transient-mark-mode))
-                  (indent-region (region-beginning) (region-end) nil))))))
+(unless (require 'yank-indent nil t)
+  (warn "`yank-indent.el' is not found."))
 
 
 ;;;; Dired/Dired+
-;; `dired' in single buffer by type `a'
-(put 'dired-find-alternate-file 'disabled nil)
-;; (setq dired-listing-switches "-AlXh --group-directories-first")
-(setq dired-listing-switches "-Alh")
-(setq dired-dwim-target t)
+(eval-after-load "dired"
+  '(progn
+     ;; `dired' in single buffer by type `a'
+     (put 'dired-find-alternate-file 'disabled nil)
+     ;; (setq dired-listing-switches "-AlXh --group-directories-first")
+     (setq dired-listing-switches "-Alh")
+     (setq dired-dwim-target t)
 
-(with-package* dired+)
+     ;; (with-package* dired+)
+     (unless (require 'dired+ nil t)
+       (warn "`dired+' is not installed."))))
 
 
 ;;;; Ediff
-(eval-after-load 'ediff
+(eval-after-load "ediff"
   '(progn
      (setq ediff-diff-options "-w")
      ;; (setq ediff-split-window-function 'split-window-horizontally)
@@ -180,22 +173,48 @@
 
 
 ;;;; Org-mode
-(with-package org
-  (setq org-replace-disputed-keys t)
-  (setq org-src-fontify-natively t))
+(eval-after-load "org"
+  '(progn
+     (setq org-replace-disputed-keys t)
+     (setq org-src-fontify-natively t)))
+
+
+;; (add-to-list 'iimage-mode-image-regex-alist
+;;              (cons (concat "\\[\\[file:\\(~?" iimage-mode-image-filename-regex
+;;                            "\\)\\]")  1))
+
+;; (defun org-toggle-iimage-in-org ()
+;;   "display images in your org file"
+;;   (interactive)
+;;   (if (face-underline-p 'org-link)
+;;       (set-face-underline-p 'org-link nil)
+;;       (set-face-underline-p 'org-link t))
+;;   (iimage-mode))
+
+
+;; (defun my-org-settings ()
+;;   (local-set-key "\M-I" 'org-toggle-iimage-in-org))
+
+;; (add-hook 'org-mode-hook
+;;           my-org-settings)
 
 
 ;;;; ack-and-a-half
-(with-package* ack-and-a-half
-  (defalias 'ack 'ack-and-a-half)
-  (defalias 'ack-same 'ack-and-a-half-same)
-  (defalias 'ack-find-file 'ack-and-a-half-find-file)
-  (defalias 'ack-find-file-same 'ack-and-a-half-find-file-same))
+(eval-after-load "ack-and-a-half-autoloads"
+  '(progn
+     (require 'ack-and-a-half)
+     (defalias 'ack 'ack-and-a-half)
+     (defalias 'ack-same 'ack-and-a-half-same)
+     (defalias 'ack-find-file 'ack-and-a-half-find-file)
+     (defalias 'ack-find-file-same 'ack-and-a-half-find-file-same)))
 
 
 ;;;; undo-tree
-(with-package* undo-tree
-  (global-undo-tree-mode))
+(eval-after-load "undo-tree-autoloads"
+  '(progn
+     (if (require 'undo-tree nil t)
+         (global-undo-tree-mode)
+       (warn "`undo-tree' is not installed."))))
 
 
 ;;;; volatile-highlights
@@ -211,169 +230,87 @@
 
 
 ;;;; Deft
-(with-package deft
-  (setq deft-directory "~/Dropbox/notes")
-  (setq deft-extension "org")
-  (setq deft-text-mode 'org-mode)
-  (setq deft-use-filename-as-title t))
+(eval-after-load "deft-autoloads"
+  '(progn
+     (setq deft-directory "~/Dropbox/notes")
+     (setq deft-extension "org")
+     (setq deft-text-mode 'org-mode)
+     (setq deft-use-filename-as-title t)))
 
 
 ;;;; flycheck
-(require 'flycheck)
-(add-hook 'after-init-hook #'global-flycheck-mode)
 
-
-;;;; autopair
-;; (with-package autopair-autoloads
-;;   (setq autopair-blink nil)
-;;   (autopair-global-mode))
+(eval-after-load "flycheck-autoloads"
+  '(progn
+     (if (require 'flycheck nil t)
+         (add-hook 'after-init-hook #'global-flycheck-mode)
+       (warn "`flycheck' is not installed."))))
 
 
 ;;;; smartparens
-(with-package smartparens-autoloads
-  (require 'smartparens-config)
-  (smartparens-global-mode t)
+(eval-after-load "smartparens-autoloads"
+  '(progn
+     (require 'smartparens-config)
+     (smartparens-global-mode t)
 
-  (show-smartparens-global-mode t)
+     (show-smartparens-global-mode t)
 
-  (define-key sp-keymap (kbd "C-M-f") 'sp-forward-sexp)
-  (define-key sp-keymap (kbd "C-M-b") 'sp-backward-sexp)
+     (define-key sp-keymap (kbd "C-M-f") 'sp-forward-sexp)
+     (define-key sp-keymap (kbd "C-M-b") 'sp-backward-sexp)
 
-  (define-key sp-keymap (kbd "C-M-d") 'sp-down-sexp)
-  (define-key sp-keymap (kbd "C-M-a") 'sp-backward-down-sexp)
-  (define-key sp-keymap (kbd "C-S-a") 'sp-beginning-of-sexp)
-  (define-key sp-keymap (kbd "C-S-d") 'sp-end-of-sexp)
+     (define-key sp-keymap (kbd "C-M-n") 'sp-next-sexp)
+     (define-key sp-keymap (kbd "C-M-p") 'sp-previous-sexp)
 
-  (define-key sp-keymap (kbd "C-M-e") 'sp-up-sexp)
-  (define-key sp-keymap (kbd "C-M-u") 'sp-backward-up-sexp)
-  (define-key sp-keymap (kbd "C-M-t") 'sp-transpose-sexp)
+     (define-key sp-keymap (kbd "M-D") 'sp-splice-sexp)
 
-  (define-key sp-keymap (kbd "C-M-n") 'sp-next-sexp)
-  (define-key sp-keymap (kbd "C-M-p") 'sp-previous-sexp)
-
-  (define-key sp-keymap (kbd "M-D") 'sp-splice-sexp)
-
-  (define-key sp-keymap (kbd "C-]") 'sp-select-next-thing-exchange)
-  (define-key sp-keymap (kbd "C-<left_bracket>") 'sp-select-previous-thing)
-  (define-key sp-keymap (kbd "C-M-]") 'sp-select-next-thing))
+     (define-key sp-keymap (kbd "C-]") 'sp-select-next-thing-exchange)
+     (define-key sp-keymap (kbd "C-<left_bracket>") 'sp-select-previous-thing)
+     (define-key sp-keymap (kbd "C-M-]") 'sp-select-next-thing)))
 
 
 
 ;;;; Ido
 ;; sea more -> http://www.masteringemacs.org/articles/2010/10/10/introduction-to-ido-mode/
-(setq ido-everywhere t
-      ido-enable-flex-matching t
-      ido-create-new-buffer 'always
-      ido-use-filename-at-point 'guess
-      ido-use-virtual-buffers t)
+(eval-after-load "ido"
+  '(progn
+     (setq ido-everywhere t
+           ido-enable-flex-matching t
+           ido-create-new-buffer 'always
+           ido-use-filename-at-point 'guess
+           ido-use-virtual-buffers t)
 
-(ido-mode t)
+     (ido-mode t)
 
-(with-package* (ido-ubiquitous)
-  (ido-ubiquitous-mode t))
+     (if (require 'ido-ubiquitous nil t)
+         (ido-ubiquitous-mode t)
+       (warn "`ido-ubiquitous' is not installed."))
 
-;; (with-package* ido-vertical-mode
-;;   (ido-vertical-mode t))
+     ;; (with-package* ido-vertical-mode
+     ;;   (ido-vertical-mode t))
 
-(with-package flx-autoloads
-  ;; (require 'flx-ido)
-  ;; (setq ido-use-faces nil)
-  (flx-ido-mode t)
+     (eval-after-load "flx-autoloads"
+       '(progn
+          ;; (require 'flx-ido)
+          ;; (setq ido-use-faces nil)
+          (flx-ido-mode t))
+       )
+     )
   )
+
 
 (global-set-key [remap list-buffers] 'ibuffer)
-(setq ibuffer-saved-filter-groups
-      '(("default"
-         "dired" (or
-                  (mode . dired-mode)
-                  (mode . wdired-mode)))))
 
 
-(with-package smex-autoloads
-  (smex-initialize)
-  (global-set-key (kbd "M-x") 'smex)
-  (global-set-key (kbd "M-X") 'smex-major-mode-commands))
+;;;; smex
+(eval-after-load "smex-autoloads"
+  '(progn
+     (smex-initialize)
+     (global-set-key (kbd "M-x") 'smex)
+     (global-set-key (kbd "M-X") 'smex-major-mode-commands)))
 
 
-(with-package* projectile
-  (projectile-global-mode)
-  )
-
-
-;;;; helm
-(with-package helm-autoloads
-  ;; (helm-mode t)
-  ;; (setq helm-idle-delay 0.1)
-  ;; (setq helm-input-idle-delay 0.1)
-  ;; (setq helm-split-window-in-side-p t)
-
-  ;; (setq helm-M-x-always-save-history t)
-  (setq helm-command-prefix-key "M-s")
-  (require 'helm-config)
-
-  (define-key helm-command-map (kbd "i") 'helm-imenu)
-  (define-key helm-command-map (kbd "h") 'helm-mini)
-  (define-key helm-command-map (kbd "g") 'helm-do-grep)
-  (define-key helm-command-map (kbd "o") 'helm-occur)
-  (define-key helm-command-map (kbd "r") 'helm-register)
-  (define-key helm-command-map (kbd "R") 'helm-regexp)
-  (define-key helm-command-map (kbd "b") 'helm-c-pp-bookmarks)
-  (define-key helm-command-map (kbd "p") 'helm-eproject-projects)
-  (define-key helm-command-map (kbd "f") 'helm-eproject-files-in-project)
-  (define-key helm-command-map (kbd "<SPC>") 'helm-all-mark-rings)
-  )
-
-
-(with-package* yasnippet
-  ;; https://github.com/redguardtoo/emacs.d/blob/master/init-yasnippet.el
-  ;; default TAB key is occupied by auto-complete
-  (global-set-key (kbd "C-c k") 'yas-expand)
-  ;; default hotkey `C-c C-s` is still valid
-  (global-set-key (kbd "C-c l") 'yas-insert-snippet)
-
-  (setq yas-snippet-dirs (list (concat user-emacs-directory "snippets")))
-  (setq yas-prompt-functions '(yas-ido-prompt))
-
-  ;; When I typed `(global-set`, and press [tab] to use `competion-at-point` to
-  ;; complete `global-set-key`, in default YASnippet setting, it will expand `set`
-  ;; first if define a snippet `set`.
-  ;;   Refer to -> http://ergoemacs.org/emacs/emacs_tip_yasnippet_expand_whole_hyphenated_word.html
-  (setq yas-key-syntaxes '("w_" "w_." "w_.()" "^ "))
-
-  (yas-global-mode 1)
-  )
-
-
-;;;; Auto-Complete
-(with-package auto-complete-autoloads
-  (require 'auto-complete-config)
-  (ac-config-default)
-  ;; (setq ac-dwim nil)
-  ;; (setq ac-auto-show-menu 0.3)
-  (setq ac-auto-show-menu t)
-
-  (setq ac-use-menu-map t)
-  (define-key ac-menu-map (kbd "C-n") 'ac-next)
-  (define-key ac-menu-map (kbd "C-p") 'ac-previous)
-
-  (setq popup-isearch-cursor-color (face-foreground 'warning)) ;... is there a better way?
-  )
-
-
-
-;;;; Popwin (C-g to hide temp buffer)
-(with-package* popwin
-  (setq display-buffer-function 'popwin:display-buffer)
-
-  ;; Conflict between `popwin' and `Icicles', because of `completion-list-mode'.
-  (setq popwin:special-display-config
-        '(help-mode
-          (compilation-mode :noselect t)
-          "*Apropos*"
-          "*Shell Command Output*" "*Async Shell Command*"
-          "*Compile-Log*" "*TeX Help*"
-          (" *undo-tree*" :position bottom)))
-  )
+;;;; extension of my config
+(require 'init-ext)
 
 
 ;;;; Coding Stuff
