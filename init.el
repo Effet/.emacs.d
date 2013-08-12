@@ -23,8 +23,8 @@
 (mapc #'(lambda (package)
           (unless (package-installed-p package)
             (package-install package)))
-      '(expand-region ibuffer-vc ido-ubiquitous multiple-cursors smex
-                      undo-tree use-package))
+      '(expand-region ibuffer-vc ido-ubiquitous magit multiple-cursors smex
+                      undo-tree use-package ))
 
 ;; `use-package' to maintain packages
 (require 'use-package)
