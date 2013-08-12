@@ -22,6 +22,15 @@
         '(("WenQuanYi Micro Hei" . 1.2)))
   )
 
+(defun setup-my-font--dejavusansmono-hiraginosansgb (&optional size)
+  "Mix `DejaVu Sans Mono' and `WenQunYi Micro Hei'"
+  (interactive "P")
+  (setup-my-font (or size 9)
+                 "DejaVu Sans Mono" "Hiragino Sans GB")
+  (setq face-font-rescale-alist
+        '(("Hiragino Sans GB" . 1.2)))
+  )
+
 (defun setup-my-font--terminus-wqybitmapsong (&optional size)
   "Mix `Terminus' and `WenQuanYi Bitmap Song'"
   (interactive "P")
@@ -29,7 +38,7 @@
                  "Terminus" "WenQuanYi Bitmap Song"))
 
 (if (eq window-system 'x)
-    (setup-my-font--terminus-wqybitmapsong))
+    (setup-my-font--dejavusansmono-hiraginosansgb))
 
 (provide 'setup-font)
 
