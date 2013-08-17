@@ -6,6 +6,9 @@
 
 (require 'dired-x)
 
+(use-package dired-details
+  :init (dired-details-install))
+
 (eval-after-load 'dired
   '(define-key dired-mode-map (kbd "C-a") 'dired-maybe-bol))
 (eval-after-load 'wdired
