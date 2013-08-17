@@ -26,3 +26,5 @@ test.el
 /eshell/lastdir
 
 /defuns/loaddefs.el
+/TAGS
+/projectile.cache
