@@ -97,13 +97,6 @@
   )
 
 
-(add-hook 'term-mode-hook (lambda() (yas-minor-mode -1)))
-(use-package multi-term
-  :bind (("C-c m" . multi-term-next)
-         ("C-c M" . multi-term))
-  :init (setq multi-term-program "/bin/zsh")
-  )
-
 ;; chinese input method
 (use-package eim
   :commands eim-use-package

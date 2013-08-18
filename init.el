@@ -52,6 +52,7 @@
 
 ;; extras settings
 (require 'extras)
+(require 'setup-term)
 (require 'setup-python)
 (require 'coding)
 (require 'locales)
