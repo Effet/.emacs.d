@@ -25,6 +25,9 @@
 ;; always use y/n instead of yes/no
 (fset 'yes-or-no-p 'y-or-n-p)
 
+;; do not ask, do not follow link
+(setq vc-follow-link nil)
+
 ;; narrow (C-x n n, C-x n p, C-x n d)
 ;;  (C-x n w) -> widen
 (put 'narrow-to-region 'disabled nil)
