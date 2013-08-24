@@ -15,6 +15,9 @@
 (use-package ido-ubiquitous
   :init (ido-ubiquitous-mode t))
 
+(use-package ido-at-point
+  :init (ido-at-point-mode))
+
 (add-hook 'ibuffer-mode-hook
           (lambda ()
             (define-key ibuffer-mode-map [remap ibuffer-find-file]
