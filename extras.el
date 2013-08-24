@@ -59,43 +59,6 @@
     (setq guide-key/recursive-key-sequence-flag t)
     (setq guide-key/popup-window-position 'bottom)))
 
-(use-package eshell
-  :bind ("C-x m" . eshell)
-  :init
-  (progn
-    (setq eshell-history-size 512)
-    (setq eshell-prompt-regexp "^[^#$\n]* [#$] ")
-
-    (setq eshell-cp-interactive-query t
-          eshell-ln-interactive-query t
-          eshell-mv-interactive-query t
-          eshell-rm-interactive-query t)
-
-    (setq eshell-cmpl-ignore-case t
-          eshell-cmpl-cycle-completions nil)
-
-    (setq eshell-prompt-function
-          (lambda ()
-            (concat
-             (short-pwd
-              (split-string (abbreviate-file-name (eshell/pwd)) "/"))
-             (if (= (user-uid) 0) " # " " $ "))))
-    )
-  :config
-  (progn
-    (add-hook 'eshell-mode-hook
-              (lambda ()
-                (define-key eshell-mode-map (kbd "C-a") 'eshell-maybe-bol)
-                (define-key eshell-mode-map (kbd "<return>") 'user-ret)
-                (setq scroll-margin 0)
-                (setq outline-regexp "^[^#$\n]* [#$] ")
-                (outline-minor-mode t)))
-
-    (use-package pcmpl-args)
-    (use-package pcmpl-git)
-    )
-  )
-
 
 ;; chinese input method
 (use-package eim
