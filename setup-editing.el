@@ -1,47 +1,14 @@
 ;;; setup-editing.el --- editing, basic behavior and so on
 
-(setq inhibit-startup-screen t)
-
-(setq make-backup-files nil)
-(setq delete-by-moving-to-trash t)
-
-(setq mouse-wheel-progressive-speed  nil)
-
 (set-default 'imenu-auto-rescan t)
-
-;; tabs
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
-
-;; cursor
-(setq-default cursor-type 'bar)
-(setq-default cursor-in-non-selected-windows 'hollow)
 
 ;; C-x f to set local value
 (setq-default fill-column 78)
 
 (setq-default require-final-newline t)
 
-;; always use y/n instead of yes/no
-(fset 'yes-or-no-p 'y-or-n-p)
-
 ;; do not ask, just follow symlinks
 (setq vc-follow-symlinks t)
-
-;; narrow (C-x n n, C-x n p, C-x n d)
-;;  (C-x n w) -> widen
-(put 'narrow-to-region 'disabled nil)
-(put 'narrow-to-page 'disabled nil)
-(put 'narrow-to-defun 'disabled nil)
-
-;; C-x C-u, C-x C-l
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(if window-system (tooltip-mode -1))
 
 (delete-selection-mode t)
 (global-subword-mode t)
@@ -87,10 +54,6 @@
 
 (if window-system
     (set-frame-size (selected-frame) 111 65))
-
-;; modeline
-(column-number-mode t)
-(size-indication-mode t)
 
 (when window-system
   (global-hl-line-mode t))

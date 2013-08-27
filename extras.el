@@ -1,11 +1,5 @@
 ;;; extras.el --- extra configs
 
-(eval-after-load 'ediff
-  '(progn
-     (setq ediff-diff-options "-w")
-     (setq ediff-split-window-function 'split-window-horizontally)
-     (setq ediff-window-setup-function 'ediff-setup-windows-plain)))
-
 ;; (midnight-delay-set 'midnight-delay "4:30am")
 
 ;; Quit: C-c C-q, Copy: C-c C-w, ToggleCase: C-c C-c

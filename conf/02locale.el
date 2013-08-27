@@ -16,6 +16,3 @@
 ;; TODO: use utf-8
 (if (eq system-type 'windows-nt)
     (set-language-environment 'Chinese-GB))
-
-
-(provide 'locales)

@@ -35,6 +35,9 @@
   (when (file-regular-p file)
     (load file)))
 
+;; configs
+(mapc 'load (directory-files "~/.emacs.d/conf" t "\\w+"))
+
 (require 'setup-editing)
 (require 'setup-font)
 (require 'setup-theme)
@@ -56,7 +59,6 @@
 (require 'setup-term)
 (require 'setup-python)
 (require 'coding)
-(require 'locales)
 
 ;; Emacs server
 (require 'server)
