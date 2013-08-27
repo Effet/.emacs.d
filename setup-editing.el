@@ -31,20 +31,6 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 
-;; https://github.com/magnars/.emacs.d/blob/master/defuns/misc-defuns.el#L20
-;; Add spaces and proper formatting to linum-mode. It uses more room than
-;; necessary, but that's not a problem since it's only in use when going to
-;; lines.
-(setq linum-format (lambda (line)
-                     (propertize
-                      (format (concat " %"
-                                      (number-to-string
-                                       (length (number-to-string
-                                                (line-number-at-pos (point-max)))))
-                                      "d ")
-                              line)
-                      'face 'linum)))
-
 (if window-system
     (setq frame-title-format
           '("Emacs :: "
@@ -112,8 +98,6 @@
 (global-set-key [remap kill-region] 'kill-region-or-to-beginning-of-line)
 
 (global-set-key (kbd "C-c n") 'cleanup-buffer)
-
-(global-set-key [remap goto-line] 'goto-line-with-feedback)
 
 ;; C-x r j <reg_name>
 (set-register ?h '(file . "~/"))

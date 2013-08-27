@@ -1,15 +1,3 @@
-;; https://github.com/magnars/.emacs.d/blob/master/defuns/misc-defuns.el#L20
-;;;###autoload
-(defun goto-line-with-feedback ()
-  "Show line numbers temporarily, while prompting for the line number input"
-  (interactive)
-  (unwind-protect
-      (progn
-        (linum-mode 1)
-        (call-interactively 'goto-line))
-    (linum-mode -1)))
-
-
 ;; https://github.com/magnars/.emacs.d/blob/master/defuns/misc-defuns.el#L95
 ;;;###autoload
 (defun sudo-edit (&optional arg)
