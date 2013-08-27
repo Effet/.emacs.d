@@ -1,34 +1,65 @@
 (deftheme kuu
-  "empty here")
+  "base16-color compatible")
 
-(let ((class '((class color) (min-colors 89)))
-      (base00  "#272822")
-      (base01  "#383830")
-      (base02  "#49483e")
-      (base03  "#75715e")
-      (base04  "#a59f85")
-      (base05  "#f8f8f2")
-      (base06  "#f5f4f1")
-      (base07  "#f9f8f5")
-      (red     "#f92672")
-      (orange " #fd971f")
-      (yellow  "#f4bf75")
-      (green   "#a6e22e")
-      (cyan    "#a1efe4")
-      (blue    "#66d9ef")
-      (magenta "#ae81ff"))
+(lexical-let ((class '((class color) (min-colors 89)))
+              ;; base16 color (base00-0F)
+              (black      "#1d1f21")
+              (DimGrey    "#282a2e")
+              (DarkGrey   "#373b41")
+              (grey       "#969896")
+              (LightGrey  "#b4b7b4")
+              (gainsboro  "#c5c8c6")
+              (WhiteSmoke "#e0e0e0")
+              (white      "#ffffff")
+              (red        "#f92672")
+              (orange     "#fd971f")
+              (yellow     "#f4bf75")
+              (green      "#a6e22e")
+              (cyan       "#a1efe4")
+              (blue       "#66d9ef")
+              (magenta    "#ae81ff")
+              (brown      "brown")
+              ;; additional
+              (pink       "pink")
+              (LightGreen "light green")
+              (LightCyan  "light cyan")
+              (LightBlue  "#007FFF")
+              (violet     "violet"))
+
+  ;; xresources color
+  (defun get-xresource-palette ()
+    (concat "\n*.foreground:  " white
+            "\n*.background:  " black
+            "\n*.cursorColor: " red
+            "\n*.color0:      " black
+            "\n*.color1:      " red
+            "\n*.color2:      " green
+            "\n*.color3:      " orange
+            "\n*.color4:      " blue
+            "\n*.color5:      " magenta
+            "\n*.color6:      " cyan
+            "\n*.color7:      " LightGrey
+            "\n*.color8:      " DarkGrey
+            "\n*.color9:      " pink
+            "\n*.color10:     " LightGreen
+            "\n*.color11:     " yellow
+            "\n*.color12:     " LightBlue
+            "\n*.color13:     " violet
+            "\n*.color14:     " LightCyan
+            "\n*.color15:     " white
+            "\n"))
 
   (custom-theme-set-faces
    'kuu
-   ;; Basic Faces
-   ;; `(border ((t (:background ,base03))))
-   ;; `(header-line ((t (:inherit mode-line :foreground ,base0E :background nil))))
+;;; Basic Faces
+   ;; `(border ((t (:background ,grey))))
    `(cursor ((t (:background ,red))))
-   `(default ((t (:foreground ,base05 :background ,base00))))
+   `(default ((t (:foreground ,white :background ,black))))
    `(error ((,class (:foreground ,red))))
    `(escape-glyph ((t (:foreground ,green))))
-   `(fringe ((t (:background ,base02))))
-   `(highlight ((t (:background ,base01))))
+   `(fringe ((t (:background ,DarkGrey))))
+   ;; `(header-line ((t (:inherit mode-line :foreground ,base0E :background nil))))
+   `(highlight ((t (:background ,DimGrey))))
    `(isearch ((t (:foreground ,yellow :background ,magenta))))
    `(lazy-highlight ((t (:background ,cyan))))
    `(link ((t (:underline t :foreground ,blue))))
@@ -39,13 +70,13 @@
    `(mode-line-emphasis ((t (:weight bold))))
    `(mode-line-highlight ((,class (:box (:line-width 2 :color "grey40" :style released-button))) (t (:inherit (highlight)))))
    `(mode-line-inactive ((t (:weight light :box (:line-width -1 :color nil :style released-button) :foreground "#eeeeec" :background "#555753" :inherit (mode-line)))))
-   `(region ((t (:background ,base02))))
+   `(region ((t (:background ,DarkGrey))))
    `(secondary-selection ((t (:background ,yellow))))
    `(success ((,class (:foreground ,green))))
    `(trailing-whitespace ((t (:background ,red))))
    `(warning ((,class (:foreground ,orange))))
 
-   ;; font-lock
+;;; font-lock
    `(font-lock-builtin-face ((t (:foreground "#ad7fa8"))))
    `(font-lock-comment-face ((t (:foreground "#73d216"))))
    `(font-lock-constant-face ((t (:foreground "#e6a8df"))))
@@ -54,14 +85,23 @@
    `(font-lock-string-face ((t (:foreground "#e9b96e"))))
    `(font-lock-type-face ((t (:foreground "#8cc4ff"))))
    `(font-lock-variable-name-face ((t (:foreground "#fcaf3e"))))
-   )
+
+;;; term
+   `(term-color-black ((t (:foreground ,black :background ,black))))
+   `(term-color-red ((t (:foreground ,red :background ,red))))
+   `(term-color-green ((t (:foreground ,green :background ,green))))
+   `(term-color-yellow ((t (:foreground ,yellow :background ,yellow))))
+   `(term-color-blue ((t (:foreground ,blue :background ,blue))))
+   `(term-color-magenta ((t (:foreground ,magenta :background ,red))))
+   `(term-color-cyan ((t (:foreground ,cyan :background ,blue))))
+   `(term-color-white ((t (:foreground ,white :background ,white))))
+   '(term-default-fg-color ((t (:inherit term-color-white))))
+   '(term-default-bg-color ((t (:inherit term-color-black)))))
 
   (custom-theme-set-variables
    'kuu
    `(ansi-color-names-vector
-     [,base00 ,red ,green ,yellow ,blue ,magenta ,cyan ,base05])
-   `(ansi-term-color-vector
-     [unspecified ,base00 ,red ,green ,yellow ,blue ,magenta ,cyan ,base05])))
+     [,black ,red ,green ,yellow ,blue ,magenta ,cyan ,white])))
 
 (provide-theme 'kuu)
 
