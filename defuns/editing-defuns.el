@@ -100,36 +100,3 @@ region-end is used."
   (untabify-buffer)
   (delete-trailing-whitespace)
   (indent-buffer))
-
-
-;;;; dired C-a
-;;;###autoload
-(defun dired-maybe-bol ()
-  (interactive)
-  (let ((p (point)))
-    (move-beginning-of-line nil)
-    (if (= p (point))
-        (dired-move-to-filename))))
-
-
-;; -> http://www.emacswiki.org/emacs/InteractivelyDoThings#toc17
-;;;###autoload
-(defun ibuffer-ido-find-file ()
-  "Like `ido-find-file', but default to the directory of the buffer at point."
-  (interactive
-   (let ((default-directory (let ((buf (ibuffer-current-buffer)))
-                              (if (buffer-live-p buf)
-                                  (with-current-buffer buf
-                                    default-directory)
-                                default-directory))))
-     (ido-find-file-in-dir default-directory))))
-
-
-;;;; Highlight TODO: FIXME: BUG:
-;; http://emacs-fu.blogspot.com/2008/12/highlighting-todo-fixme-and-friends.html
-;; Warning if a `TODO:', `FIXME:', `BUG:'.
-;;;###autoload
-(defun highlight-fixme-todo-bug ()
-  (font-lock-add-keywords nil
-                          '(("\\<\\(FIXME\\|TODO\\|BUG\\):"
-                             1 font-lock-warning-face t))))

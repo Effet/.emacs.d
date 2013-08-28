@@ -2,17 +2,8 @@
 
 (set-default 'imenu-auto-rescan t)
 
-;; C-x f to set local value
-(setq-default fill-column 78)
-
-(setq-default require-final-newline t)
-
 ;; do not ask, just follow symlinks
 (setq vc-follow-symlinks t)
-
-(delete-selection-mode t)
-(global-subword-mode t)
-;; (show-paren-mode t)
 
 ;; recentf
 (recentf-mode 1)
@@ -30,13 +21,6 @@
 ;; uniquify buffer name
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
-
-(if window-system
-    (setq frame-title-format
-          '("Emacs :: "
-            (:eval (if buffer-file-name
-                       (abbreviate-file-name buffer-file-name)
-                     (buffer-name))))))
 
 (if window-system
     (set-frame-size (selected-frame) 111 65))

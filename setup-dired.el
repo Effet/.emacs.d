@@ -9,6 +9,14 @@
 (use-package dired-details
   :init (dired-details-install))
 
+;;;; dired C-a
+(defun dired-maybe-bol ()
+  (interactive)
+  (let ((p (point)))
+    (move-beginning-of-line nil)
+    (if (= p (point))
+        (dired-move-to-filename))))
+
 (eval-after-load 'dired
   '(define-key dired-mode-map (kbd "C-a") 'dired-maybe-bol))
 (eval-after-load 'wdired
