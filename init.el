@@ -40,7 +40,6 @@
 
 (require 'setup-editing)
 (require 'setup-font)
-(require 'setup-theme)
 (require 'setup-ido)
 (require 'setup-dired)
 (require 'setup-ibuffer)
