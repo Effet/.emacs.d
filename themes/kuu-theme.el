@@ -1,53 +1,30 @@
 (deftheme kuu
-  "base16-color compatible")
+  "base16-color compatible, monokai-modified")
 
-(lexical-let ((class '((class color) (min-colors 89)))
-              ;; base16 color (base00-0F)
-              (black      "#1d1f21")
-              (DimGrey    "#282a2e")
-              (DarkGrey   "#373b41")
-              (grey       "#969896")
-              (LightGrey  "#b4b7b4")
-              (gainsboro  "#c5c8c6")
-              (WhiteSmoke "#e0e0e0")
-              (white      "#ffffff")
-              (red        "#f92672")
-              (orange     "#fd971f")
-              (yellow     "#f4bf75")
-              (green      "#a6e22e")
-              (cyan       "#a1efe4")
-              (blue       "#33a9dd")
-              (magenta    "#ae81ff")
-              (brown      "brown")
-              ;; additional
-              (pink       "pink")
-              (LightGreen "light green")
-              (LightCyan  "#00ffff")
-              (LightBlue  "#007FFF")
-              (violet     "violet"))
-
-  ;; xresources color
-  (defun get-xresource-palette ()
-    (concat "\n*.foreground:  " white
-            "\n*.background:  " black
-            "\n*.cursorColor: " red
-            "\n*.color0:      " black
-            "\n*.color1:      " red
-            "\n*.color2:      " green
-            "\n*.color3:      " orange
-            "\n*.color4:      " blue
-            "\n*.color5:      " magenta
-            "\n*.color6:      " cyan
-            "\n*.color7:      " LightGrey
-            "\n*.color8:      " DarkGrey
-            "\n*.color9:      " pink
-            "\n*.color10:     " LightGreen
-            "\n*.color11:     " yellow
-            "\n*.color12:     " LightBlue
-            "\n*.color13:     " violet
-            "\n*.color14:     " LightCyan
-            "\n*.color15:     " white
-            "\n"))
+(let ((class '((class color) (min-colors 89)))
+      ;; base16 color (base00-0F)
+      (black      "#1d1f21")
+      (DimGrey    "#282a2e")
+      (DarkGrey   "#373b41")
+      (grey       "#969896")
+      (LightGrey  "#b4b7b4")
+      (gainsboro  "#c5c8c6")
+      (WhiteSmoke "#e0e0e0")
+      (white      "#ffffff")
+      (red        "#f92672")
+      (orange     "#fd971f")
+      (yellow     "#f4bf75")
+      (green      "#a6e22e")
+      (cyan       "#a1efe4")
+      (blue       "#33a9dd")
+      (magenta    "#ae81ff")
+      (brown      "brown")
+      ;; additional
+      (pink       "pink")
+      (LightGreen "light green")
+      (LightCyan  "#00ffff")
+      (LightBlue  "#007FFF")
+      (violet     "violet"))
 
   (custom-theme-set-faces
    'kuu
@@ -95,14 +72,14 @@
    ;; `(font-lock-warning-face ((t (:foreground ,zenburn-yellow-2 :weight bold))))
 
 ;;; Term Mode
-   `(term-color-black ((t (:foreground ,black :background ,black))))
-   `(term-color-red ((t (:foreground ,red :background ,red))))
-   `(term-color-green ((t (:foreground ,green :background ,green))))
-   `(term-color-yellow ((t (:foreground ,yellow :background ,yellow))))
-   `(term-color-blue ((t (:foreground ,blue :background ,blue))))
-   `(term-color-magenta ((t (:foreground ,magenta :background ,red))))
-   `(term-color-cyan ((t (:foreground ,cyan :background ,blue))))
-   `(term-color-white ((t (:foreground ,white :background ,white)))))
+   `(term-color-black ((t (:foreground ,black :background ,DarkGrey))))
+   `(term-color-red ((t (:foreground ,red :background ,pink))))
+   `(term-color-green ((t (:foreground ,green :background ,LightGreen))))
+   `(term-color-yellow ((t (:foreground ,orange :background ,yellow))))
+   `(term-color-blue ((t (:foreground ,blue :background ,LightBlue))))
+   `(term-color-magenta ((t (:foreground ,magenta :background ,violet))))
+   `(term-color-cyan ((t (:foreground ,cyan :background ,LightCyan))))
+   `(term-color-white ((t (:foreground ,LightGrey :background ,white)))))
 
   (custom-theme-set-variables
    'kuu
