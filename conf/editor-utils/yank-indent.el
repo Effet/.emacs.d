@@ -37,8 +37,3 @@ indent yanked text (with prefix arg don't indent)."
                (member major-mode yank-indent-modes)))
       (let ((transient-mark-mode nil))
         (yank-advised-indent-function (region-beginning) (region-end)))))
-
-
-(provide 'yank-indent)
-
-;;; yank-indent.el ends here

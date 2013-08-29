@@ -1,6 +1,55 @@
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/"))
+;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(package-initialize)
+
+;; for the first run.
+(unless package-archive-contents
+  (package-refresh-contents))
+
+(defvar my-packages
+  '(
+    ace-jump-mode
+    ack-and-a-half
+    auto-complete
+    dired-details
+    expand-region
+    guide-key
+    helm
+    ibuffer-vc
+    ibuffer-vc
+    ido-at-point
+    ido-sort-mtime
+    ido-ubiquitous
+    jedi
+    magit
+    mmm-mode
+    move-text
+    multi-term
+    multiple-cursors
+    pcmpl-args
+    pcmpl-git
+    popwin
+    projectile
+    smartparens
+    smex
+    undo-tree
+    use-package
+    web-mode
+    yasnippet
+    )
+  )
+
+;; must installs
+(mapc #'(lambda (package)
+          (unless (package-installed-p package)
+            (package-install package)))
+      my-packages)
+
+
 ;;; On-demand installation of packages
 ;; -> https://github.com/purcell/emacs.d/blob/master/init-elpa.el#L61-L73
-;;;###autoload
 (defun require-package (package &optional min-version no-refresh)
   "Install given PACKAGE, optionally requiring MIN-VERSION.
 If NO-REFRESH is non-nil, the available package lists will not be
@@ -15,7 +64,6 @@ re-downloaded in order to locate PACKAGE."
 
 
 ;; http://milkbox.net/note/single-file-master-emacs-configuration/
-;;;###autoload
 (defmacro after (mode &rest body)
   "`eval-after-load' MODE evaluate BODY."
   (declare (indent defun))
@@ -24,7 +72,6 @@ re-downloaded in order to locate PACKAGE."
 
 
 ;; -> http://stackoverflow.com/a/14838150
-;;;###autoload
 (defun package-list-unaccounted-packages ()
   "Like `package-list-packages', but shows only the packages that
   are installed and are not in `my-packages'.  Useful for
@@ -37,4 +84,7 @@ re-downloaded in order to locate PACKAGE."
                   (mapcar 'car package-archive-contents))))
 
 
-;;; package-util.el ends here
+;; `use-package' to maintain packages
+(require 'use-package)
+
+(provide 'setup-package)

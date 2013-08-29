@@ -1,32 +1,7 @@
-;;; extras.el --- extra configs
+(use-package move-text
+  :bind (("M-S-<up>"   . move-text-up)
+         ("M-S-<down>" . move-text-down)))
 
-;; (midnight-delay-set 'midnight-delay "4:30am")
-
-;; Quit: C-c C-q, Copy: C-c C-w, ToggleCase: C-c C-c
-(require 're-builder)
-(setq reb-re-syntax 'string)
-
-
-(use-package projectile
-  :disabled nil
-  :init (projectile-global-mode))
-
-
-;; popwin (C-g to hide temp buffer)
-(use-package popwin
-  :init
-  (progn
-    (setq display-buffer-function 'popwin:display-buffer)
-
-    ;; Conflict between `popwin' and `Icicles', because of `completion-list-mode'.
-    (setq popwin:special-display-config
-          '(help-mode
-            (compilation-mode :noselect t)
-            "*Apropos*"
-            "*Shell Command Output*" "*Async Shell Command*"
-            "*Compile-Log*" "*TeX Help*"
-            (" *undo-tree*" :position bottom)))
-    ))
 
 ;; ;; flycheck
 ;; (after 'flycheck-autoloads
@@ -65,6 +40,4 @@
      "拼音" "汉字拼音输入法" "py.txt")
     ))
 
-(provide 'extras)
-
-;;; extras.el ends here
+(provide 'setup-misc)

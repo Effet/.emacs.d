@@ -1,5 +1,8 @@
 ;;; init.el --- Emacs configuration file
 
+;; Hint: <C-S-backspace> (kill a whole line)
+;; Hint: C-u 0 C-k (backward kill line)
+
 (add-to-list 'load-path user-emacs-directory)
 
 ;; -> https://github.com/magnars/.emacs.d/blob/master/init.el#L29-L32
@@ -9,40 +12,31 @@
   (when (file-directory-p project)
     (add-to-list 'load-path project)))
 
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/"))
-;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-(package-initialize)
+(require 'setup-package)
 
-;; for the first run.
-(unless package-archive-contents
-  (package-refresh-contents))
-
-;; must installs
-(mapc #'(lambda (package)
-          (unless (package-installed-p package)
-            (package-install package)))
-      '(expand-region ibuffer-vc ido-ubiquitous magit multiple-cursors smex
-                      undo-tree use-package ))
-
-;; `use-package' to maintain packages
-(require 'use-package)
-
-;;; equip defuns
-(defvar defuns-dir (expand-file-name "defuns" user-emacs-directory))
-(dolist (file (directory-files defuns-dir t "\\w+"))
-  (when (file-regular-p file)
-    (load file)))
+;; ;;; equip defuns
+;; (defvar defuns-dir (expand-file-name "defuns" user-emacs-directory))
+;; (dolist (file (directory-files defuns-dir t "\\w+"))
+;;   (when (file-regular-p file)
+;;     (load file)))
 
 ;; configs
-(mapc 'load (directory-files "~/.emacs.d/conf" t "\\.el$"))
+;; (mapc 'load (directory-files "~/.emacs.d/conf" t "\\.el$"))
+(dolist (item (directory-files "~/.emacs.d/conf" t "\\w+"))
+  (if (file-directory-p item)
+      (mapc 'load (directory-files item t "\\w+"))
+    (load item)))
 
-(require 'setup-editing)
-(require 'setup-font)
 (require 'setup-ido)
+(require 'setup-smex)
+(require 'setup-ibuffer)
+(require 'setup-recentf)
 (require 'setup-dired)
 
+(require 'setup-undo-tree)
+(require 'setup-ace-jump-mode)
+(require 'setup-expand-region)
+(require 'setup-multiple-cursors)
 (require 'setup-magit)
 (require 'setup-org)
 
@@ -51,12 +45,17 @@
 (require 'setup-helm)
 (require 'setup-smartparens)
 
-;; extras settings
-(require 'extras)
+(require 'setup-projectile)
+(require 'setup-popwin)
 (require 'setup-eshell)
 (require 'setup-term)
 (require 'setup-python)
+(require 'setup-web-mode)
+(require 'setup-mmm-mode)
+(require 'setup-rainbow-mode)
 (require 'coding)
+
+(require 'setup-misc)
 
 ;; Emacs server
 (require 'server)

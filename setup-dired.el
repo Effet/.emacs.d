@@ -7,9 +7,12 @@
 (require 'dired-x)
 
 (use-package dired-details
-  :init (dired-details-install))
+  :init
+  (progn
+    (setq dired-details-hidden-string "")
+    (dired-details-install)))
 
-;;;; dired C-a
+;; dired C-a
 (defun dired-maybe-bol ()
   (interactive)
   (let ((p (point)))

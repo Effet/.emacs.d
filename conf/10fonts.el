@@ -40,8 +40,6 @@
 (if (eq window-system 'x)
     (setup-my-font--dejavusansmono-hiraginosansgb))
 
-(provide 'setup-font)
-
 ;;;---------------------------------------------------\
 ;;; http://en.wikipedia.org/wiki/I_Can_Eat_Glass      |
 ;;; http://www.columbia.edu/~kermit/utf8.html         |
