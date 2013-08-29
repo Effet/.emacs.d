@@ -12,4 +12,8 @@
 (add-hook 'org-mode-hook
           'org-time-stamp-setting)
 
+;; Hint: C-c C-t org-todo
+;; Hint: C-c C-o org-open-at-point
+;; Hint: C-c C-x C-l org-preview-latex-fragment
+
 (provide 'setup-org)

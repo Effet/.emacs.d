@@ -36,7 +36,7 @@
     (load file)))
 
 ;; configs
-(mapc 'load (directory-files "~/.emacs.d/conf" t "\\w+"))
+(mapc 'load (directory-files "~/.emacs.d/conf" t "\\.el$"))
 
 (require 'setup-editing)
 (require 'setup-font)

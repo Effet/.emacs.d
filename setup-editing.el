@@ -1,10 +1,5 @@
 ;;; setup-editing.el --- editing, basic behavior and so on
 
-(set-default 'imenu-auto-rescan t)
-
-;; do not ask, just follow symlinks
-(setq vc-follow-symlinks t)
-
 ;; recentf
 (recentf-mode 1)
 (global-set-key [(meta f12)] 'recentf-open-files)
@@ -67,21 +62,18 @@
   ;; (global-set-key (kbd "C-x o") 'switch-window)
   )
 
-(global-set-key (kbd "C-a") 'smart-beginning-of-line)
 (global-set-key (kbd "RET") 'newline-and-indent)
+
+;; Hint: <C-S-backspace> (kill a whole line)
+;; Hint: C-u 0 C-k (backward kill line)
 
 ;; Vim-like open-line
 (global-set-key (kbd "C-<return>") 'open-line)
 (global-set-key (kbd "C-o") 'open-line-below)
 (global-set-key (kbd "C-S-o") 'open-line-above)
 
-(global-set-key (kbd "C-c d") 'duplicate-current-line-or-region)
-
-;; Region editing
 (global-set-key [remap kill-ring-save] 'copy-region-or-whole-line)
 (global-set-key [remap kill-region] 'kill-region-or-to-beginning-of-line)
-
-(global-set-key (kbd "C-c n") 'cleanup-buffer)
 
 ;; C-x r j <reg_name>
 (set-register ?h '(file . "~/"))

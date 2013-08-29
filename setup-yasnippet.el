@@ -7,7 +7,7 @@
     ;; default hotkey `C-c C-s` is still valid
     (global-set-key (kbd "C-c l") 'yas-insert-snippet)
 
-    (setq yas-snippet-dirs (list (concat user-emacs-directory "snippets")))
+    ;; (setq yas-snippet-dirs (list (concat user-emacs-directory "snippets")))
     (setq yas-prompt-functions '(yas-ido-prompt))
 
     ;; When I typed `(global-set`, and press [tab] to use `competion-at-point` to
@@ -17,6 +17,10 @@
     (setq yas-key-syntaxes '("w_" "w_." "w_.()" "^ "))
 
     (yas-global-mode 1)
+
+    (defun yas-not-activate ()
+      (memq major-mode '(term-mode)))
+    (setq-default yas-dont-activate (cons #'yas-not-activate yas-dont-activate))
     ))
 
 (provide 'setup-yasnippet)

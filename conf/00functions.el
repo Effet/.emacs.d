@@ -11,3 +11,13 @@
   (interactive)
   (set-frame-parameter nil 'fullscreen
                        (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
+
+
+(defun term16-colors ()
+  "Use ansi-term-color-vector to generate
+Xresoures' 16-color."
+  (let ((list (cdr (mapcar #'(lambda (face)
+                               (cons (face-foreground face)
+                                     (face-background face)))
+                           ansi-term-color-vector))))
+    (append (mapcar 'car list) (mapcar 'cdr list))))
