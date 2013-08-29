@@ -29,3 +29,5 @@ test.el
 /TAGS
 /projectile.cache
 /saved-places
+
+/vendor/nxhtml
