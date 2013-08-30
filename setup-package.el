@@ -18,12 +18,13 @@
     expand-region
     guide-key
     helm
-    keyfreq
     ibuffer-vc
     ido-at-point
     ido-sort-mtime
     ido-ubiquitous
     jedi
+    key-chord
+    keyfreq
     magit
     mmm-mode
     move-text

@@ -16,6 +16,8 @@
     ;;   Refer to -> http://ergoemacs.org/emacs/emacs_tip_yasnippet_expand_whole_hyphenated_word.html
     (setq yas-key-syntaxes '("w_" "w_." "w_.()" "^ "))
 
+    (setq yas-triggers-in-field t)
+
     (yas-global-mode 1)
 
     (defun yas-not-activate ()
