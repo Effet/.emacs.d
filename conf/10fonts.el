@@ -23,7 +23,7 @@
   )
 
 (defun setup-my-font--dejavusansmono-hiraginosansgb (&optional size)
-  "Mix `DejaVu Sans Mono' and `WenQunYi Micro Hei'"
+  "Mix `DejaVu Sans Mono' and `Hiragino Sans GB'"
   (interactive "P")
   (setup-my-font (or size 9)
                  "DejaVu Sans Mono" "Hiragino Sans GB")
