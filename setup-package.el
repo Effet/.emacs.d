@@ -8,6 +8,7 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
+
 (defvar my-packages
   '(
     ace-jump-mode
@@ -17,7 +18,7 @@
     expand-region
     guide-key
     helm
-    ibuffer-vc
+    keyfreq
     ibuffer-vc
     ido-at-point
     ido-sort-mtime
@@ -34,6 +35,7 @@
     projectile
     smartparens
     smex
+    switch-window
     undo-tree
     use-package
     web-mode
@@ -41,7 +43,6 @@
     )
   )
 
-;; must installs
 (mapc #'(lambda (package)
           (unless (package-installed-p package)
             (package-install package)))

@@ -24,5 +24,3 @@
   '(define-key dired-mode-map (kbd "C-a") 'dired-maybe-bol))
 (eval-after-load 'wdired
   '(define-key wdired-mode-map (kbd "C-a") 'dired-maybe-bol))
-
-(provide 'setup-dired)

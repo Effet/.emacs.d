@@ -1,8 +1,5 @@
 ;;; init.el --- Emacs configuration file
 
-;; Hint: <C-S-backspace> (kill a whole line)
-;; Hint: C-u 0 C-k (backward kill line)
-
 (add-to-list 'load-path user-emacs-directory)
 
 ;; -> https://github.com/magnars/.emacs.d/blob/master/init.el#L29-L32
@@ -29,16 +26,7 @@
 
 (require 'setup-ido)
 (require 'setup-smex)
-(require 'setup-ibuffer)
 (require 'setup-recentf)
-(require 'setup-dired)
-
-(require 'setup-undo-tree)
-(require 'setup-ace-jump-mode)
-(require 'setup-expand-region)
-(require 'setup-multiple-cursors)
-(require 'setup-magit)
-(require 'setup-org)
 
 (require 'setup-yasnippet)
 (require 'setup-auto-complete)
@@ -46,16 +34,10 @@
 (require 'setup-smartparens)
 
 (require 'setup-projectile)
-(require 'setup-popwin)
 (require 'setup-eshell)
 (require 'setup-term)
-(require 'setup-python)
-(require 'setup-web-mode)
 (require 'setup-mmm-mode)
 (require 'setup-rainbow-mode)
-(require 'coding)
-
-(require 'setup-misc)
 
 ;; Emacs server
 (require 'server)

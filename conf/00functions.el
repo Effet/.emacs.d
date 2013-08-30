@@ -21,3 +21,10 @@ Xresoures' 16-color."
                                      (face-background face)))
                            ansi-term-color-vector))))
     (append (mapcar 'car list) (mapcar 'cdr list))))
+
+
+(defun assign-keys (keys cmd)
+  "Map multi-keys to one command."
+  (mapc #'(lambda (key)
+            (global-set-key (kbd key) cmd))
+        keys))
