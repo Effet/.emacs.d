@@ -1,0 +1,23 @@
+(defun copy-whole-line (&optional arg)
+  (interactive "p")
+  (or arg (setq arg 1))
+  (kill-ring-save (line-beginning-position)
+                  (line-beginning-position (1+ arg)))
+  (if (> arg 1)
+      (message "%d lines copied" arg)))
+
+(defun copy-region-or-whole-line (&optional arg)
+  (interactive "p")
+  (if (region-active-p)
+      (kill-ring-save (region-beginning) (region-end))
+    (copy-whole-line arg)))
+
+(defun kill-region-or-to-beginning-of-line ()
+  (interactive)
+  (if (region-active-p)
+      (kill-region (region-beginning) (region-end))
+    (kill-region (save-excursion (beginning-of-line) (point))
+                 (point))))
+
+(global-set-key [remap kill-ring-save] 'copy-region-or-whole-line)
+(global-set-key [remap kill-region] 'kill-region-or-to-beginning-of-line)
