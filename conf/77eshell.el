@@ -1,40 +1,33 @@
-(use-package eshell
-  :bind ("C-x m" . eshell)
-  :init
-  (progn
-    (setq eshell-history-size 512)
-    (setq eshell-prompt-regexp "^[^#$\n]* [#$] ")
+(setq eshell-history-size 512)
+(setq eshell-prompt-regexp "^[^#$\n]* [#$] ")
 
-    (setq eshell-cp-interactive-query t
-          eshell-ln-interactive-query t
-          eshell-mv-interactive-query t
-          eshell-rm-interactive-query t)
+(setq eshell-cp-interactive-query t
+      eshell-ln-interactive-query t
+      eshell-mv-interactive-query t
+      eshell-rm-interactive-query t)
 
-    (setq eshell-cmpl-ignore-case t
-          eshell-cmpl-cycle-completions nil)
+(setq eshell-cmpl-ignore-case t
+      eshell-cmpl-cycle-completions nil)
 
-    (setq eshell-prompt-function
+(setq eshell-prompt-function
+      (lambda ()
+        (concat
+         (short-pwd
+          (split-string (abbreviate-file-name (eshell/pwd)) "/"))
+         (if (= (user-uid) 0) " # " " $ "))))
+
+(add-hook 'eshell-mode-hook
           (lambda ()
-            (concat
-             (short-pwd
-              (split-string (abbreviate-file-name (eshell/pwd)) "/"))
-             (if (= (user-uid) 0) " # " " $ "))))
-    )
-  :config
-  (progn
-    (add-hook 'eshell-mode-hook
-              (lambda ()
-                (define-key eshell-mode-map (kbd "C-a") 'eshell-maybe-bol)
-                (define-key eshell-mode-map (kbd "<return>") 'user-ret)
-                (setq scroll-margin 0)
-                (setq outline-regexp "^[^#$\n]* [#$] ")
-                (outline-minor-mode t)))
+            (define-key eshell-mode-map (kbd "C-a") 'eshell-maybe-bol)
+            (define-key eshell-mode-map (kbd "<return>") 'user-ret)
+            (setq scroll-margin 0)
+            (setq outline-regexp "^[^#$\n]* [#$] ")
+            (outline-minor-mode t)))
 
-    (use-package pcmpl-args)
-    (use-package pcmpl-git)
-    )
-  )
+(use-package pcmpl-args)
+(use-package pcmpl-git)
 
+
 ;; https://github.com/jimm/elisp/blob/master/eshell-customize.el#L56
 (defun short-pwd (p-lst)
   (if (> (length p-lst) 3)
@@ -51,7 +44,7 @@
                p-lst
                "/")))
 
-
+
 ;; `C-a' to beginning of line, and `C-a C-a' to beginning of command line.
 ;; http://www.emacswiki.org/emacs/EshellFunctions#toc6
 (defun eshell-maybe-bol ()
@@ -61,7 +54,7 @@
     (if (= p (point))
         (beginning-of-line))))
 
-
+
 ;; ...
 (defun user-ret ()
   (interactive)
@@ -83,7 +76,7 @@
           (eshell-send-input))))
       )))
 
-
+
 ;; Use `emacs <filename1,[filename2,...]>' command in eshell.
 ;; http://www.emacswiki.org/emacs/EshellFunctions#toc2
 (defun eshell/emacs (&rest args)
@@ -98,14 +91,14 @@
     ;; not the starting directory
     (mapc #'find-file (mapcar #'expand-file-name (eshell-flatten-list (reverse args))))))
 
-
+
 ;; Delete backup files(*~).
 ;; http://www.emacswiki.org/emacs/EshellFunctions#toc9
 (defun eshell/ro ()
   "Delete files matching pattern \".*~\" and \"*~\""
   (eshell/rm (directory-files "." nil "^\\.?.*~$" nil)))
 
-
+
 ;; Clear command for eshll.
 ;; http://www.khngai.com/emacs/eshell.php
 (defun eshell/clear ()
@@ -114,12 +107,12 @@
   (let ((inhibit-read-only t))
     (erase-buffer)))
 
-
+
 ;; Open image files in eshell.
 ;; https://github.com/ran9er/init.emacs/blob/master/_extensions/%2Beshell.el
 (defun eshell/img(img)
   (propertize "Image" (quote display) (create-image (expand-file-name img))))
 
-
+
 (defun eshell/exit ()
   (bury-buffer))

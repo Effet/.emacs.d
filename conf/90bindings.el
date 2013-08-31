@@ -37,6 +37,8 @@
 (global-set-key [(meta f12)] 'recentf-open-files)
 (global-set-key (kbd "C-c f") 'ido-choose-from-recentf)
 
+(global-set-key (kbd "C-x m") 'eshell)
+
 ;; Word: C-c SPC, Char: C-u C-c SPC, Line: C-u C-u C-c SPC
 (use-package ace-jump-mode
   :bind ("C-c SPC" . ace-jump-mode)
