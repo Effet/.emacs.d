@@ -1,5 +1,20 @@
+(setq inhibit-startup-screen t)
+
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+
+
 (setq custom-theme-directory (concat user-emacs-directory "themes"))
 (if window-system (load-theme 'kuu t))
+
+;; cursor
+(setq-default cursor-type 'bar)
+(setq-default cursor-in-non-selected-windows 'hollow)
+
+;; modeline
+(column-number-mode t)
+(size-indication-mode t)
 
 (if window-system
     (setq frame-title-format
@@ -7,11 +22,6 @@
             (:eval (if buffer-file-name
                        (abbreviate-file-name buffer-file-name)
                      (buffer-name))))))
-
-(tool-bar-mode -1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-;; (if window-system (tooltip-mode -1))
 
 (setq linum-format (lambda (line)
                      (propertize
@@ -25,14 +35,6 @@
 
 (if window-system
     (set-frame-size (selected-frame) 111 65))
-
-;; cursor
-(setq-default cursor-type 'bar)
-(setq-default cursor-in-non-selected-windows 'hollow)
-
-;; modeline
-(column-number-mode t)
-(size-indication-mode t)
 
 (when window-system
   (global-hl-line-mode t))
