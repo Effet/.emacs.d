@@ -9,35 +9,12 @@
   (when (file-directory-p project)
     (add-to-list 'load-path project)))
 
-(require 'setup-package)
-
-;; ;;; equip defuns
-;; (defvar defuns-dir (expand-file-name "defuns" user-emacs-directory))
-;; (dolist (file (directory-files defuns-dir t "\\w+"))
-;;   (when (file-regular-p file)
-;;     (load file)))
-
 ;; configs
 ;; (mapc 'load (directory-files "~/.emacs.d/conf" t "\\.el$"))
 (dolist (item (directory-files "~/.emacs.d/conf" t "\\w+"))
   (if (file-directory-p item)
       (mapc 'load (directory-files item t "\\w+"))
     (load item)))
-
-(require 'setup-ido)
-(require 'setup-smex)
-(require 'setup-recentf)
-
-(require 'setup-yasnippet)
-(require 'setup-auto-complete)
-(require 'setup-company)
-(require 'setup-helm)
-(require 'setup-smartparens)
-
-(require 'setup-projectile)
-(require 'setup-eshell)
-(require 'setup-term)
-(require 'setup-mmm-mode)
 
 ;; Emacs server
 (require 'server)

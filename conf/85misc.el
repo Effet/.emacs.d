@@ -22,6 +22,26 @@
     (dolist (hook '(css-mode-hook html-mode-hook sass-mode-hook))
       (add-hook hook 'rainbow-mode))))
 
+(use-package projectile
+  :disabled nil
+  :init (projectile-global-mode))
+
+(use-package mmm-mode
+  :disabled t
+  :init
+  (progn
+    (require 'mmm-auto)
+    (setq mmm-global-mode 'buffers-with-submode-classes)
+    (setq mmm-submode-decoration-level 0)
+    (setq mmm-parse-when-idle t)
+
+    (mmm-add-mode-ext-class 'html-mode nil 'html-js)
+    (mmm-add-mode-ext-class 'html-mode nil 'html-css)
+
+    ;; jsp
+    (add-to-list 'auto-mode-alist '("\\.jsp\\'" . html-mode))
+    (mmm-add-mode-ext-class 'html-mode "\\.jsp\\'" 'jsp)))
+
 (use-package guide-key
   :diminish guide-key-mode
   :init
@@ -37,6 +57,24 @@
     (setq keyfreq-file "~/.emacs.d/keyfreq")
     (keyfreq-mode 1)
     (keyfreq-autosave-mode 1)))
+
+;; bind `read-only-mode' to `view-mode'
+(setq view-read-only t)
+(defun view-mode-vi-binding ()
+  (progn
+    (define-key view-mode-map (kbd "j") 'next-line)
+    (define-key view-mode-map (kbd "k") 'previous-line)
+    (define-key view-mode-map (kbd "h") 'backward-char)
+    (define-key view-mode-map (kbd "l") 'forward-char)
+    (define-key view-mode-map (kbd "b") 'backward-word)
+    (define-key view-mode-map (kbd "w") 'forward-word)))
+(add-hook 'view-mode-hook
+          'view-mode-vi-binding)
+
+;; Quit: C-c C-q, Copy: C-c C-w, ToggleCase: C-c C-c
+(require 're-builder)
+(setq reb-re-syntax 'string)
+
 
 ;; (use-package hi-lock
 ;;   :bind (("M-o l" . highlight-lines-matching-regexp)

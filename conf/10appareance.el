@@ -13,6 +13,16 @@
 (scroll-bar-mode -1)
 ;; (if window-system (tooltip-mode -1))
 
+(setq linum-format (lambda (line)
+                     (propertize
+                      (format (concat " %"
+                                      (number-to-string
+                                       (length (number-to-string
+                                                (line-number-at-pos (point-max)))))
+                                      "d ")
+                              line)
+                      'face 'linum)))
+
 (if window-system
     (set-frame-size (selected-frame) 111 65))
 
