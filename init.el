@@ -30,6 +30,7 @@
 
 (require 'setup-yasnippet)
 (require 'setup-auto-complete)
+(require 'setup-company)
 (require 'setup-helm)
 (require 'setup-smartparens)
 
@@ -37,7 +38,6 @@
 (require 'setup-eshell)
 (require 'setup-term)
 (require 'setup-mmm-mode)
-(require 'setup-rainbow-mode)
 
 ;; Emacs server
 (require 'server)

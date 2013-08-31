@@ -27,6 +27,7 @@
     ido-sort-mtime
     ido-ubiquitous
     jedi
+    js2-mode
     key-chord
     keyfreq
     magit

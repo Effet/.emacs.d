@@ -9,8 +9,8 @@
       (grey       "#969896")
       (LightGrey  "#b4b7b4")
       (gainsboro  "#c5c8c6")
-      (WhiteSmoke "#e0e0e0")
-      (white      "#ffffff")
+      (WhiteSmoke "#eee8d5")
+      (white      "#fdf6e3")
       (red        "#f92672")
       (orange     "#fd971f")
       (yellow     "#f4bf75")
@@ -23,7 +23,7 @@
       (pink       "pink")
       (LightGreen "light green")
       (LightCyan  "#00ffff")
-      (LightBlue  "#007FFF")
+      (LightBlue  "#268bd2")
       (violet     "violet"))
 
   (custom-theme-set-faces
@@ -103,13 +103,24 @@
    `(org-time-grid ((,class (:foreground ,yellow))))
    `(org-todo ((,class (:foreground ,pink))))
    `(org-upcoming-deadline ((,class (:foreground ,orange))))
-   
+
 ;;; Paren
    `(show-paren-match ((,class (:background ,blue))))
    `(show-paren-mismatch ((,class (:foreground unspecified :background ,violet))))
    ;; smartparens
    `(sp-show-pair-match-face ((,class (:background unspecified :inherit show-paren-match))))
    `(sp-show-pair-mismatch-face ((,class (:foreground unspecified :background unspecified :inherit show-paren-mismatch))))
+
+;;; Auto Complete
+
+;;; Company
+   `(company-preview ((,class (:foreground ,WhiteSmoke :background ,blue))))
+   `(company-preview-common ((,class (:foreground ,red))))
+   `(company-preview-search ((,class (:background ,LightBlue))))
+   `(company-tooltip ((,class (:foreground ,WhiteSmoke :background ,DarkGrey))))
+   `(company-tooltip-common ((,class (:foreground ,red))))
+   `(company-tooltip-common-selection ((,class (:foreground ,red))))
+   `(company-tooltip-selection ((,class (:background ,orange))))
 
 ;;; Term Mode
    `(term-color-black ((,class (:foreground ,black :background ,DarkGrey))))

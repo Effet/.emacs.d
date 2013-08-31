@@ -1,6 +1,7 @@
 (require 'ido)
 
 (ido-mode t)
+(setq ido-save-directory-list-file "~/.emacs.d/.ido.last")
 (setq ido-enable-flex-matching t)
 (setq ido-create-new-buffer 'always)
 ;; (setq ido-use-filename-at-point 'guess)

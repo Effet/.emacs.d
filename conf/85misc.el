@@ -14,6 +14,14 @@
             (" *undo-tree*" :position bottom)))
     ))
 
+;; if use M-x way enable `rainbow-mode', M-o M-o to refontify.
+(use-package rainbow-mode
+  :commands rainbow-mode
+  :init
+  (progn
+    (dolist (hook '(css-mode-hook html-mode-hook sass-mode-hook))
+      (add-hook hook 'rainbow-mode))))
+
 (use-package guide-key
   :diminish guide-key-mode
   :init
@@ -29,6 +37,11 @@
     (setq keyfreq-file "~/.emacs.d/keyfreq")
     (keyfreq-mode 1)
     (keyfreq-autosave-mode 1)))
+
+;; (use-package hi-lock
+;;   :bind (("M-o l" . highlight-lines-matching-regexp)
+;;          ("M-o r" . highlight-regexp)
+;;          ("M-o w" . highlight-phrase)))
 
 ;; chinese input method
 (use-package eim

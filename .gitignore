@@ -31,3 +31,7 @@ test.el
 /saved-places
 
 /vendor/nxhtml
+/.ido.last
+/.recentf
+/.smex-items
+/keyfreq

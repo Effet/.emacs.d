@@ -6,3 +6,7 @@
   (add-to-list 'imenu-generic-expression '("Sections" "^;;;; \\(.+\\)$" 1) t))
 
 (add-hook 'emacs-lisp-mode-hook 'imenu-elisp-sections)
+
+;; eldoc
+(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)

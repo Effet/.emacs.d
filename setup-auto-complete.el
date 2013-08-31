@@ -1,4 +1,5 @@
 (use-package auto-complete
+  :disabled t
   :init
   (progn
     (require 'auto-complete-config)

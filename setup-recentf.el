@@ -1,6 +1,7 @@
 ;; recentf
 (recentf-mode 1)
 (global-set-key [(meta f12)] 'recentf-open-files)
+(setq recentf-save-file "~/.emacs.d/.recentf")
 
 (defun ido-choose-from-recentf ()
   "Use ido to select a recently visited file from the `recentf-list'"
