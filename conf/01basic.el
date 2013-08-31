@@ -14,12 +14,6 @@
 
 (set-default 'imenu-auto-rescan t)
 
-(eval-after-load 'ediff
-  '(progn
-     (setq ediff-diff-options "-w")
-     (setq ediff-split-window-function 'split-window-horizontally)
-     (setq ediff-window-setup-function 'ediff-setup-windows-plain)))
-
 ;; uniquify buffer name
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)

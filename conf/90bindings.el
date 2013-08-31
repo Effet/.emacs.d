@@ -6,12 +6,28 @@
 (global-set-key (kbd "C-x \\") 'align-regexp)
 (global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
 
+(global-set-key (kbd "C-c r") 'revert-buffer)
+
 ;; (global-set-key "\C-cR" 'rename-current-file-or-buffer)
 
 ;; (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 ;; (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 ;; (global-set-key (kbd "C-M-s") 'isearch-forward)
 ;; (global-set-key (kbd "C-M-r") 'isearch-backward)
+
+
+(global-set-key (kbd "C-a") 'smart-beginning-of-line)
+
+(global-set-key (kbd "C-<return>") 'open-line)
+(global-set-key (kbd "C-o") 'open-line-below)
+(global-set-key (kbd "C-S-o") 'open-line-above)
+
+(global-set-key (kbd "C-c d") 'duplicate-current-line-or-region)
+(global-set-key (kbd "C-c n") 'cleanup-buffer)
+
+(global-set-key [remap kill-ring-save] 'copy-region-or-whole-line)
+(global-set-key [remap kill-region] 'kill-region-or-to-beginning-of-line)
+
 
 (global-set-key [remap list-buffers] 'ibuffer)
 
