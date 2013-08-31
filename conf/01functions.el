@@ -5,14 +5,12 @@
       (find-file (concat "/sudo:root@localhost:" (ido-read-file-name "File: ")))
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
-
 
 ;; https://github.com/biern/.emacs.d/blob/master/conf-fullscreen.el#L1
 (defun fullscreen ()
   (interactive)
   (set-frame-parameter nil 'fullscreen
                        (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
-
 
 
 ;; https://github.com/magnars/.emacs.d/blob/master/defuns/misc-defuns.el#L20-#L27
@@ -25,13 +23,11 @@
         (call-interactively 'goto-line))
     (linum-mode -1)))
 
-
 
 (defun ido-choose-from-recentf ()
   "Use ido to select a recently visited file from the `recentf-list'"
   (interactive)
   (find-file (ido-completing-read "Open file: " recentf-list nil t)))
-
 
 
 ;; https://github.com/magnars/.emacs.d/blob/master/defuns/buffer-defuns.el#L150
@@ -48,7 +44,6 @@
   (untabify-buffer)
   (delete-trailing-whitespace)
   (indent-buffer))
-
 
 
 (defun duplicate-current-line-or-region (arg)
@@ -81,7 +76,6 @@ region-end is used."
     (forward-char -1))
   (duplicate-region num (point-at-bol) (1+ (point-at-eol))))
 
-
 
 ;; Vim-like open-line
 (defun open-line-below ()
@@ -96,7 +90,6 @@ region-end is used."
   (newline)
   (forward-line -1)
   (indent-for-tab-command))
-
 
 
 (defun copy-whole-line (&optional arg)
@@ -120,7 +113,6 @@ region-end is used."
     (kill-region (save-excursion (beginning-of-line) (point))
                  (point))))
 
-
 
 (defun smart-beginning-of-line ()
   "Move point to first non-whitespace character or beginning-of-line."
@@ -129,7 +121,6 @@ region-end is used."
     (back-to-indentation)
     (and (= oldpos (point))
          (beginning-of-line))))
-
 
 
 ;; http://www.masteringemacs.org/articles/2011/12/15/find-nearest-colors-emacs-24/
@@ -156,7 +147,6 @@ If called interactively, `pt' is the value immediately under `point'."
                         (modify-syntax-entry ?# "w")
                         (thing-at-point 'word))))
 
-
 
 ;; http://stackoverflow.com/questions/1242352/get-font-face-under-cursor-in-emacs
 ;;;###autoload
@@ -166,7 +156,6 @@ If called interactively, `pt' is the value immediately under `point'."
            (or (get-char-property (point) 'read-face-name)
                (get-char-property (point) 'face)
                'default)))
-
 
 
 (defun get-foreground-of-face (face)
@@ -187,7 +176,6 @@ Like the way of KDE's KWrite/Kate."
     (let ((color (get-foreground-of-face face)))
       (set-cursor-color color))))
 
-
 
 (defun term16-colors ()
   "Use ansi-term-color-vector to generate
@@ -197,7 +185,6 @@ Xresoures' 16-color."
                                      (face-background face)))
                            ansi-term-color-vector))))
     (append (mapcar 'car list) (mapcar 'cdr list))))
-
 
 
 (defun assign-keys (keys cmd)
