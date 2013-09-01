@@ -104,6 +104,10 @@
    `(org-todo ((,class (:foreground ,pink))))
    `(org-upcoming-deadline ((,class (:foreground ,orange))))
 
+;;; Match
+   `(match ((,class (:foreground ,orange :background nil :weight bold))))
+   ;; `(match ((,class (:background ,solarized-hl :foreground ,solarized-emph :weight bold))))
+   
 ;;; Paren
    `(show-paren-match ((,class (:background ,blue))))
    `(show-paren-mismatch ((,class (:foreground unspecified :background ,violet))))
@@ -111,16 +115,53 @@
    `(sp-show-pair-match-face ((,class (:background unspecified :inherit show-paren-match))))
    `(sp-show-pair-mismatch-face ((,class (:foreground unspecified :background unspecified :inherit show-paren-mismatch))))
 
+;;; Popup
+   `(popup-face ((,class (:foreground ,WhiteSmoke :background ,DarkGrey))))
+   `(popup-isearch-match ((,class (:background unspecified :inherit lazy-highlight))))
+   `(popup-menu-mouse-face ((,class (:foreground ,white :background ,blue))))
+   `(popup-menu-selection-face ((,class (:foreground ,WhiteSmoke :background ,orange))))
+   `(popup-scroll-bar-background-face ((,class (:background ,DimGrey))))
+   `(popup-scroll-bar-foreground-face ((,class (:background ,LightGrey))))
+   `(popup-tip-face ((,class (:foreground ,gainsboro :background ,DimGrey))))
+
 ;;; Auto Complete
 
 ;;; Company
    `(company-preview ((,class (:foreground ,WhiteSmoke :background ,blue))))
    `(company-preview-common ((,class (:foreground ,red))))
-   `(company-preview-search ((,class (:background ,LightBlue))))
+   `(company-preview-search ((,class (:background unspecified :inherit lazy-highlight))))
    `(company-tooltip ((,class (:foreground ,WhiteSmoke :background ,DarkGrey))))
    `(company-tooltip-common ((,class (:foreground ,red))))
    `(company-tooltip-common-selection ((,class (:foreground ,red))))
    `(company-tooltip-selection ((,class (:background ,orange))))
+
+;;; Helm
+   `(helm-bookmark-addressbook ((,class (:foreground ,brown))))
+   `(helm-bookmark-file ((,class (:foreground nil :inherit helm-ff-file))))
+   `(helm-bookmark-gnus ((,class (:foreground ,magenta))))
+   `(helm-bookmark-info ((,class (:foreground ,green))))
+   `(helm-bookmark-man ((,class (:foreground ,orange))))
+   `(helm-bookmark-w3m ((,class (:foreground ,yellow))))
+   `(helm-buffer-not-saved ((,class (:foreground ,orange))))
+   `(helm-buffer-saved-out ((,class (:foreground ,red :background ,black :inverse-video t))))
+   `(helm-buffer-size ((,class (:foreground ,DimGrey))))
+   `(helm-candidate-number ((,class (:foreground ,black :background ,yellow :weight bold))))
+   `(helm-ff-directory ((,class (:foreground unspecified :background unspecified :inherit dired-directory))))
+   `(helm-ff-executable ((,class (:foreground ,green))))
+   `(helm-ff-file ((,class (:inherit default))))
+   `(helm-ff-invalid-symlink ((,class (:background nil :foreground nil :inherit error :slant italic))))
+   `(helm-ff-prefix ((,class (:foreground ,black :background ,yellow))))
+   `(helm-ff-symlink ((,class (:foreground nil :background nil :inherit dired-symlink))))
+   `(helm-grep-file ((,class (:foreground ,violet))))
+   `(helm-grep-finish ((,class (:foreground ,green))))
+   `(helm-grep-lineno ((,class (:foreground ,orange))))
+   `(helm-grep-running ((,class (:foreground ,red))))
+   `(helm-moccur-buffer ((,class (:foreground ,cyan))))
+   `(helm-selection ((,class (:background unspecified :inherit highlight))))
+   `(helm-selection-line ((,class (:background ,red))))
+   `(helm-separator ((,class (:foreground ,red))))
+   `(helm-source-header ((,class (:foreground ,black :background ,blue))))
+   `(helm-visible-mark ((,class (:foreground ,magenta :background nil :weight bold))))
 
 ;;; Term Mode
    `(term-color-black ((,class (:foreground ,black :background ,DarkGrey))))
