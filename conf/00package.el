@@ -55,9 +55,11 @@ re-downloaded in order to locate PACKAGE."
     ace-jump-mode
     ack-and-a-half
     auto-complete
+    company
     dired-details
     dropdown-list
     expand-region
+    flycheck
     geiser
     guide-key
     helm
@@ -67,6 +69,7 @@ re-downloaded in order to locate PACKAGE."
     ido-ubiquitous
     jedi
     js2-mode
+    js2-refactor
     key-chord
     keyfreq
     magit
@@ -78,13 +81,17 @@ re-downloaded in order to locate PACKAGE."
     pcmpl-git
     popwin
     projectile
+    rainbow-mode
     smartparens
     smex
+    solarized-theme
     switch-window
     undo-tree
     use-package
+    volatile-highlights
     web-mode
     yasnippet
+    zenburn-theme
     )
   )
 
