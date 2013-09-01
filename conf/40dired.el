@@ -6,11 +6,18 @@
 
 (require 'dired-x)
 
-(use-package dired-details
-  :init
-  (progn
-    (setq dired-details-hidden-string "")
-    (dired-details-install)))
+(require dired-details)
+(setq-default dired-details-hidden-string "")
+(dired-details-install)
+
+(require 'dash)
+;; Reload dired after making changes
+(--each '(dired-do-rename
+          dired-do-copy
+          dired-create-directory
+          wdired-abort-changes)
+  (eval `(defadvice ,it (after revert-buffer activate)
+           (revert-buffer))))
 
 ;; dired C-a
 (defun dired-maybe-bol ()
