@@ -56,6 +56,7 @@ re-downloaded in order to locate PACKAGE."
     ack-and-a-half
     auto-complete
     dired-details
+    dropdown-list
     expand-region
     geiser
     guide-key
