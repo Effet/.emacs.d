@@ -6,7 +6,7 @@
 
 (require 'dired-x)
 
-(require dired-details)
+(require 'dired-details)
 (setq-default dired-details-hidden-string "")
 (dired-details-install)
 
