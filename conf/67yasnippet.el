@@ -17,9 +17,9 @@
 ;;   Refer to -> http://ergoemacs.org/emacs/emacs_tip_yasnippet_expand_whole_hyphenated_word.html
 (setq yas-key-syntaxes '("w_" "w_." "w_.()" "^ "))
 
-(setq yas-triggers-in-field t)
+;; (setq yas-triggers-in-field t)
 
-
+
 ;; -> http://www.emacswiki.org/emacs/Yasnippet#toc7
 ;; and -> http://iany.me/2012/03/use-popup-isearch-for-yasnippet-prompt/
 (require 'popup)
@@ -75,7 +75,7 @@
                              yas-completing-prompt
                              yas-no-prompt))
 
-
+
 (defun yas-not-activate ()
   (memq major-mode '(term-mode)))
 (setq-default yas-dont-activate (cons #'yas-not-activate yas-dont-activate))

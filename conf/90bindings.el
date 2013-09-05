@@ -28,7 +28,6 @@
 (global-set-key [remap kill-ring-save] 'copy-region-or-whole-line)
 (global-set-key [remap kill-region] 'kill-region-or-to-beginning-of-line)
 
-
 (global-set-key [remap list-buffers] 'ibuffer)
 
 (global-set-key [remap goto-line] 'goto-line-with-feedback)
@@ -39,15 +38,13 @@
 
 (global-set-key (kbd "C-x m") 'eshell)
 
+
 ;; Word: C-c SPC, Char: C-u C-c SPC, Line: C-u C-u C-c SPC
-(use-package ace-jump-mode
-  :bind ("C-c SPC" . ace-jump-mode)
-  :config
-  (progn
-    (add-hook 'org-mode-hook
-              #'(lambda ()
-                  ;; original map to org-table-blank-field
-                  (local-unset-key (kbd "C-c SPC"))))))
+(global-set-key (kbd "C-c SPC") 'ace-jump-mode)
+(add-hook 'org-mode-hook
+          #'(lambda ()
+              ;; original map to org-table-blank-field
+              (local-unset-key (kbd "C-c SPC"))))
 
 (use-package expand-region
   :bind ("C-=" . er/expand-region))

@@ -1,5 +1,6 @@
 (use-package helm
-  :bind ("C-c h" . helm-mini)
+  :bind (("C-c h" . helm-mini)
+         ("M-x"   . helm-M-x))
   :init
   (progn
     (helm-mode t)

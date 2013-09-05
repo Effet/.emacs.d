@@ -6,6 +6,8 @@
 ;; C-x f to set local value
 (setq-default fill-column 78)
 
+(setq-default truncate-lines t)
+
 (setq-default require-final-newline t)
 
 (delete-selection-mode t)

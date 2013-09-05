@@ -51,12 +51,12 @@
     (setq guide-key/recursive-key-sequence-flag t)
     (setq guide-key/popup-window-position 'bottom)))
 
-(use-package keyfreq
-  :init
-  (progn
-    (setq keyfreq-file "~/.emacs.d/keyfreq")
-    (keyfreq-mode 1)
-    (keyfreq-autosave-mode 1)))
+;; (use-package keyfreq
+;;   :init
+;;   (progn
+;;     (setq keyfreq-file "~/.emacs.d/keyfreq")
+;;     (keyfreq-mode 1)
+;;     (keyfreq-autosave-mode 1)))
 
 ;; bind `read-only-mode' to `view-mode'
 (setq view-read-only t)
@@ -91,3 +91,6 @@
      "eim-py" "Chinese-GB" 'eim-use-package
      "拼音" "汉字拼音输入法" "py.txt")
     ))
+
+;; (eval-after-load "sql"
+;;   (load-library "sql-indent"))

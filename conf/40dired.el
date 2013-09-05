@@ -8,6 +8,7 @@
 
 (require 'dired-details)
 (setq-default dired-details-hidden-string "")
+(setq dired-details-hide-extra-lines nil)
 (dired-details-install)
 
 (require 'dash)
