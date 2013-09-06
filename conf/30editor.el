@@ -20,6 +20,9 @@
   :diminish undo-tree-mode
   :init (global-undo-tree-mode))
 
+;; bind `read-only-mode' to `view-mode'
+(setq view-read-only t)
+
 
 ;; backups
 (setq make-backup-files nil)

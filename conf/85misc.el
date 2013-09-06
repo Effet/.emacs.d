@@ -58,19 +58,6 @@
 ;;     (keyfreq-mode 1)
 ;;     (keyfreq-autosave-mode 1)))
 
-;; bind `read-only-mode' to `view-mode'
-(setq view-read-only t)
-(defun view-mode-vi-binding ()
-  (progn
-    (define-key view-mode-map (kbd "j") 'next-line)
-    (define-key view-mode-map (kbd "k") 'previous-line)
-    (define-key view-mode-map (kbd "h") 'backward-char)
-    (define-key view-mode-map (kbd "l") 'forward-char)
-    (define-key view-mode-map (kbd "b") 'backward-word)
-    (define-key view-mode-map (kbd "w") 'forward-word)))
-(add-hook 'view-mode-hook
-          'view-mode-vi-binding)
-
 ;; Quit: C-c C-q, Copy: C-c C-w, ToggleCase: C-c C-c
 (require 're-builder)
 (setq reb-re-syntax 'string)
