@@ -54,10 +54,12 @@ re-downloaded in order to locate PACKAGE."
   '(
     ace-jump-mode
     ack-and-a-half
+    android-mode
     auto-complete
     company
     dired-details
     dropdown-list
+    emacs-eclim
     expand-region
     flycheck
     geiser
@@ -67,6 +69,7 @@ re-downloaded in order to locate PACKAGE."
     ido-at-point
     ido-sort-mtime
     ido-ubiquitous
+    javadoc-lookup
     jedi
     js2-mode
     js2-refactor
