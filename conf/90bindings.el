@@ -38,6 +38,8 @@
 
 (global-set-key (kbd "C-x m") 'eshell)
 
+(global-set-key (kbd "C-c +") 'increment-number-at-point)
+
 
 ;; Word: C-c SPC, Char: C-u C-c SPC, Line: C-u C-u C-c SPC
 (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
