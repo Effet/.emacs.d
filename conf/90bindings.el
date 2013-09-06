@@ -34,7 +34,7 @@
 (global-set-key (kbd "\e\el") 'goto-line)
 
 (global-set-key [(meta f12)] 'recentf-open-files)
-(global-set-key (kbd "C-c f") 'ido-choose-from-recentf)
+;; (global-set-key (kbd "C-c f") 'ido-choose-from-recentf)
 
 (global-set-key (kbd "C-x m") 'eshell)
 

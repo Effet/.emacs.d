@@ -220,3 +220,15 @@ Xresoures' 16-color."
   (or (looking-at "[0123456789]+")
       (error "No number at point"))
   (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
+
+
+;; -> http://www.emacswiki.org/emacs/InteractivelyDoThings#toc17
+(defun ibuffer-ido-find-file ()
+  "Like `ido-find-file', but default to the directory of the buffer at point."
+  (interactive
+   (let ((default-directory (let ((buf (ibuffer-current-buffer)))
+                              (if (buffer-live-p buf)
+                                  (with-current-buffer buf
+                                    default-directory)
+                                default-directory))))
+     (ido-find-file-in-dir default-directory))))
