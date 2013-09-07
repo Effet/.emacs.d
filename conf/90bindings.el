@@ -1,33 +1,45 @@
-;; Hint: <C-S-backspace> (kill a whole line)
-;; Hint: C-u 0 C-k (backward kill line)
-
 (global-set-key (kbd "RET") 'newline-and-indent)
 
 (global-set-key (kbd "C-x \\") 'align-regexp)
-(global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
+(global-set-key (kbd "C-x M-f") 'find-file-other-window)
 
-(global-set-key (kbd "C-c r") 'revert-buffer)
-
-;; (global-set-key "\C-cR" 'rename-current-file-or-buffer)
-
-;; (global-set-key (kbd "C-s") 'isearch-forward-regexp)
-;; (global-set-key (kbd "C-r") 'isearch-backward-regexp)
-;; (global-set-key (kbd "C-M-s") 'isearch-forward)
-;; (global-set-key (kbd "C-M-r") 'isearch-backward)
-
+(global-set-key (kbd "C-x 3") '(lambda () (interactive) (split-window-right) (windmove-right)))
 
 (global-set-key (kbd "C-a") 'smart-beginning-of-line)
 
-(global-set-key (kbd "C-<return>") 'open-line)
-(global-set-key (kbd "C-o") 'open-line-below)
-(global-set-key (kbd "C-S-o") 'open-line-above)
+
+;; NOTE: =C-M-o= binds =split-line=
+(global-set-key (kbd "C-o") 'open-line-and-indent)
+(global-set-key (kbd "<C-return>") 'open-line-below)
+(global-set-key (kbd "<C-S-return>") 'open-line-above)
+(global-set-key (kbd "<M-return>") 'new-line-dwim)
+(global-set-key (kbd "<M-S-return>") 'new-line-in-between)
 
+
 (global-set-key (kbd "C-c d") 'duplicate-current-line-or-region)
 (global-set-key (kbd "C-c n") 'cleanup-buffer)
 
+(global-set-key (kbd "C-c s") 'create-scratch-buffer)
+
+(global-set-key (kbd "C-c r") 'revert-buffer)
+
+(global-set-key (kbd "C-c R") 'rename-current-file-or-buffer)
+(global-set-key (kbd "C-c D") 'delete-current-buffer-file)
+
+(global-set-key (kbd "C-c +") 'increment-number-at-point)
+
+
+;; =C-w=/=M-w=
 (global-set-key [remap kill-ring-save] 'copy-region-or-whole-line)
 (global-set-key [remap kill-region] 'kill-region-or-to-beginning-of-line)
 
+
+;; Originally, =<C-S-backspace>= binds =kill-whole-line=
+;; NOTE: =C-u 0 C-k= =(kill-line 0)=, means kill lines backward.
+(global-set-key (kbd "C-S-k") 'kill-whole-line)
+(global-set-key (kbd "<C-S-backspace>") 'kill-and-retry-line)
+
+
 (global-set-key [remap list-buffers] 'ibuffer)
 
 (global-set-key [remap goto-line] 'goto-line-with-feedback)
@@ -38,7 +50,8 @@
 
 (global-set-key (kbd "C-x m") 'eshell)
 
-(global-set-key (kbd "C-c +") 'increment-number-at-point)
+;; NOTE: =M-j=/=C-M-j= binds =indent-new-comment-line=
+(global-set-key (kbd "M-S-j") '(lambda () (interactive) (join-line -1)))
 
 
 ;; Word: C-c SPC, Char: C-u C-c SPC, Line: C-u C-u C-c SPC

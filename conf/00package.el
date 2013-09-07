@@ -61,6 +61,7 @@ re-downloaded in order to locate PACKAGE."
     dropdown-list
     emacs-eclim
     expand-region
+    fill-column-indicator
     flycheck
     geiser
     guide-key
@@ -80,11 +81,13 @@ re-downloaded in order to locate PACKAGE."
     move-text
     multi-term
     multiple-cursors
+    page-break-lines
     pcmpl-args
     pcmpl-git
     popwin
     projectile
     rainbow-mode
+    region-bindings-mode
     smartparens
     smex
     solarized-theme

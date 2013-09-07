@@ -98,7 +98,13 @@ region-end is used."
   (duplicate-region num (point-at-bol) (1+ (point-at-eol))))
 
 
-;; Vim-like open-line
+;; https://github.com/magnars/.emacs.d/blob/master/defuns/misc-defuns.el#L29-32
+(defun open-line-and-indent ()
+  (interactive)
+  (newline-and-indent)
+  (end-of-line 0))
+
+;; https://github.com/magnars/.emacs.d/blob/master/defuns/editing-defuns.el#L3-34
 (defun open-line-below ()
   (interactive)
   (end-of-line)
@@ -111,6 +117,26 @@ region-end is used."
   (newline)
   (forward-line -1)
   (indent-for-tab-command))
+
+(defun new-line-in-between ()
+  (interactive)
+  (newline)
+  (save-excursion
+    (newline)
+    (indent-for-tab-command))
+  (indent-for-tab-command))
+
+(defun new-line-dwim ()
+  (interactive)
+  (let ((break-open-pair (or (and (looking-back "{") (looking-at "}"))
+                             (and (looking-back ">") (looking-at "<"))
+                             (and (looking-back "\\[") (looking-at "\\]")))))
+    (newline)
+    (when break-open-pair
+      (save-excursion
+        (newline)
+        (indent-for-tab-command)))
+    (indent-for-tab-command)))
 
 
 (defun copy-whole-line (&optional arg)
@@ -133,6 +159,23 @@ region-end is used."
       (kill-region (region-beginning) (region-end))
     (kill-region (save-excursion (beginning-of-line) (point))
                  (point))))
+
+
+;; https://github.com/magnars/.emacs.d/blob/master/defuns/editing-defuns.el#L198-202
+(defun kill-and-retry-line ()
+  "Kill the entire current line and reposition point at indentation"
+  (interactive)
+  (back-to-indentation)
+  (kill-line))
+
+
+;; https://github.com/magnars/.emacs.d/blob/master/defuns/editing-defuns.el#L204-209
+(defun camelize-buffer ()
+  (interactive)
+  (goto-char 0)
+  (ignore-errors
+    (replace-next-underscore-with-camel 0))
+  (goto-char 0))
 
 
 (defun smart-beginning-of-line ()
@@ -232,3 +275,52 @@ Xresoures' 16-color."
                                     default-directory)
                                 default-directory))))
      (ido-find-file-in-dir default-directory))))
+
+
+;; https://github.com/magnars/.emacs.d/blob/master/defuns/file-defuns.el#L03-31
+(defun rename-current-buffer-file ()
+  "Renames current buffer and file it is visiting."
+  (interactive)
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (let ((new-name (read-file-name "New name: " filename)))
+        (if (get-buffer new-name)
+            (error "A buffer named '%s' already exists!" new-name)
+          (rename-file filename new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil)
+          (message "File '%s' successfully renamed to '%s'"
+                   name (file-name-nondirectory new-name)))))))
+
+(defun delete-current-buffer-file ()
+  "Removes file connected to current buffer and kills buffer."
+  (interactive)
+  (let ((filename (buffer-file-name))
+        (buffer (current-buffer))
+        (name (buffer-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (ido-kill-buffer)
+      (when (yes-or-no-p "Are you sure you want to remove this file? ")
+        (delete-file filename)
+        (kill-buffer buffer)
+        (message "File '%s' successfully removed" filename)))))
+
+
+;; https://github.com/magnars/.emacs.d/blob/master/defuns/buffer-defuns.el#L22-35
+(defun create-scratch-buffer nil
+  "create a new scratch buffer to work in. (could be *scratch* - *scratchX*)"
+  (interactive)
+  (let ((n 0)
+        bufname)
+    (while (progn
+             (setq bufname (concat "*scratch"
+                                   (if (= n 0) "" (int-to-string n))
+                                   "*"))
+             (setq n (1+ n))
+             (get-buffer bufname)))
+    (switch-to-buffer (get-buffer-create bufname))
+    (emacs-lisp-mode)
+    ))
