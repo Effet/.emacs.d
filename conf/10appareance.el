@@ -59,7 +59,10 @@
     (if gbk-font
         (set-fontset-font t
                           'chinese-gbk
-                          (font-spec :family gbk-font)))))
+                          (font-spec :family gbk-font)
+                          nil
+                          ;; low priority
+                          'append))))
 
 ;; rescale double-wide fonts
 (setq face-font-rescale-alist
