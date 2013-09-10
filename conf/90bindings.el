@@ -8,6 +8,13 @@
 (global-set-key (kbd "C-a") 'smart-beginning-of-line)
 
 
+(global-set-key (kbd "C-s") 'isearch-forward-use-region)
+(global-set-key (kbd "C-r") 'isearch-backward-use-region)
+
+(global-set-key (kbd "C-S-s") 'isearch-forward)
+(global-set-key (kbd "C-S-r") 'isearch-backward)
+
+
 ;; NOTE: =C-M-o= binds =split-line=
 (global-set-key (kbd "C-o") 'open-line-and-indent)
 (global-set-key (kbd "<C-return>") 'open-line-below)

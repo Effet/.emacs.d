@@ -324,3 +324,23 @@ Xresoures' 16-color."
     (switch-to-buffer (get-buffer-create bufname))
     (emacs-lisp-mode)
     ))
+
+
+;; https://github.com/magnars/.emacs.d/blob/master/defuns/misc-defuns.el#L108-L124
+(defun region-as-string ()
+  (buffer-substring (region-beginning)
+                    (region-end)))
+
+(defun isearch-forward-use-region ()
+  (interactive)
+  (when (region-active-p)
+    (add-to-history 'search-ring (region-as-string))
+    (deactivate-mark))
+  (call-interactively 'isearch-forward))
+
+(defun isearch-backward-use-region ()
+  (interactive)
+  (when (region-active-p)
+    (add-to-history 'search-ring (region-as-string))
+    (deactivate-mark))
+  (call-interactively 'isearch-backward))
