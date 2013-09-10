@@ -94,3 +94,9 @@
     (key-chord-define-global "df" 'find-file)
     (key-chord-define-global "sd" 'ido-dired)
     (key-chord-define-global "jk" 'other-window)))
+
+
+(use-package zoom-frm
+  :bind (("C-M-=" . zoom-frm-in)
+         ("C-M--" . zoom-frm-out)
+         ("C-M-0" . zoom-frm-unzoom)))

@@ -98,6 +98,7 @@ re-downloaded in order to locate PACKAGE."
     web-mode
     yasnippet
     zenburn-theme
+    zoom-frm
     )
   )
 
