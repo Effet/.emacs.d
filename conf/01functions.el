@@ -344,3 +344,12 @@ Xresoures' 16-color."
     (add-to-history 'search-ring (region-as-string))
     (deactivate-mark))
   (call-interactively 'isearch-backward))
+
+
+;;; Font Function
+;; http://www.emacswiki.org/emacs/SetFonts#toc9
+;; Assign an available font
+(require 'dash)
+(defun font-candidate (&rest fonts)
+  "Return the first available font."
+  (--first (find-font (font-spec :name it)) fonts))
