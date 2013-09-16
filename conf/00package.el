@@ -110,5 +110,3 @@ re-downloaded in order to locate PACKAGE."
 
 ;; `use-package' to maintain some package
 (require 'use-package)
-
-(provide 'setup-package)
