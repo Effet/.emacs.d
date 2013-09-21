@@ -55,6 +55,7 @@ re-downloaded in order to locate PACKAGE."
     ace-jump-mode
     ack-and-a-half
     android-mode
+    auctex
     auto-complete
     company
     dired-details
