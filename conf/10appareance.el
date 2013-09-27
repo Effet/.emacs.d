@@ -15,6 +15,7 @@
 ;; modeline
 (column-number-mode t)
 (size-indication-mode t)
+(global-anzu-mode t)
 
 (if window-system
     (setq frame-title-format
