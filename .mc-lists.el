@@ -11,6 +11,7 @@
         icicle-yank-maybe-completing
         indent-for-tab-command
         kill-region-or-to-beginning-of-line
+        mouse-set-region
         read-only-mode
         smart-beginning-of-line
         wdired-finish-edit
@@ -21,4 +22,5 @@
 
 (setq mc/cmds-to-run-once
       '(
+        mouse-buffer-menu
         ))
