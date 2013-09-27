@@ -1,0 +1,7 @@
+;; (require 'gtags)
+;; (autoload 'gtags-mode "gtags" "" t)
+;; (setq gtags-suggested-key-mapping t)
+;; (global-set-key (kbd "C-c t r") 'gtags-find-rtag)
+;; (global-set-key (kbd "C-c t f") 'gtags-find-file)
+;; (global-set-key (kbd "C-c t t") 'gtags-find-tag)
+;; (global-set-key (kbd "M-.") 'gtags-find-tag)
