@@ -10,6 +10,9 @@
 
 (setq-default require-final-newline t)
 
+;; do not jump to open-paren when closing
+(setq blink-matching-paren nil)
+
 (delete-selection-mode t)
 (global-subword-mode t)
 

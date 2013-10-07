@@ -5,6 +5,7 @@
     (add-to-list 'sp--lisp-modes 'geiser-repl-mode)
     (require 'smartparens-config)
     (smartparens-global-mode t)
+    (setq sp-show-pair-delay 0)
 
     (show-smartparens-global-mode t)
 
