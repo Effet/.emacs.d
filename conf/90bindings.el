@@ -90,6 +90,8 @@
   :init
   (progn
     (key-chord-mode 1)
+    (key-chord-define-global "jj" 'ace-jump-mode)
+    (key-chord-define-global "gg" 'magit-status)
     (key-chord-define-global "ui" 'undo)
     (key-chord-define-global "df" 'find-file)
     (key-chord-define-global "sd" 'ido-dired)
