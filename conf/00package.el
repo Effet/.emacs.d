@@ -59,6 +59,7 @@ re-downloaded in order to locate PACKAGE."
     auctex
     auto-complete
     company
+    dictionary
     dired-details
     dropdown-list
     emacs-eclim

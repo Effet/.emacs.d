@@ -102,3 +102,6 @@
   :bind (("C-M-=" . zoom-frm-in)
          ("C-M--" . zoom-frm-out)
          ("C-M-0" . zoom-frm-unzoom)))
+
+
+(global-set-key (kbd "<f8>") 'dictionary-lookup-definition)
