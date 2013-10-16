@@ -71,6 +71,10 @@
 (setq reb-re-syntax 'string)
 
 
+(global-set-key [remap query-replace-regexp] 'vr/query-replace)
+(global-set-key [remap replace-regexp] 'vr/replace)
+
+
 ;; http://ergoemacs.org/emacs/emacs_form_feed_section_paging.html
 ;; NOTE: backward-page =C-x [=, forward-page =C-x ]=
 (use-package page-break-lines

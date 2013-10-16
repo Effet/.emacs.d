@@ -97,6 +97,7 @@ re-downloaded in order to locate PACKAGE."
     switch-window
     undo-tree
     use-package
+    visual-regexp
     volatile-highlights
     web-mode
     yasnippet
