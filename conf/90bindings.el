@@ -91,11 +91,9 @@
   (progn
     (key-chord-mode 1)
     (key-chord-define-global "jj" 'ace-jump-mode)
-    (key-chord-define-global "gg" 'magit-status)
-    (key-chord-define-global "ui" 'undo)
-    (key-chord-define-global "df" 'find-file)
-    (key-chord-define-global "sd" 'ido-dired)
-    (key-chord-define-global "jk" 'other-window)))
+    (key-chord-define-global "xg" 'magit-status)
+    (key-chord-define-global "xf" 'find-file)
+    (key-chord-define-global "qq" 'other-window)))
 
 
 (use-package zoom-frm
