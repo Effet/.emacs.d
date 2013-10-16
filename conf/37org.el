@@ -15,3 +15,9 @@
 
 (add-hook 'org-mode-hook
           'org-time-stamp-setting)
+
+(define-skeleton my-org-insert-head
+  "insert title and date"
+  "Title: "
+  "#+TITLE: " str "\n"
+  "#+DATE: <>\n")
