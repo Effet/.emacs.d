@@ -100,6 +100,7 @@ re-downloaded in order to locate PACKAGE."
     visual-regexp
     volatile-highlights
     web-mode
+    wgrep
     yasnippet
     zenburn-theme
     zoom-frm
