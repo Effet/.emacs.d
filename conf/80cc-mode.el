@@ -23,8 +23,28 @@
 ;; (add-hook 'c-mode-common-hook 'google-set-c-style)
 
 
-(setq-default c-basic-offset 4)
-(c-set-offset 'substatement-open 0)
+;; (setq-default c-basic-offset 4)
+;; (c-set-offset 'substatement-open 0)
+
+(defun my-c-mode-settings()
+  (c-set-style "stroustrup")
+  )
+
+(add-hook 'c-mode-hook 'my-c-mode-settings)
+(add-hook 'c++-mode-hook 'my-c-mode-settings)
+
+
+(defun my-open-block-c-mode (id action context)
+  (when (eq action 'insert)
+    (indent-according-to-mode)          ;some bugs
+    (newline)
+    (newline)
+    (indent-according-to-mode)
+    (previous-line)
+    (indent-according-to-mode)))
+
+(sp-local-pair 'c-mode "{" nil :post-handlers '(:add my-open-block-c-mode))
+
 (add-hook 'c++-mode-hook
           '(lambda()
              (c-toggle-hungry-state)
