@@ -16,6 +16,15 @@
 (mapc 'load (directory-files "~/.emacs.d/conf" t "\\.el$"))
 
 
+;; modules
+(defvar modules-dir
+  (expand-file-name "modules" user-emacs-directory))
+
+(add-to-list 'load-path modules-dir)
+
+(load "init-smartparens")
+
+
 ;; Emacs server
 (require 'server)
 (unless (server-running-p)

@@ -43,7 +43,9 @@
     (previous-line)
     (indent-according-to-mode)))
 
-(sp-local-pair 'c-mode "{" nil :post-handlers '(:add my-open-block-c-mode))
+(eval-after-load "smartparens"
+  (lambda ()
+    (sp-local-pair 'c-mode "{" nil :post-handlers '(:add my-open-block-c-mode))))
 
 (add-hook 'c++-mode-hook
           '(lambda()
