@@ -6,6 +6,7 @@
     (require 'smartparens-config)
     (smartparens-global-mode t)
     (setq sp-show-pair-delay 0)
+    (setq sp-autoinsert-if-followed-by-word nil)
 
     (show-smartparens-global-mode t)
     (defvar my-sp-bindings '(("C-M-f"       . sp-forward-sexp)
