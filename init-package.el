@@ -77,6 +77,7 @@ re-downloaded in order to locate PACKAGE."
     jedi
     js2-mode
     js2-refactor
+    json-mode
     key-chord
     keyfreq
     magit
