@@ -16,6 +16,7 @@ tutorial/
 .session
 image-dired
 bookmarks
+session.*
 
 custom.el
 my-autoloads.el
