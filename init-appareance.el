@@ -6,7 +6,7 @@
 
 
 (setq custom-theme-directory (concat user-emacs-directory "themes"))
-(load-theme 'kuu t)
+(load-theme 'zenburn t)
 
 ;; cursor
 (setq-default cursor-type 'bar)
