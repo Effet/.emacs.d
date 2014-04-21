@@ -80,6 +80,7 @@ re-downloaded in order to locate PACKAGE."
     json-mode
     key-chord
     keyfreq
+    markdown-mode
     magit
     mmm-mode
     move-text
