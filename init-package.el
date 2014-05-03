@@ -1,11 +1,7 @@
-(require 'package)
-
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/"))
-
-;; Some package like `geiser' only in this archive
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/"))
+(require 'cask "~/.cask/cask.el")
+(cask-initialize)
+(require 'pallet)
+(require 'use-package)
 
 
 ;;; On-demand installation of packages
@@ -42,78 +38,3 @@ re-downloaded in order to locate PACKAGE."
                                    (not (package-built-in-p x))
                                    (package-installed-p x)))
                   (mapcar 'car package-archive-contents))))
-
-
-(package-initialize)
-
-;; for the first run.
-(unless package-archive-contents
-  (package-refresh-contents))
-
-(defvar my-packages
-  '(
-    ace-jump-mode
-    ack-and-a-half
-    android-mode
-    anzu
-    auctex
-    auto-complete
-    company
-    dictionary
-    dired-details
-    dropdown-list
-    emacs-eclim
-    expand-region
-    fill-column-indicator
-    flycheck
-    geiser
-    guide-key
-    helm
-    ibuffer-vc
-    ido-at-point
-    ido-sort-mtime
-    ido-ubiquitous
-    javadoc-lookup
-    jedi
-    js2-mode
-    js2-refactor
-    json-mode
-    key-chord
-    keyfreq
-    markdown-mode
-    magit
-    mmm-mode
-    move-text
-    multi-term
-    multiple-cursors
-    page-break-lines
-    pcmpl-args
-    pcmpl-git
-    popwin
-    projectile
-    rainbow-mode
-    region-bindings-mode
-    smartparens
-    smex
-    solarized-theme
-    switch-window
-    undo-tree
-    use-package
-    visual-regexp
-    volatile-highlights
-    web-mode
-    wgrep
-    yasnippet
-    zenburn-theme
-    zoom-frm
-    )
-  )
-
-(mapc #'(lambda (package)
-          (unless (package-installed-p package)
-            (package-install package)))
-      my-packages)
-
-
-;; `use-package' to maintain some package
-(require 'use-package)

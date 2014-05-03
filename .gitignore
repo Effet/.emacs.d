@@ -36,3 +36,5 @@ test.el
 /.recentf
 /.smex-items
 /keyfreq
+/.cask/
+/helm-adaptive-history
