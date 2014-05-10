@@ -29,7 +29,7 @@
 (load "init-emacs-lisp-mode")
 (load "init-eshell")
 (load "init-gtags")
-;; (load "init-helm")
+(load "init-helm")
 (load "init-ibuffer")
 (load "init-ido")
 (load "init-magit")

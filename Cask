@@ -34,7 +34,6 @@
 (depends-on "git-rebase-mode")
 (depends-on "guide-key")
 (depends-on "helm")
-(depends-on "helm")
 (depends-on "ibuffer-vc")
 (depends-on "ido-at-point")
 (depends-on "ido-sort-mtime")
