@@ -1,9 +1,3 @@
-(require 'cask "~/.cask/cask.el")
-(cask-initialize)
-(require 'pallet)
-(require 'use-package)
-
-
 ;;; On-demand installation of packages
 ;; -> https://github.com/purcell/emacs.d/blob/master/init-elpa.el#L61-L73
 (defun require-package (package &optional min-version no-refresh)

@@ -11,9 +11,19 @@
   (when (file-directory-p project)
     (add-to-list 'load-path project)))
 
+;;; Packages
+(require 'cask "~/.cask/cask.el")
+(cask-initialize)
+(require 'pallet)
+(require 'use-package)
+
+;;; Functions
+(setq defuns-dir (expand-file-name "functions" user-emacs-directory))
+(dolist (file (directory-files defuns-dir t "\\w+"))
+  (when (file-readable-p file)
+    (load file)))
+
 ;;; Core
-(load "init-package")
-(load "init-functions")
 (load "init-core")
 (load "init-locale")
 (load "init-appareance")
