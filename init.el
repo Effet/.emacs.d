@@ -18,10 +18,7 @@
 (require 'use-package)
 
 ;;; Functions
-(setq defuns-dir (expand-file-name "functions" user-emacs-directory))
-(dolist (file (directory-files defuns-dir t "\\w+"))
-  (when (file-readable-p file)
-    (load file)))
+(mapc 'load (directory-files "~/.emacs.d/functions" t "\\w+"))
 
 ;;; Core
 (load "init-core")
