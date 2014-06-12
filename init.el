@@ -54,6 +54,6 @@
 (load "init-cc-mode")
 (load "init-java-mode")
 (load "init-js-mode")
-;; (load "init-latex-mode")
+(load "init-latex-mode")
 (load "init-python-mode")
 (load "init-web-mode")

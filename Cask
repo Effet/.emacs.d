@@ -44,6 +44,7 @@
 (depends-on "js2-refactor")
 (depends-on "json-mode")
 (depends-on "json-reformat")
+(depends-on "json-snatcher")
 (depends-on "key-chord")
 (depends-on "keyfreq")
 (depends-on "link")
