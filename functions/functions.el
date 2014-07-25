@@ -353,3 +353,10 @@ Xresoures' 16-color."
 (defun font-candidate (&rest fonts)
   "Return the first available font."
   (--first (find-font (font-spec :name it)) fonts))
+
+
+;; http://irreal.org/blog/?p=354#comment-79015
+(defun json-format ()
+  (interactive)
+  (save-excursion
+    (shell-command-on-region (mark) (point) "python -m json.tool" (buffer-name) t)))
