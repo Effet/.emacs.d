@@ -14,7 +14,7 @@
 (setq blink-matching-paren nil)
 
 (delete-selection-mode t)
-(global-subword-mode t)
+;; (global-subword-mode t)
 
 (require 'yank-indent)
 
