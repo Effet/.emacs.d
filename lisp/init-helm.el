@@ -10,6 +10,7 @@
 
     ;; helm-ff-run-toggle-auto-update
     ;; <C-backspace> in helm-find-file
+    (setq helm-ff-auto-update-initial-value t)
 
 
     ;; (setq helm-M-x-always-save-history t)

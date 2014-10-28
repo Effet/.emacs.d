@@ -8,6 +8,9 @@
     (setq sp-show-pair-delay 0)
     (setq sp-autoinsert-if-followed-by-word nil)
 
+    ;; (sp-local-tag '(sgml-mode web-mode) "{{#" "{{#_}}" "{{/_}}")
+    ;; (sp-local-tag '(tex-mode plain-tex-mode latex-mode) "\\b" "\\begin{_}" "\\end{_}")
+
     (show-smartparens-global-mode t)
     (defvar my-sp-bindings '(("C-M-f"       . sp-forward-sexp)
                              ("C-M-b"       . sp-backward-sexp)

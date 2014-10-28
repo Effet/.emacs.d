@@ -1,7 +1,7 @@
 (setq inhibit-startup-screen t)
 
 (tool-bar-mode -1)
-(menu-bar-mode -1)
+;; (menu-bar-mode -1)
 (scroll-bar-mode -1)
 
 
@@ -34,9 +34,6 @@
                               line)
                       'face 'linum)))
 
-(if window-system
-    (set-frame-size (selected-frame) 111 65))
-
 (when window-system
   (global-hl-line-mode t))
 
@@ -47,8 +44,9 @@
 
 
 ;;; Font Setting
-(let ((size 9)
+(let ((size 12)
       (ascii-font (font-candidate "DejaVu Sans Mono"
+                                  "Monaco"
                                   "Monospace"))
       (gbk-font (font-candidate "Hiragino Sans GB"
                                 "WenQuanYi Micro Hei")))

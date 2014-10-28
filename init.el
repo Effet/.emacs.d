@@ -1,4 +1,4 @@
-(add-to-list 'load-path user-emacs-directory)
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
 ;; -> https://github.com/magnars/.emacs.d/blob/master/init.el#L29-L32
 ;; Add external projects to load path
@@ -12,7 +12,8 @@
     (add-to-list 'load-path project)))
 
 ;;; Packages
-(require 'cask "~/.cask/cask.el")
+;; (require 'cask "~/.cask/cask.el")
+(require 'cask)
 (cask-initialize)
 (require 'pallet)
 (require 'use-package)

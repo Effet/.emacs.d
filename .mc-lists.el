@@ -7,13 +7,18 @@
         c-electric-delete-forward
         c-indent-line-or-region
         copy-region-or-whole-line
+        end-of-buffer
+        helm-M-x
         icicle-goto-marker-or-set-mark-command
         icicle-yank-maybe-completing
         indent-for-tab-command
         kill-region-or-to-beginning-of-line
         mouse-set-region
+        ns-copy-including-secondary
         read-only-mode
         smart-beginning-of-line
+        sp--self-insert-command
+        sp-forward-sexp
         wdired-finish-edit
         wdired-next-line
         wdired-previous-line

@@ -1,3 +1,9 @@
+(use-package exec-path-from-shell
+  :init
+  (progn
+    (when (memq window-system '(mac ns))
+      (exec-path-from-shell-initialize))))
+
 (defun toggle-term-char-line ()
   (interactive)
   (if (term-in-line-mode)
