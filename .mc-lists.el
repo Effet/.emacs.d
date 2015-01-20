@@ -27,5 +27,6 @@
 
 (setq mc/cmds-to-run-once
       '(
+        eval-print-last-sexp
         mouse-buffer-menu
         ))
