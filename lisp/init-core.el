@@ -42,6 +42,7 @@
 (set-register ?h '(file . "~/"))
 (set-register ?e '(file . "~/.emacs"))
 (set-register ?d '(file . "~/.emacs.d"))
+(set-register ?_ '(file . "~/_"))
 
 ;; narrow (C-x n n, C-x n p, C-x n d)
 ;;  (C-x n w) -> widen
@@ -52,6 +53,9 @@
 ;; C-x C-u, C-x C-l
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+
+(use-package ace-isearch
+  :init (global-ace-isearch-mode))
 
 
 ;; uniquify buffer name
