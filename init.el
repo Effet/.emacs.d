@@ -27,6 +27,7 @@
 (load "init-locale")
 (load "init-appareance")
 (load "init-bindings")
+(require 'init-osx)
 
 ;;; Modules
 (load "init-abbrev")
