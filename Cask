@@ -48,6 +48,7 @@
 (depends-on "inf-ruby")
 (depends-on "javadoc-lookup")
 (depends-on "jedi")
+(depends-on "jedi-core")
 (depends-on "js2-mode")
 (depends-on "js2-refactor")
 (depends-on "json-mode")

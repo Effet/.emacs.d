@@ -45,8 +45,10 @@
 
 ;;; Font Setting
 (let ((size 12)
-      (ascii-font (font-candidate "DejaVu Sans Mono"
+      (ascii-font (font-candidate "PragmataPro"
+                                  "Menlo"
                                   "Monaco"
+                                  "DejaVu Sans Mono"
                                   "Monospace"))
       (gbk-font (font-candidate "Hiragino Sans GB"
                                 "WenQuanYi Micro Hei")))
